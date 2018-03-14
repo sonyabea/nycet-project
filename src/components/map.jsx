@@ -1,8 +1,8 @@
 import { select } from 'd3-selection'
 const d3 = require('d3');
 const React = require('react');
-const assemblyLoc = 'http://localhost:5555/locational/ny_state_assembly_geo.json'
-const dataLoc = 'http://localhost:5555/ad_closeness.tsv'
+const assemblyLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/locational/nyad_geo.json'
+const dataLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/ad_closeness.tsv'
  
 export default class MainMap extends React.Component {
   constructor(props){
@@ -21,7 +21,7 @@ export default class MainMap extends React.Component {
       .await((error, assemblyFile, closeFile) => {
         const closeness = d3.map()
         closeFile.forEach((d) => {closeness.set(
-          d.ad, d.closeness_prop)})
+          d.ad, d.close_prop)})
         this.setState({closeness: closeness})
         this.setState({assembly: assemblyFile})
         console.log(this.state)
@@ -45,23 +45,13 @@ export default class MainMap extends React.Component {
     // //defs and setup
     const assembly = this.state.assembly
     const closeness = this.state.closeness
-    
-    const projection = d3.geoAlbers()
-      .scale(1)
-      .translate([0,0])
+
+    const projection =d3.geoIdentity()
+            .reflectY(true)
+            .fitSize([width,height],assembly)
 
     var path = d3.geoPath()
       .projection(projection)
-    
-    // Compute the bounds of a feature of interest, then derive scale & translate.
-    var b = path.bounds(assembly),
-        s = .95 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height),
-        t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
-
-    // Update the projection to use computed scale & translate.
-    projection
-        .scale(s)
-        .translate(t);
 
     var color = d3.scaleLinear()
               .domain(d3.extent(closeness.values()))
@@ -85,7 +75,7 @@ export default class MainMap extends React.Component {
         .data(features)
         .enter()
         .append('path')
-        .attr('fill', function(d) {return color(closeness.get(d.properties.ID));})
+        .attr('fill', function(d) {return color(closeness.get(d.properties.AssemDist));})
         .attr("d", path)
         .attr('class', 'ed')
   }
