@@ -2,26 +2,31 @@ import { select } from 'd3-selection'
 const d3 = require('d3');
 const React = require('react');
 const assemblyLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/locational/nyad_geo.json'
-const dataLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/ad_closeness.tsv'
+const dataLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/ad_margins.tsv'
  
 export default class MainMap extends React.Component {
   constructor(props){
     super(props)
     this.drawChart = this.drawChart.bind(this)
-    this.state = {assembly: null}
-    // this.state = {congress: locationData}
+    this.state = {assembly: null,
+                  closeness: null}
   }
   componentWillMount(){
   }
 
   componentDidMount() {
+    //eventually, move this to a higher level component
+    //map and closeness should be props
     d3.queue()
       .defer(d3.json, assemblyLoc) 
       .defer(d3.tsv, dataLoc) 
       .await((error, assemblyFile, closeFile) => {
+        console.log(closeFile)
+        closeFile.forEach((d) => {
+          d.margin = ((d.winning_party === 'Republican') ? -d.margin : +d.margin)})
         const closeness = d3.map()
         closeFile.forEach((d) => {closeness.set(
-          d.ad, d.close_prop)})
+          d.districtnumber, d.margin)})
         this.setState({closeness: closeness})
         this.setState({assembly: assemblyFile})
         console.log(this.state)
@@ -38,14 +43,14 @@ export default class MainMap extends React.Component {
   }
   
   drawChart() {
+    //defs and setup
     const node = this.node
     const width = node.width.baseVal.value
     const height = node.height.baseVal.value
-     
-    // //defs and setup
     const assembly = this.state.assembly
     const closeness = this.state.closeness
 
+    //element attr defs
     const projection =d3.geoIdentity()
             .reflectY(true)
             .fitSize([width,height],assembly)
@@ -53,22 +58,19 @@ export default class MainMap extends React.Component {
     var path = d3.geoPath()
       .projection(projection)
 
+    var extent = d3.extent(closeness.values())
+
     var color = d3.scaleLinear()
-              .domain(d3.extent(closeness.values()))
-              .range(['white', 'blue'])
-    assembly.features.forEach(function (d){
-      console.log(d.properties.ID)
-      console.log(color(closeness.get(d.properties.ID)))})
+              .domain([extent[0], 0, extent[1]])
+              .range(['red', 'white', 'blue'])
 
-
-    console.log(closeness.get(1))
-    console.log(color(0.33))
-    // //drawing
+    //append ad map layer
     var g = select(node)
               .append("g");
     var mapLayer = g.append('g')
       .classed('map-layer', true)
 
+      //draw
       var features = assembly.features;
       mapLayer.append('g')
         .selectAll('path')
@@ -94,6 +96,4 @@ export default class MainMap extends React.Component {
   //       data={tooltipData} />
   //   );
      
-  //   ReactDOM.render(tooltipComponent, this.tooltipTarget);
-  // }
 }
