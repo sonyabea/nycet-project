@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MapContainer from './components/MapContainer.jsx';
-import { Container, Grid } from 'semantic-ui-react' 
+import { Container, Grid, Header, Card } from 'semantic-ui-react' 
 import './App.css';
 
 const d3 = require('d3');
@@ -18,8 +18,6 @@ class App extends Component {
   }
 
   componentWillMount() {
-    //eventually, move this to a higher level component
-    //map and closeness should be props
     d3.queue()
       .defer(d3.json, assemblyLoc) 
       .defer(d3.tsv, dataLoc) 
@@ -41,13 +39,20 @@ class App extends Component {
     return (
       <div className="App">
         <Container>
-        <Grid>
-          <Grid.Column width='8'>
-            <MapContainer closenessExtent={this.state.closenessExtent} 
-                          mapGeo={this.state.mapGeo}
-                          mapData={this.state.mapData} />
-          </Grid.Column>
-          <Grid.Column width='4'/>
+          <div className='page-header'>
+            <Header>
+              <h1>New York City Competetiveness - Assembly District Overview</h1>
+            </Header>
+          </div>
+          <Grid>
+            <Grid.Column width={10}>
+              <MapContainer closenessExtent={this.state.closenessExtent} 
+                            mapGeo={this.state.mapGeo}
+                            mapData={this.state.mapData} />
+            </Grid.Column>
+            <Grid.Column width={5}>
+              <Card />
+            </Grid.Column>
         </Grid>
         </Container>
       </div>

@@ -26,11 +26,13 @@ const MainMap = (props) => {
  )
 
     return (
+      <div className='map-frame'>
         <svg width={props.width} height={props.height}>
           <g className='map-layer'>
             { renderShapes() }
           </g>
         </svg>
+      </div>
     )
 }  
   // renderTooltip(coordinates, tooltipData) {
