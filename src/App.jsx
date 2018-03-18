@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import MapContainer from './components/MapContainer.jsx';
+import MainMap from './components/map.jsx';
 import { Container, Grid, Header, Card } from 'semantic-ui-react' 
 import './App.css';
 
@@ -15,6 +16,10 @@ class App extends Component {
              'closenessExtent': [0, 0],
              'regionType': '',
              'regionId': ''}
+  }
+
+  onRegionHover(el) {
+
   }
 
   componentWillMount() {
@@ -46,9 +51,11 @@ class App extends Component {
           </div>
           <Grid>
             <Grid.Column width={10}>
-              <MapContainer closenessExtent={this.state.closenessExtent} 
-                            mapGeo={this.state.mapGeo}
-                            mapData={this.state.mapData} />
+              <MapContainer>
+                <MainMap closenessExtent={this.state.closenessExtent} 
+                         mapGeo={this.state.mapGeo}
+                         mapData={this.state.mapData} />
+             </MapContainer>
             </Grid.Column>
             <Grid.Column width={5}>
               <Card />

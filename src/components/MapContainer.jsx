@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import MainMap from './map.jsx'
 
 class MapContainer extends Component{
   constructor(props){
@@ -16,11 +15,7 @@ class MapContainer extends Component{
     return (
       <div ref={node => this.node = node} className={'map-container'}>
         <div className='container-header'>Race Margins</div>
-        <MainMap assembly={this.props.mapGeo}
-                   closeness={this.props.mapData}
-                   closenessExtent={this.props.closenessExtent}
-                   width={this.state.width}
-                   height={this.state.height} />
+          {React.cloneElement(this.props.children, {...this.state})}
       </div>
           )
    }

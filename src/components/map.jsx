@@ -5,7 +5,7 @@ const MainMap = (props) => {
 
   var projection = d3.geoIdentity()
                  .reflectY(true)
-                 .fitSize([props.width,props.height],props.assembly)
+                 .fitSize([props.width,props.height],props.mapGeo)
 
   var path = d3.geoPath()
     .projection(projection)
@@ -15,13 +15,13 @@ const MainMap = (props) => {
                        props.closenessExtent[1]])
               .range(['red', 'white', 'blue'])
 
-  var renderShapes = () => (props.assembly.features.map((d,i) => 
+  var renderShapes = () => (props.mapGeo.features.map((d,i) => 
       (   <path
           data={d}
           key={ `path-${ i }` }
           d={ `${d3.geoPath().projection(projection)(d)}` }
           className="ed"
-          fill={ `${ color(props.closeness.get(d.properties.AssemDist))}`}
+          fill={ `${ color(props.mapData.get(d.properties.AssemDist))}`}
         />))
  )
 
