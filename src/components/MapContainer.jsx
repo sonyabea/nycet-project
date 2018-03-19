@@ -13,7 +13,8 @@ class MapContainer extends Component{
 
   render() {
     return (
-      <div ref={node => this.node = node} className={'map-container'}>
+      <div ref={node => this.node = node} className='map-container'
+        onMouseLeave={(e) => this.props.clearTooltip}>
         <div className='container-header'>Race Margins</div>
           {React.cloneElement(this.props.children, {...this.state})}
       </div>

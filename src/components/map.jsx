@@ -22,7 +22,8 @@ const MainMap = (props) => {
           d={ `${d3.geoPath().projection(projection)(d)}` }
           className="ed"
           fill={ `${ color(props.mapData.get(d.properties.AssemDist))}`}
-        />))
+          onMouseEnter={(e) => (props.onRegionHover(e, d))}
+          />))
  )
 
     return (

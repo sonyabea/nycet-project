@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import MapContainer from './components/MapContainer.jsx';
 import MainMap from './components/map.jsx';
-import { Container, Grid, Header, Card } from 'semantic-ui-react' 
+import MapTooltip from './components/MapTooltip.jsx';
+import { Container, Grid, Header, Card } from 'semantic-ui-react';
 import './App.css';
 
 const d3 = require('d3');
@@ -11,18 +12,43 @@ const dataLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/ma
 class App extends Component {
   constructor(props){
     super(props)
-    this.state = {'mapGeo': {'features': []},
+    this.state = {
+             'mapGeo': {'features': []},
              'mapData': [],
              'closenessExtent': [0, 0],
              'regionType': '',
-             'regionId': ''}
+             'regionId': '',
+             'tooltip': {
+               'showTooltip': false,
+               'tooltipX': 0,
+               'tooltipY': 0,
+               'text': []}
+             }
+    this.onRegionHover = this.onRegionHover.bind(this)
+    this.clearTooltip = this.clearTooltip.bind(this)
   }
 
-  onRegionHover(el) {
+  onRegionHover(e, d) {
+    let dist = d.properties.AssemDist
+    let newTooltip = {showTooltip: true,
+                   tooltipX: e.clientX,
+                   tooltipY: e.clientY,
+                   text: [`District: ${dist}`,
+                         `Margin: ${this.state.mapData.get(dist)}`]}
+ 
+    this.setState({tooltip: newTooltip}) 
+  } 
 
+  clearTooltip() {
+    this.setState({tooltip: {
+               'showTooltip': false,
+               'tooltipX': 0,
+               'tooltipY': 0,
+               'text': []}})
   }
 
   componentWillMount() {
+    //convert data part of this to sql eventually
     d3.queue()
       .defer(d3.json, assemblyLoc) 
       .defer(d3.tsv, dataLoc) 
@@ -40,7 +66,6 @@ class App extends Component {
   
   
   render() {
-    // console.log(this.state)
     return (
       <div className="App">
         <Container>
@@ -51,10 +76,13 @@ class App extends Component {
           </div>
           <Grid>
             <Grid.Column width={10}>
-              <MapContainer>
+              <MapTooltip {...this.state.tooltip} />
+              <MapContainer clearTooltip={this.clearTooltip}>
                 <MainMap closenessExtent={this.state.closenessExtent} 
                          mapGeo={this.state.mapGeo}
-                         mapData={this.state.mapData} />
+                         mapData={this.state.mapData} 
+                         onRegionHover={this.onRegionHover}
+                         clearTooltip={this.clearTooltip}/>
              </MapContainer>
             </Grid.Column>
             <Grid.Column width={5}>
