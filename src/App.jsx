@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import MapContainer from './components/MapContainer.jsx';
-import { Container, Grid, Header, Card } from 'semantic-ui-react' 
+import MainMap from './components/map.jsx';
+import MapTooltip from './components/MapTooltip.jsx';
+import TopTen from './components/TopTen.jsx';
+import { Container, Grid, Header, Card } from 'semantic-ui-react';
 import './App.css';
 
 const d3 = require('d3');
@@ -10,14 +13,46 @@ const dataLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/ma
 class App extends Component {
   constructor(props){
     super(props)
-    this.state = {'mapGeo': {'features': []},
-             'mapData': [],
-             'closenessExtent': [0, 0],
-             'regionType': '',
-             'regionId': ''}
+    //this is getting a little unwieldy
+    this.state = {
+             'mapGeo': {'features': []},
+             'mapData': d3.map(),
+             'mapRegionType': 'AssemDist',
+             'marginType': 'margin',
+             'regionId': '',
+             'selectedId': '',
+             'tooltip': {
+               'showTooltip': false,
+               'tooltipX': 0,
+               'tooltipY': 0,
+               'text': []}
+             }
+    this.onRegionHover = this.onRegionHover.bind(this)
+    this.clearTooltip = this.clearTooltip.bind(this)
+  }
+
+  onRegionHover(e, d) {
+    let dist = d.properties[this.state.mapRegionType];
+    let newTooltip = {showTooltip: true,
+                   tooltipX: e.clientX,
+                   tooltipY: e.clientY,
+                   text: [`District: ${dist}`,
+                         `Margin: ${Math.abs(this.state.mapData.get(dist))}`]}
+ 
+    this.setState({tooltip: newTooltip,
+                   selectedId: dist}) 
+  } 
+
+  clearTooltip() {
+    this.setState({tooltip: {
+               'showTooltip': false,
+               'tooltipX': 0,
+               'tooltipY': 0,
+               'text': []}})
   }
 
   componentWillMount() {
+    //convert data part of this to sql eventually
     d3.queue()
       .defer(d3.json, assemblyLoc) 
       .defer(d3.tsv, dataLoc) 
@@ -28,14 +63,12 @@ class App extends Component {
         closeFile.forEach((d) => {closeness.set(
           d.districtnumber, d.margin)})
         this.setState({mapData: closeness,
-                       closenessExtent:  d3.extent(closeness.values()),
                        mapGeo: assemblyFile})
     })
   }
   
   
   render() {
-    // console.log(this.state)
     return (
       <div className="App">
         <Container>
@@ -46,12 +79,15 @@ class App extends Component {
           </div>
           <Grid>
             <Grid.Column width={10}>
-              <MapContainer closenessExtent={this.state.closenessExtent} 
-                            mapGeo={this.state.mapGeo}
-                            mapData={this.state.mapData} />
+              <MapTooltip {...this.state.tooltip} />
+              <MapContainer clearTooltip={this.clearTooltip}>
+                <MainMap {...this.state} onRegionHover={this.onRegionHover}/>
+             </MapContainer>
             </Grid.Column>
             <Grid.Column width={5}>
-              <Card />
+              <Card>
+                <TopTen mapData={this.state.mapData} marginType={this.state.marginType} />
+              </Card>
             </Grid.Column>
         </Grid>
         </Container>
