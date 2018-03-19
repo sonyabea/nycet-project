@@ -37,7 +37,7 @@ class App extends Component {
                    tooltipX: e.clientX,
                    tooltipY: e.clientY,
                    text: [`District: ${dist}`,
-                         `Margin: ${this.state.mapData.get(dist)}`]}
+                         `Margin: ${Math.abs(this.state.mapData.get(dist))}`]}
  
     this.setState({tooltip: newTooltip,
                    selectedId: dist}) 
@@ -63,7 +63,6 @@ class App extends Component {
         closeFile.forEach((d) => {closeness.set(
           d.districtnumber, d.margin)})
         this.setState({mapData: closeness,
-                       closenessExtent:  d3.extent(closeness.values()),
                        mapGeo: assemblyFile})
     })
   }
