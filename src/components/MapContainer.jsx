@@ -4,11 +4,23 @@ class MapContainer extends Component{
   constructor(props){
     super(props)
     this.state = {'width': 0, 'height': 0}
+    this.resize = this.resize.bind(this)
+  }
+
+  resize(){
+    let containerWidth = this.state.width
+    let shouldResize = this.node.clientWidth !== containerWidth
+    //this has some SILLY side effects, fix later
+    if (shouldResize) {
+      this.setState({'width': this.node.clientWidth,
+                   'height': this.node.clientHeight})
+      }
+      
   }
 
   componentDidMount(){
-    this.setState({'width': this.node.clientWidth,
-                   'height': this.node.clientHeight})
+    this.resize()
+    window.addEventListener('resize', this.resize)
   }
 
   render() {

@@ -6,7 +6,7 @@ body {
   color: #cecaca;
 }
 
-.ed {
+.district {
   stroke: #1c1c1c;
 }
 
@@ -41,4 +41,9 @@ h1 {
   padding: 1.5rem 0rem 2rem;
   max-width: 66%;
   text-align: left;
+}
+
+.glow {
+  stroke: #f4b342;
+  stroke-width: 2px;
 }

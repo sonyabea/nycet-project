@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import MapContainer from './components/MapContainer.jsx';
 import MainMap from './components/map.jsx';
 import MapTooltip from './components/MapTooltip.jsx';
+import TopTen from './components/TopTen.jsx';
 import { Container, Grid, Header, Card } from 'semantic-ui-react';
 import './App.css';
 
@@ -12,12 +13,14 @@ const dataLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/ma
 class App extends Component {
   constructor(props){
     super(props)
+    //this is getting a little unwieldy
     this.state = {
              'mapGeo': {'features': []},
-             'mapData': [],
-             'closenessExtent': [0, 0],
-             'regionType': '',
+             'mapData': d3.map(),
+             'mapRegionType': 'AssemDist',
+             'marginType': 'margin',
              'regionId': '',
+             'selectedId': '',
              'tooltip': {
                'showTooltip': false,
                'tooltipX': 0,
@@ -29,14 +32,15 @@ class App extends Component {
   }
 
   onRegionHover(e, d) {
-    let dist = d.properties.AssemDist
+    let dist = d.properties[this.state.mapRegionType];
     let newTooltip = {showTooltip: true,
                    tooltipX: e.clientX,
                    tooltipY: e.clientY,
                    text: [`District: ${dist}`,
                          `Margin: ${this.state.mapData.get(dist)}`]}
  
-    this.setState({tooltip: newTooltip}) 
+    this.setState({tooltip: newTooltip,
+                   selectedId: dist}) 
   } 
 
   clearTooltip() {
@@ -78,15 +82,13 @@ class App extends Component {
             <Grid.Column width={10}>
               <MapTooltip {...this.state.tooltip} />
               <MapContainer clearTooltip={this.clearTooltip}>
-                <MainMap closenessExtent={this.state.closenessExtent} 
-                         mapGeo={this.state.mapGeo}
-                         mapData={this.state.mapData} 
-                         onRegionHover={this.onRegionHover}
-                         clearTooltip={this.clearTooltip}/>
+                <MainMap {...this.state} onRegionHover={this.onRegionHover}/>
              </MapContainer>
             </Grid.Column>
             <Grid.Column width={5}>
-              <Card />
+              <Card>
+                <TopTen mapData={this.state.mapData} marginType={this.state.marginType} />
+              </Card>
             </Grid.Column>
         </Grid>
         </Container>
