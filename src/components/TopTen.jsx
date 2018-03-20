@@ -9,7 +9,7 @@ const TopTen = (props) => {
   let topTen = sortedDists.slice(0,10)
   topTen.forEach((dist) => (dist.party = (dist.value > 0) ? 'Democrat' : 'Republican'))
   let distRows = topTen.map((dist, i) => (
-    <Table.Row key={`top-ten-${i}`}>
+    <Table.Row key={`top-ten-${i}`} onMouseEnter={(e) => (props.onTableHover(e, dist.key))}>
       <Table.Cell>{dist.key}</Table.Cell>
       <Table.Cell>{`${Math.abs(dist.value)}%`}</Table.Cell>
       <Table.Cell>{dist.party}</Table.Cell>

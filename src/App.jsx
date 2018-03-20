@@ -29,6 +29,7 @@ class App extends Component {
              }
     this.onRegionHover = this.onRegionHover.bind(this)
     this.clearTooltip = this.clearTooltip.bind(this)
+    this.onTableHover = this.onTableHover.bind(this)
   }
 
   onRegionHover(e, d) {
@@ -42,6 +43,10 @@ class App extends Component {
     this.setState({tooltip: newTooltip,
                    selectedId: dist}) 
   } 
+
+  onTableHover(e, d) {
+    this.setState({selectedId: parseInt(d, 10)})
+  }
 
   clearTooltip() {
     this.setState({tooltip: {
@@ -62,6 +67,9 @@ class App extends Component {
         const closeness = d3.map()
         closeFile.forEach((d) => {closeness.set(
           d.districtnumber, d.margin)})
+        let geoDists = assemblyFile.features.map((d) => (d.properties[this.state.mapRegionType]))
+        let invalidData = closeness.keys().filter((k) => (geoDists.indexOf(parseInt(k, 10)) < 0))
+        invalidData.forEach((k) => (closeness.remove(k)))
         this.setState({mapData: closeness,
                        mapGeo: assemblyFile})
     })
@@ -86,7 +94,7 @@ class App extends Component {
             </Grid.Column>
             <Grid.Column width={5}>
               <Card>
-                <TopTen mapData={this.state.mapData} marginType={this.state.marginType} />
+                <TopTen onTableHover={this.onTableHover} mapData={this.state.mapData} marginType={this.state.marginType} />
               </Card>
             </Grid.Column>
         </Grid>
