@@ -1,25 +1,37 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
 import MapContainer from './components/MapContainer.jsx';
 import MainMap from './components/map.jsx';
 import MapTooltip from './components/MapTooltip.jsx';
 import TopTen from './components/TopTen.jsx';
-import { Container, Grid, Header, Card } from 'semantic-ui-react';
+import { Grid, Header, Card, Container } from 'semantic-ui-react';
 import './App.css';
 
 const d3 = require('d3');
+
+//hardcoded file locs and keywords. do this more elegantly later
 const assemblyLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/locational/nyad_geo.json'
-const dataLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/ad_margins.tsv'
+const electionLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/locational/nyed_geo.json'
+const assemblyDataLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/ad_margins.tsv'
+const electionDataLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/ed_margins.tsv'
 
 class App extends Component {
   constructor(props){
     super(props)
     //this is getting a little unwieldy
+    // selectedAd = (props.params.AD) ? 
+    let ad = props.match.params.AD;
+    let adSpecific = (typeof(ad) !== 'undefined')
+
     this.state = {
+             'geoSource': (adSpecific) ? electionLoc : assemblyLoc,
+             'dataSource': (adSpecific) ? electionDataLoc : assemblyDataLoc,
              'mapGeo': {'features': []},
              'mapData': d3.map(),
-             'mapRegionType': 'AssemDist',
+             'mapRegionType': (adSpecific) ? 'ElectDist' : 'AssemDist',
+             'dataRegionType': (adSpecific) ? 'ed' : 'districtnumber',
              'marginType': 'margin',
-             'regionId': '',
+             'regionId': ad,
              'selectedId': '',
              'tooltip': {
                'showTooltip': false,
@@ -30,6 +42,8 @@ class App extends Component {
     this.onRegionHover = this.onRegionHover.bind(this)
     this.clearTooltip = this.clearTooltip.bind(this)
     this.onTableHover = this.onTableHover.bind(this)
+    this.loadData = this.loadData.bind(this)
+    this.updateADRegion = this.updateADRegion.bind(this)
   }
 
   onRegionHover(e, d) {
@@ -56,24 +70,75 @@ class App extends Component {
                'text': []}})
   }
 
-  componentWillMount() {
-    //convert data part of this to sql eventually
+  filterFiles(geoFile, dataFile){
+    //filter locations to selected AD first
+    
+    let filteredFeatures = geoFile.features.filter((d) => (
+      d.properties.ElectDist.toString().slice(0,2) === this.state.regionId))
+    
+    let adFeatures = filteredFeatures.map((d) => (d.properties.ElectDist))
+    let filteredData = dataFile.filter((d) => (adFeatures.indexOf(parseInt(d.ed, 10)) >= 0))
+
+    return [{'type': geoFile['type'], 'features': filteredFeatures},
+            filteredData]
+
+  }
+
+  loadData(){
+    console.log(this.state)
     d3.queue()
-      .defer(d3.json, assemblyLoc) 
-      .defer(d3.tsv, dataLoc) 
-      .await((error, assemblyFile, closeFile) => {
-        closeFile.forEach((d) => {
+      .defer(d3.json, this.state.geoSource) 
+      .defer(d3.tsv, this.state.dataSource) 
+      .await((error, geoFile, dataFile) => {
+        dataFile.forEach((d) => {
           d.margin = ((d.winning_party === 'Republican') ? -d.margin : +d.margin)})
+        if (this.state.regionId) {
+          let filtered = this.filterFiles(geoFile, dataFile);
+          geoFile = filtered[0];
+          dataFile = filtered[1];
+        }
         const closeness = d3.map()
-        closeFile.forEach((d) => {closeness.set(
-          d.districtnumber, d.margin)})
-        let geoDists = assemblyFile.features.map((d) => (d.properties[this.state.mapRegionType]))
+        dataFile.forEach((d) => {closeness.set(
+          d[this.state.dataRegionType], d.margin)})
+        let geoDists = geoFile.features.map((d) => (d.properties[this.state.mapRegionType]))
         let invalidData = closeness.keys().filter((k) => (geoDists.indexOf(parseInt(k, 10)) < 0))
         invalidData.forEach((k) => (closeness.remove(k)))
         this.setState({mapData: closeness,
-                       mapGeo: assemblyFile})
+                       mapGeo: geoFile})
     })
   }
+
+  componentWillMount() {
+    this.loadData()
+  }
+
+  getInitialState(){
+    this.updateADRegion(this.props);
+  }
+
+  updateADRegion(props) {
+    let ad = props.match.params.AD;
+    let adSpecific = (typeof(ad) !== 'undefined')
+
+    this.setState({
+             'geoSource': (adSpecific) ? electionLoc : assemblyLoc,
+             'dataSource': (adSpecific) ? electionDataLoc : assemblyDataLoc,
+             'mapRegionType': (adSpecific) ? 'ElectDist' : 'AssemDist',
+             'dataRegionType': (adSpecific) ? 'ed' : 'districtnumber',
+             'regionId': ad})
+    this.loadData()
+  }
+
+  componentWillReceiveProps(nextProps){
+    this.updateADRegion(nextProps);
+     
+  }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   return (nextProps.match.params.AD !== this.state.regionId)
+  // }
+
+  
   
   
   render() {
@@ -97,11 +162,12 @@ class App extends Component {
                 <TopTen onTableHover={this.onTableHover} mapData={this.state.mapData} marginType={this.state.marginType} />
               </Card>
             </Grid.Column>
-        </Grid>
+          </Grid>
         </Container>
       </div>
     );
   }
 }
 
-export default App;
+const AppWithRouter = withRouter(App)
+export default AppWithRouter;

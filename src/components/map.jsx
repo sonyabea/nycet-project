@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 const React = require('react');
 const d3 = require('d3');
  
@@ -19,16 +20,21 @@ const MainMap = (props) => {
 
   var renderShapes = () => (props.mapGeo.features.map((d,i) => {
       let selected = (d.properties[props.mapRegionType] === props.selectedId) ? 'glow' : 'district'
-      return (<path
+      return (
+      <Link key={`link-${i}`} to={{pathname: `/AD/${d.properties[props.mapRegionType]}`}}>
+        <path
           data={d}
           key={ `path-${ i }` }
           d={ `${d3.geoPath().projection(projection)(d)}` }
           className={selected}
           fill={ `${ color(props.mapData.get(d.properties[props.mapRegionType]))}`}
           onMouseEnter={(e) => (props.onRegionHover(e, d))}
-        />)
-      }
- ))
+        />
+      </Link>
+      )
+    }
+)
+)
 
     return (
       <div className='map-frame'>
