@@ -30,6 +30,7 @@ class App extends Component {
              'mapData': d3.map(),
              'mapRegionType': (adSpecific) ? 'ElectDist' : 'AssemDist',
              'dataRegionType': (adSpecific) ? 'ed' : 'districtnumber',
+              //different kinds of margins? compet?
              'marginType': 'margin',
              'regionId': ad,
              'selectedId': '',
