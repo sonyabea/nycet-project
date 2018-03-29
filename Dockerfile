@@ -5,7 +5,7 @@ RUN useradd --user-group --create-home --shell /bin/false app &&\
 
 ENV HOME=/home/app
 
-COPY package.json npm-shrinkwrap.json $HOME/nycet/
+COPY package.json package-lock.json $HOME/nycet/
 RUN chown -R app:app $HOME/*
 
 USER app
@@ -17,4 +17,4 @@ COPY . $HOME/nycet
 RUN chown -R app:app $HOME/*
 USER app
 
-CMD ["node", "src/index.js"]
+CMD ["npm", "start"]
