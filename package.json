@@ -1,20 +1,30 @@
 {
-  "name": "nycet-app",
-  "version": "0.1.0",
-  "private": true,
+  "name": "nycet",
+  "version": "1.0.0",
+  "description": "React dashboard for NYCET competetiveness.",
+  "main": "index.js",
   "dependencies": {
-    "d3": "4.13.0",
+    "d3": "^5.0.0",
+    "express": "^4.16.3",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.1",
-    "semantic-ui-react": "^0.78.3"
+    "react-scripts": "^1.1.1",
+    "semantic-ui-react": "^0.79.0",
+    "babel-preset-env": "^1.6.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.ckmnet.co:pro_bono/nycet-districts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
