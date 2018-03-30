@@ -9,6 +9,11 @@ import './App.css';
 
 const d3 = require('d3');
 
+const pgp = require('pg-promise')();
+
+const cn = 'postgres://nycetmember:J4}83,?{6X4$@10.39.38.14:5432/probono';
+const db = pgp(cn);
+
 //hardcoded file locs and keywords. do this more elegantly later
 const assemblyLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/locational/nyad_geo.json'
 const electionLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/locational/nyed_geo.json'
@@ -19,7 +24,7 @@ class App extends Component {
   constructor(props){
     super(props)
     //this is getting a little unwieldy
-    // selectedAd = (props.params.AD) ? 
+    // selectedAd = (props.params.AD) ?
     let ad = props.match.params.AD;
     let adSpecific = (typeof(ad) !== 'undefined')
 
@@ -53,10 +58,10 @@ class App extends Component {
                    tooltipY: e.clientY,
                    text: [`District: ${dist}`,
                          `Margin: ${Math.abs(this.state.mapData.get(dist))}`]}
- 
+
     this.setState({tooltip: newTooltip,
-                   selectedId: dist}) 
-  } 
+                   selectedId: dist})
+  }
 
   onTableHover(e, d) {
     this.setState({selectedId: parseInt(d, 10)})
@@ -72,10 +77,10 @@ class App extends Component {
 
   filterFiles(geoFile, dataFile){
     //filter locations to selected AD first
-    
+
     let filteredFeatures = geoFile.features.filter((d) => (
       d.properties.ElectDist.toString().slice(0,2) === this.state.regionId))
-    
+
     let adFeatures = filteredFeatures.map((d) => (d.properties.ElectDist))
     let filteredData = dataFile.filter((d) => (adFeatures.indexOf(parseInt(d.ed, 10)) >= 0))
 
@@ -87,8 +92,8 @@ class App extends Component {
   loadData(){
     console.log(this.state)
     d3.queue()
-      .defer(d3.json, this.state.geoSource) 
-      .defer(d3.tsv, this.state.dataSource) 
+      .defer(d3.json, this.state.geoSource)
+      .defer(d3.tsv, this.state.dataSource)
       .await((error, geoFile, dataFile) => {
         dataFile.forEach((d) => {
           d.margin = ((d.winning_party === 'Republican') ? -d.margin : +d.margin)})
@@ -131,16 +136,16 @@ class App extends Component {
 
   componentWillReceiveProps(nextProps){
     this.updateADRegion(nextProps);
-     
+
   }
 
   // shouldComponentUpdate(nextProps, nextState) {
   //   return (nextProps.match.params.AD !== this.state.regionId)
   // }
 
-  
-  
-  
+
+
+
   render() {
     return (
       <div className="App">

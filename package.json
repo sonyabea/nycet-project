@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "d3": "4.13.0",
+    "pg-promise": "^8.2.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router": "^4.2.0",
