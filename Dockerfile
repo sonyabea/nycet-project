@@ -5,7 +5,7 @@ RUN useradd --user-group --create-home --shell /bin/false app &&\
 
 ENV HOME=/home/app
 
-COPY package.json package-lock.json $HOME/nycet/
+COPY . $HOME/nycet
 RUN chown -R app:app $HOME/*
 
 USER app
@@ -13,7 +13,7 @@ WORKDIR $HOME/nycet
 RUN npm install
 
 USER root
-COPY . $HOME/nycet
+
 RUN chown -R app:app $HOME/*
 USER app
 

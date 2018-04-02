@@ -10,10 +10,10 @@ import './App.css';
 const d3 = require('d3');
 
 //connection to replica of Sonya's db - still buggy
-const pgp = require('pg-promise');
-
-const cn = 'postgres://nycetmember:J4}83,?{6X4$@10.39.38.14:5432/probono';
-const db = pgp(cn);
+const axios = require('axios');
+process.versions.node = '9.10.0'
+// const cn = 'postgres://nycetmember:J4}83,?{6X4$@10.39.38.14:5432/probono';
+// const db = pgp(cn);
 
 //hardcoded file locs and keywords. do this more elegantly later
 const assemblyLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/locational/nyad_geo.json'
