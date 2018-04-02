@@ -5,5 +5,4 @@ nycet:
   ports:
     - '3000:3000'
   volumes:
-    - .:/home/app/nycet
-    - /home/app/nycet/node_modules
+    - ./src:/home/app/nycet/src
