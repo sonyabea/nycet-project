@@ -5,11 +5,11 @@ RUN useradd --user-group --create-home --shell /bin/false app &&\
 
 ENV HOME=/home/app
 
-COPY . $HOME/nycet/back-end/
+COPY . $HOME/express/
 # RUN chown -R app:app $HOME/*
 
 # USER app
-WORKDIR $HOME/nycet/back-end/
+WORKDIR $HOME/express/
 RUN npm install 
 
 EXPOSE 8080
