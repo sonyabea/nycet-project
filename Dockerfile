@@ -5,16 +5,15 @@ RUN useradd --user-group --create-home --shell /bin/false app &&\
 
 ENV HOME=/home/app
 
-COPY . $HOME/nycet
-RUN chown -R app:app $HOME/*
+COPY . $HOME/nycet/
+# RUN chown -R app:app $HOME/*
 
-USER app
+# USER app
 WORKDIR $HOME/nycet
-RUN npm install
+RUN npm install 
 
-USER root
-
-RUN chown -R app:app $HOME/*
-USER app
+# USER root
+# RUN chown -R app:app $HOME/*
+# USER app
 
 CMD ["npm", "start"]

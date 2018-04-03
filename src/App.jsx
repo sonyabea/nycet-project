@@ -10,8 +10,6 @@ import './App.css';
 const d3 = require('d3');
 
 //connection to replica of Sonya's db - still buggy
-const axios = require('axios');
-process.versions.node = '9.10.0'
 // const cn = 'postgres://nycetmember:J4}83,?{6X4$@10.39.38.14:5432/probono';
 // const db = pgp(cn);
 

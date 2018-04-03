@@ -6,4 +6,3 @@ nycet:
     - '3000:3000'
   volumes:
     - ./src:/home/app/nycet/src
-    - /home/app/nycet/node_modules
