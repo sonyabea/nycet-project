@@ -28,7 +28,6 @@ app.get('/', (req, res) => {
         console.log('ERROR:', error.message || error);
     });
 
-
 //   res.send('Hello world\n');
 });
 

@@ -1,8 +1,13 @@
-nycet:
-  build: .
-  environment:
-    NODE_ENV: development
-  ports:
-    - '3000:3000'
-  volumes:
-    - ./src:/home/app/nycet/src
+services:
+  nycet:
+    build: ./front-end
+    environment:
+      NODE_ENV: development
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./src:/home/app/nycet/front-end/src # relative to build path ??
+  express:
+    build: ./back-end
+    ports:
+      - '8080:8080'
