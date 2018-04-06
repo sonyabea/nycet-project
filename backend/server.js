@@ -17,41 +17,32 @@ const cnxn = {
 // App
 const app = express();
 
-const db = pgp(cnxn);
-
-// function pingDB(query){
-
-// }
-
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   });
 
-  app.get('/', function(req, res) {
-    // Handle the get for this route
-    // debugger
-    // let params = req.params;
-    const db = pgp(cnxn);
-    let query = "SELECT * FROM acs_ed_demographics LIMIT 10"
-    db.query(query, [true])
-        .then(data => {
-            console.log('DATA:', data);
-        })
-        .catch(error => {
-            console.log(error)
-        })
+  const db = pgp(cnxn);
 
-  res.send('Hello world\n');
-  });
+app.get('/table/:table/:filterOn?/:filterBy?', function(req, res) {
+  let {table, filterOn, filterBy} = req.params
+  let query = `SELECT * FROM ${table}`
+  if (filterOn && filterBy) {
+    query += ` WHERE ${filterOn} = '${filterBy}'`
+  }
+
+  db.query(query, [true])
+    .then(data => {
+      res.send(data)
+    })
+    .catch(error => {
+      console.log(error)
+    })
+});
+
+
+
 
 app.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}`);
-
-
-
-
-
-
-
