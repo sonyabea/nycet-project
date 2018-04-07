@@ -9,6 +9,7 @@ import './App.css';
 
 const d3 = require('d3');
 
+# experimentsByOrg view
 const axios = require('axios');
 axios({
   method:'get',
@@ -18,11 +19,6 @@ axios({
     console.log(response)
 });
 
-//hardcoded file locs and keywords. do this more elegantly later
-const assemblyLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/locational/nyad_geo.json'
-const electionLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/locational/nyed_geo.json'
-const assemblyDataLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/ad_margins.tsv'
-const electionDataLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/ed_margins.tsv'
 
 class App extends Component {
   constructor(props){
