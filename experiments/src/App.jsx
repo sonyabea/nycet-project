@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
+import ExperimentsContainer from './componenets/ExperimentsContainer.jsx'
 import './App.css';
 
 const d3 = require('d3');
@@ -27,7 +28,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-          hey
+        <ExperimentsContainer {...this.props} />
       </div>
     );
   }
