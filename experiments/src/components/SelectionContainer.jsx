@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import Selector from './componenets/selector.jsx'
+import Selector from './selector.jsx'
 
 class SelectionContainer extends Component {
     constructor(props) {
@@ -26,9 +26,11 @@ class SelectionContainer extends Component {
 
     // Render the child component and set the action property with the handler as value
     render() {
-      let selectorObjs = this.state.selectorsInfo.map(selectionInfo => < Selector {...selectioninfo} />)
+      debugger
+      // let selectorObjs = this.props.selectorsInfo.map(selectionInfo => < Selector {...selectionInfo} />)
+      let selectorObjs = <Selector {...this.props.selectorsInfo[0]} />
       return <div>{selectorObjs}</div>;
     }
 }
 
-export SelectionContainer
+export default SelectionContainer

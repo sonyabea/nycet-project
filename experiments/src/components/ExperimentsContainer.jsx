@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import SelectionContainer from './componenets/SelectionContainer.jsx'
+import SelectionContainer from './SelectionContainer.jsx'
 
 class ExperimentsContainer extends Component {
   constructor(props) {
@@ -8,12 +8,13 @@ class ExperimentsContainer extends Component {
     this.state = {
       'view': 'experimentsByOrg',
       'selectorsInfo': [{'type': 'Org',
-                        'options': ['AAFE', 'AAA']},
+                        'options': [{'text': 'AAFE'}, {'text':'AAA'}]
+                      },
                         {'type': 'Experiments',
                         'options': ['xxx']}
 
       ],
-      'plotInfo': {'expInfo':, '',
+      'plotInfo': {'expInfo': '',
                   'plotData': ''}
     };
   }
@@ -23,12 +24,12 @@ class ExperimentsContainer extends Component {
     // appropriate selection dropdowns
     // plotContainer
     // and caceContainer
-    let dropdowns = <SelectionContainer{this.state.selectorsInfo} />
+    let dropdowns = <SelectionContainer selectorsInfo={this.state.selectorsInfo} />
     // let plotContainer = <PlotContainer{this.state.plotInfo} />
     // let CACEContainer = <CACEContainer/>
-    // return <div>{dropdowns}</div>
-    return "hey"
+    return <div>{dropdowns}</div>
+    // return <div>hey</div>
   }
 }
 
-export ExperimentsContainer
+export default ExperimentsContainer
