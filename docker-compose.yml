@@ -6,7 +6,7 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - ./src:/home/app/nycet/front-end/src # relative to build path ??
+      - ./frontend/src:/home/app/nycet/front-end/src
   express:
     build: ./back-end
     ports:
