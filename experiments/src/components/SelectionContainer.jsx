@@ -7,9 +7,6 @@ class SelectionContainer extends Component {
 
         this.state = {
           selectorsInfo: []
-          // {'type': "",
-          // 'options': [] }
-
         };
     }
 
@@ -24,11 +21,10 @@ class SelectionContainer extends Component {
         });
     }
 
-    // Render the child component and set the action property with the handler as value
     render() {
-      debugger
-      // let selectorObjs = this.props.selectorsInfo.map(selectionInfo => < Selector {...selectionInfo} />)
-      let selectorObjs = <Selector {...this.props.selectorsInfo[0]} />
+      let selectorObjs = this.props.selectorsInfo.map((selectionInfo, index) =>
+        <Selector key={index} {...selectionInfo} />
+      )
       return <div>{selectorObjs}</div>;
     }
 }

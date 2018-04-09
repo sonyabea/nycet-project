@@ -2,7 +2,7 @@ import React from 'react'
 import { Dropdown } from 'semantic-ui-react'
 
 const Selector = (props) => {
-  debugger
+  // debugger
   const placeholderText = `Select ${props.type}`
 
     return (
