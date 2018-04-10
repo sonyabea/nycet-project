@@ -1,0 +1,14 @@
+version: '3'
+services:
+  competitive:
+    build: ./frontend
+    environment:
+      NODE_ENV: development
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./frontend/src:/home/app/competitive/src
+  express:
+    build: ./backend
+    ports:
+      - '8080:8080'
