@@ -9,15 +9,6 @@ import './App.css';
 
 const d3 = require('d3');
 
-const axios = require('axios');
-axios({
-  method:'get',
-  url:'http://localhost:8080/',
-})
-  .then(function(response) {
-    console.log(response)
-});
-
 //hardcoded file locs and keywords. do this more elegantly later
 const assemblyLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/locational/nyad_geo.json'
 const electionLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/locational/nyed_geo.json'
