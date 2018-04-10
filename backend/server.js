@@ -2,6 +2,7 @@
 
 const express = require('express');
 const pgp = require('pg-promise')();
+const bodyParser = require('body-parser');
 
 // Constants
 const PORT = 8080;
@@ -17,21 +18,41 @@ const cnxn = {
 // App
 const app = express();
 
+app.use(bodyParser.json());
+
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   });
 
-  const db = pgp(cnxn);
+const db = pgp(cnxn);
 
-app.get('/table/:table/:filterOn?/:filterBy?', function(req, res) {
-  let {table, filterOn, filterBy} = req.params
-  let query = `SELECT * FROM ${table}`
+// app.get('/table/:table/unique/:column', function(req, res) {
+//   let {table, column} = req.params
+//   let query = `SELECT DISTINCT ${column} from ${table}`
+//
+//   db.query(query, [true])
+//     .then(data => {
+//       res.send(data)
+//     })
+//     .catch(error => {
+//       console.log(error)
+//     })
+// })
+
+app.post('/table/:table/', function(req, res) {
+  let {table} = req.params
+  let {filterOn, filterBy, columns, unique} = req.body
+  columns = columns && columns.length > 0 ? columns.join(',') : '*'
+  unique = unique ? 'DISTINCT' : ''
+
+  let query = `SELECT ${unique} ${columns} FROM ${table}`
   if (filterOn && filterBy) {
     query += ` WHERE ${filterOn} = '${filterBy}'`
   }
 
+  console.log(query)
   db.query(query, [true])
     .then(data => {
       res.send(data)
@@ -39,7 +60,23 @@ app.get('/table/:table/:filterOn?/:filterBy?', function(req, res) {
     .catch(error => {
       console.log(error)
     })
-});
+})
+
+// app.get('/table/:table/:filterOn?/:filterBy?', function(req, res) {
+//   let {table, filterOn, filterBy} = req.params
+//   let query = `SELECT * FROM ${table}`
+//   if (filterOn && filterBy) {
+//     query += ` WHERE ${filterOn} = '${filterBy}'`
+//   }
+//
+//   db.query(query, [true])
+//     .then(data => {
+//       res.send(data)
+//     })
+//     .catch(error => {
+//       console.log(error)
+//     })
+// });
 
 
 
