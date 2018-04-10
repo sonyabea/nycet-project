@@ -1,6 +1,6 @@
 version: '3'
 services:
-  competitive:
+  competitiveness:
     build: ./competitiveness
     environment:
       NODE_ENV: development
