@@ -9,6 +9,7 @@ import './App.css';
 
 const d3 = require('d3');
 
+<<<<<<< HEAD:competitiveness/src/App.jsx
 const axios = require('axios');
 axios({
   method:'get',
@@ -19,6 +20,9 @@ axios({
 });
 
 
+=======
+//hardcoded file locs and keywords. do this more elegantly later
+>>>>>>> master:frontend/src/App.jsx
 const assemblyLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/locational/nyad_geo.json'
 const electionLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/locational/nyed_geo.json'
 const assemblyDataLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/ad_margins.tsv'
