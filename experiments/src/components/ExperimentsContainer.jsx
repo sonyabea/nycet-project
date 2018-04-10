@@ -2,9 +2,16 @@ import React, {Component} from 'react'
 import SelectionContainer from './SelectionContainer.jsx'
 import PlotContainer from './PlotContainer.jsx'
 
+const axios = require('axios');
+
 class ExperimentsContainer extends Component {
   constructor(props) {
     super(props)
+    const 'view' = 'experimentsByOrg'
+    const table = 'by_org'
+
+
+    const orgs = ''
 
     const plotStats = [
       { x: 'A', min: 2, median: 5, max: 10, q1: 3, q3: 7 },
@@ -41,6 +48,31 @@ class ExperimentsContainer extends Component {
     let plotContainer = <PlotContainer{...this.state.plotInfo} />
     // let CACEContainer = <CACEContainer/>
     return <div style={divStyle}>{dropdowns}{plotContainer}</div>
+
+  }
+
+  function setStateAtt (json) {
+    axios({
+      method:'post',
+      url: `localhost:8080/${table}/`,
+      json: json
+    })
+  }
+
+  componentDidMount() {
+    let jsonFilters = [
+      {'unique': true, 'columns': ['org']},
+      {'unique': true, 'columns': ['election']},
+      {'columns': ['org', 'election', 'contact_rate', 'CACE', 'control', 'treatment']},
+      {'columns': ['org', 'election', 'q1', 'q3', 'min', 'max', 'median']}
+    ]
+
+    let attributes = ['orgs', 'elections', 'plotInfo', 'plotStats']
+    let promises = jsonFilters.map(e => setStateAtt(e))
+    Promise.all(promises)
+      .then(values => {
+        values.map((value, index) => this.setState(attributes[index], value))
+      })
 
   }
 }

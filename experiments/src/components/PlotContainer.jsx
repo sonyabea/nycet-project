@@ -11,7 +11,6 @@ class PlotContainer extends Component {
   }
 
   render() {
-    // debugger
     let expInfo = <ExperimentInfo info={this.props.expInfo} />
     let plot = <Plot data={this.props.plotData} />
     // let plots = this.props.plotStats.map(stats =>
