@@ -1,13 +1,14 @@
+version: '3'
 services:
-  nycet:
-    build: ./front-end
+  competitive:
+    build: ./frontend
     environment:
       NODE_ENV: development
     ports:
       - '3000:3000'
     volumes:
-      - ./frontend/src:/home/app/nycet/front-end/src
+      - ./frontend/src:/home/app/competitive/src
   express:
-    build: ./back-end
+    build: ./backend
     ports:
       - '8080:8080'
