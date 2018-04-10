@@ -22,7 +22,7 @@ class ExperimentsContainer extends Component {
                         'options': [{'text': 'xxx'}, {'text': 'yyy'}, {'text': 'zzz'}]}
 
       ],
-      'plotInfo': {'expInfo': '',
+      'plotInfo': {'expInfo': 'blah blah blah this is experiment info',
                   'plotData': plotStats}
     };
   }
@@ -36,6 +36,7 @@ class ExperimentsContainer extends Component {
     // appropriate selection dropdowns
     // plotContainer
     // and caceContainer
+    // debugger
     let dropdowns = <SelectionContainer selectorsInfo={this.state.selectorsInfo} />
     let plotContainer = <PlotContainer{...this.state.plotInfo} />
     // let CACEContainer = <CACEContainer/>
