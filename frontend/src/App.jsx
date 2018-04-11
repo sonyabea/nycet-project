@@ -16,7 +16,7 @@ const Competitiveness = () => (
             </Header>
           </div>
           <Grid>
-            <Grid.Column width={10} style={{ minHeight: 380 }}>
+            <Grid.Column width={10} style={{ minHeight: 600 }}>
               <MapContainer>
                 <DataMap />
               </MapContainer>

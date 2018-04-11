@@ -11,13 +11,9 @@ import { Route } from 'react-router-dom';
 import Competitiveness from './App.jsx';
 import NYCETAppReducers from './reducers/index';
 import { loadMapData, storeMapData } from './actions/index';
-export const assemblyLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/locational/nyad_geo.json'
-export const electionLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/locational/nyed_geo.json'
-export const assemblyDataLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/ad_margins.tsv'
-export const electionDataLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/ed_margins.tsv'
 
 let store = createStore(NYCETAppReducers, applyMiddleware(thunkMiddleware))
-store.dispatch(loadMapData())
+store.dispatch(loadMapData(storeMapData, 0))
 
 const announce = () => console.log(store.getState())
 

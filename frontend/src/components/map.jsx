@@ -1,9 +1,10 @@
 // import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'; 
+import { storeMapData, loadMapData } from '../actions/index';
 const React = require('react');
 const d3 = require('d3');
  
-const Map = ({mapWidth, mapHeight, mapComponents}) => {
+const Map = ({mapWidth, mapHeight, mapComponents, depthLevel, drillDown}) => {
 
   let projection = d3.geoIdentity()
                  .reflectY(true)
@@ -27,6 +28,7 @@ const Map = ({mapWidth, mapHeight, mapComponents}) => {
           key={ `path-${ i }` }
           d={ `${d3.geoPath().projection(projection)(d)}` }
           fill={ `${ color(mapComponents.geoData.get(d.properties.AssemDist))}`}
+          onClick={() => (drillDown(depthLevel))}
         />
       // </Link>
       )
@@ -48,8 +50,13 @@ const Map = ({mapWidth, mapHeight, mapComponents}) => {
 const mapStateToProps = (state) => ({
   mapWidth: state.mapDimensions[0],
   mapHeight: state.mapDimensions[1],
+  depthLevel: state.depthLevel,
   mapComponents: state.mapComponents})
 
-const DataMap = connect(mapStateToProps)(Map)
+const mapDispatchToProps = (dispatch, ownProps) => (
+  {drillDown: (depthLevel) => dispatch(loadMapData(storeMapData, (depthLevel + 1)))}
+)
+
+const DataMap = connect(mapStateToProps, mapDispatchToProps)(Map)
 
 export default DataMap  

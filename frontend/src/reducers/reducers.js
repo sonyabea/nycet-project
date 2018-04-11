@@ -4,12 +4,8 @@ export function mapStateReducer(state={
                           geoJson: {type: '', features: []},
                           geoData: d3.map()}, action) {
   switch (action.type) {
-    case 'SET_MAP_DATA':
-      return action.payload
-    // case 'AD_CLICK':
-    //   return action.payload
-    // case 'ED_CLICK':
-    //   return 'some filtered stuff'
+    case 'SET_DEPTH':
+      return action.payload.mapData
     default:
       return state
   }
@@ -19,6 +15,24 @@ export function mapStateReducer(state={
 export function mapDimensionsReducer(state={mapDimensions: [0,471]}, action) {
   switch (action.type) {
     case 'SET_MAP_DIMENSIONS':
+      return action.payload
+    default:
+      return state
+  }
+}
+
+export function depthLevelReducer(state=0, action) {
+  switch (action.type) {
+    case 'CHANGE_DEPTH':
+      return action.payload.level
+    default:
+      return state
+  }
+}
+
+export function districtTypeReducer(state='AD', action) {
+  switch (action.type) {
+    case 'CHANGE_DISTRICT_TYPE':
       return action.payload
     default:
       return state
