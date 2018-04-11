@@ -11,6 +11,7 @@ COPY . $HOME/competitive
 # USER app
 WORKDIR $HOME/competitive
 RUN npm install 
+RUN npm install  --save redux
 
 # USER root
 # RUN chown -R app:app $HOME/*

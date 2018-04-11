@@ -1,36 +1,37 @@
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+import { connect } from 'react-redux'; 
 const React = require('react');
 const d3 = require('d3');
  
-const MainMap = (props) => {
+const Map = ({mapWidth, mapHeight, mapComponents}) => {
+  console.log(mapWidth)
+  console.log(mapComponents)
 
-  var projection = d3.geoIdentity()
+  let projection = d3.geoIdentity()
                  .reflectY(true)
-                 .fitSize([props.width,props.height],props.mapGeo)
+                 .fitSize([mapWidth,mapHeight], mapComponents.geoJson)
 
-  var path = d3.geoPath()
+  let path = d3.geoPath()
     .projection(projection)
 
-  var closenessExtent= d3.extent(props.mapData.values())
+  let closenessExtent= d3.extent(mapComponents.geoData.values())
 
-  var color = d3.scaleLinear()
+  let color = d3.scaleLinear()
               .domain([closenessExtent[0], 0,
                        closenessExtent[1]])
               .range(['red', 'white', 'blue'])
 
-  var renderShapes = () => (props.mapGeo.features.map((d,i) => {
-      let selected = (d.properties[props.mapRegionType] === props.selectedId) ? 'glow' : 'district'
+  let renderShapes = () => (mapComponents.geoJson.features.map((d,i) => {
+      // let selected = (d.properties[props.mapRegionType] === props.selectedId) ? 'glow' : 'district'
       return (
-      <Link key={`link-${i}`} to={{pathname: `/AD/${d.properties[props.mapRegionType]}`}}>
+      // <Link key={`link-${i}`} to={{pathname: `/AD/${d.properties[props.mapRegionType]}`}}>
         <path
           data={d}
           key={ `path-${ i }` }
           d={ `${d3.geoPath().projection(projection)(d)}` }
-          className={selected}
-          fill={ `${ color(props.mapData.get(d.properties[props.mapRegionType]))}`}
-          onMouseEnter={(e) => (props.onRegionHover(e, d))}
+          fill={ `${ color(mapComponents.geoData.get(d.properties.AssemDist))}`}
         />
-      </Link>
+      // </Link>
       )
     }
 )
@@ -38,13 +39,20 @@ const MainMap = (props) => {
 
     return (
       <div className='map-frame'>
-        <svg width={props.width} height={props.height}>
+        <svg width={mapWidth} height={mapHeight}>
           <g className='map-layer'>
             { renderShapes() }
           </g>
         </svg>
       </div>
     )
-}  
+}
 
-export default MainMap;
+const mapStateToProps = (state) => ({
+  mapHeight: 400,
+  mapWidth: 600,
+  mapComponents: state.mapComponents})
+
+const DataMap = connect(mapStateToProps)(Map)
+
+export default DataMap  

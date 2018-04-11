@@ -1,16 +1,19 @@
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import AppWithRouter from './App.jsx';
+import { Route } from 'react-router-dom';
+import App from './App'
 
-const NYCETRouter = () => (
-<main>
-  <Switch> 
-    <Route exact path="/" render={() => (
-      <Redirect to='/AD/' />
-        )} />
-      <Route path='/AD/:AD?' component={AppWithRouter} />
-  </Switch>
-</main>
-  )
+export default (
+  <Route path="/" component={App} />
+);
+
+// const NYCETRouter = () => (
+// <main>
+//   <Switch> 
+//     <Route exact path="/" render={() => (
+//       <Redirect to='/AD/' />
+//         )} />
+//       <Route path='/AD/:AD?' component={AppWithRouter} />
+//   </Switch>
+// </main>
+//   )
   
-export default NYCETRouter;
