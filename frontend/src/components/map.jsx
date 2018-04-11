@@ -1,6 +1,6 @@
 // import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'; 
-import { storeMapData, loadMapData } from '../actions/index';
+import { loadMapData } from '../actions/index';
 const React = require('react');
 const d3 = require('d3');
  
@@ -27,8 +27,8 @@ const Map = ({mapWidth, mapHeight, mapComponents, depthLevel, drillDown}) => {
           data={d}
           key={ `path-${ i }` }
           d={ `${d3.geoPath().projection(projection)(d)}` }
-          fill={ `${ color(mapComponents.geoData.get(d.properties.AssemDist))}`}
-          onClick={() => (drillDown(depthLevel))}
+          fill={ `${ color(mapComponents.geoData.get(d.properties.districtNumber))}`}
+          onClick={() => (drillDown(depthLevel, d.properties.districtNumber))}
         />
       // </Link>
       )
@@ -54,7 +54,8 @@ const mapStateToProps = (state) => ({
   mapComponents: state.mapComponents})
 
 const mapDispatchToProps = (dispatch, ownProps) => (
-  {drillDown: (depthLevel) => dispatch(loadMapData(storeMapData, (depthLevel + 1)))}
+  {drillDown: (depthLevel, selected) => (
+      dispatch(loadMapData((depthLevel + 1), selected)))}
 )
 
 const DataMap = connect(mapStateToProps, mapDispatchToProps)(Map)

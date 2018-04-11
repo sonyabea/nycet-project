@@ -6,9 +6,6 @@ const assemblyDataLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flat
 const electionDataLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/ed_margins.tsv'
 
 //MAP HELPERS
-//
-//CREATE FUNCTION SOMEWHERE THAT MAPS KEYS OF FEATURES/DATA TO COMMON NAME -- COMPONENTS SHOULDNT HAVE TO WORRY ABOUT IT.
-//OR JUST CHANGE IT ON THE FILES THEMSELVES
 
 const DISTRICT_LEVEL_LABELS = {
   //top-level: NYC show all AD, SD, CD
@@ -19,8 +16,8 @@ const DISTRICT_LEVEL_LABELS = {
 const filterFiles = (geoFile, dataFile, mapRegionType, dataRegionType, level, selected) => {
   //filter if any level lower than top
   let filteredFeatures = (level > 0) ? geoFile.features.filter((d) => (
-    d.properties[mapRegionType].toString().slice(0,2) === selected)) : geoFile.features
-  
+    parseInt(d.properties[mapRegionType].toString().slice(0,2), 10) === selected)) : geoFile.features
+  filteredFeatures.forEach((d) => d.properties['districtNumber'] = d.properties[mapRegionType]) 
   //get all valid regions in the geodata and filter data
   let regionIds = filteredFeatures.map((d) => (d.properties[mapRegionType]))
   let filteredData = dataFile.filter((d) => (regionIds.indexOf(
@@ -32,11 +29,9 @@ const filterFiles = (geoFile, dataFile, mapRegionType, dataRegionType, level, se
 
 
 //ABSTRACTED DATA LOAD
-export const loadMapData = (dispatchFunction, level=0, selected=null) => {
-  console.log(dispatchFunction)
-  console.log(level)
-
-  return ((dispatch) => { 
+export const loadMapData = (level=0, selected=null) => (
+  //use this thunk syntax, because d3.queue happens async
+  (dispatch) => { 
 
     let [geoSource,
          dataSource,
@@ -50,17 +45,18 @@ export const loadMapData = (dispatchFunction, level=0, selected=null) => {
         .await((error, geoFile, dataFile) => {
           let [filteredGeo,
                filteredData] = filterFiles(geoFile, dataFile, mapRegionType, dataRegionType, level, selected);
+
           let dataMap = d3.map()
           filteredData.forEach((d) => {
             d.margin = ((d.winning_party === 'Republican') ? -d.margin : +d.margin)
             dataMap.set(d[dataRegionType], d.margin)})
-            dispatch(dispatchFunction(
+            dispatch(storeMapData(
                    {geoJson: filteredGeo, 
                     geoData: dataMap}, level))
         })
       )
-   })
-  }
+   }
+);
 
 
 //MAP ACTIONS

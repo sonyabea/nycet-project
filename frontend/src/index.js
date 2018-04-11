@@ -10,10 +10,12 @@ import { BrowserRouter } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import Competitiveness from './App.jsx';
 import NYCETAppReducers from './reducers/index';
-import { loadMapData, storeMapData } from './actions/index';
+import { loadMapData } from './actions/index';
 
 let store = createStore(NYCETAppReducers, applyMiddleware(thunkMiddleware))
-store.dispatch(loadMapData(storeMapData, 0))
+
+//initially load top-level data, with no selection.
+store.dispatch(loadMapData(0, null))
 
 const announce = () => console.log(store.getState())
 
