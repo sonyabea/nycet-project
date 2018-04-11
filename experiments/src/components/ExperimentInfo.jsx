@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 
 class ExperimentInfo extends Component {
   render () {
-    return `${this.props.info}`
+    return <div>{this.props.info}</div>
   }
 }
 

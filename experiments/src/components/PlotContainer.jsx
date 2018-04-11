@@ -1,18 +1,14 @@
 import React, {Component} from 'react'
-import ExperimentInfo from './ExperimentInfo.jsx'
-import Plot from './Plot.jsx'
+import ExperimentInfo from './ExperimentInfo'
+import Plot from './Plot'
 
-class PlotContainer extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    let expInfo = <ExperimentInfo info={this.props.expInfo} />
-    let plot = <Plot data={this.props.plotData} />
-    return <div class='plotContainer'>{expInfo}{plot}</div>
-  }
-
+const PlotContainer = ({plotInfo, plotData}) => {
+  return (
+    <div class='plotContainer'>
+      <ExperimentInfo info={plotInfo} />
+      <Plot data={plotData} />
+    </div>
+  )
 }
 
 export default PlotContainer

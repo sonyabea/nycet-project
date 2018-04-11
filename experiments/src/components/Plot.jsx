@@ -1,18 +1,16 @@
 import React, { Component } from 'react'
-import { VictoryChart } from 'victory';
+import { VictoryChart, VictoryBoxPlot } from 'victory';
 import { VictoryBoxPlot } from 'victory';
 
-class Plot extends Component {
-  render () {
-    const plot = <VictoryChart domainPadding={20}>
+const Plot = ({data}) => {
+  return (
+    <VictoryChart domainPadding={20}>
       <VictoryBoxPlot
         boxWidth={20}
-        data={this.props.data}
+        data={data}
       />
     </VictoryChart>
-
-    return plot
-  }
+  )
 }
 
 export default Plot

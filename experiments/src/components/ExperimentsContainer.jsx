@@ -1,79 +1,90 @@
 import React, {Component} from 'react'
-import SelectionContainer from './SelectionContainer.jsx'
-import PlotContainer from './PlotContainer.jsx'
+import SelectionContainer from './SelectionContainer'
+import PlotContainer from './PlotContainer'
+import axios from 'axios'
 
-const axios = require('axios');
+function withData (WrappedComponent, queryStuff) {
 
-class ExperimentsContainer extends Component {
-  constructor(props) {
-    super(props)
-    const view = 'experimentsByOrg'
-    const table = 'by_org'
+  return class extends Component {
 
-    const orgs = ''
+    getData (data) {
+      axios({
+        method:'post',
+        url: `localhost:8080/table/${queryStuff.table}/`,
+        data
+      })
+    }
+  
+    componentDidMount () {
+      let attributes = Object.keys(queryStuff.filters)
+      let queries = Object.values(queryStuff.filters).map(getData)
+  
+      Promise.all(queries)
+        .then(values => {
+          values.map((value, index) => this.setState(attributes[index], value))
+        })
+    }
 
-    const plotStats = [
-      { x: 'A', min: 2, median: 5, max: 10, q1: 3, q3: 7 },
-      { x: 'B', min: 1, median: 4, max: 9, q1: 3, q3: 6 },
-      { x: 'Z', min: 1, median: 6, max: 12, q1: 4, q3: 10 },
-    ];
-
-
-    this.state = {
-      'view': 'experimentsByOrg',
-      'selectorsInfo': [{'type': 'Org',
-                        'options': [{'text': 'AAFE'}, {'text':'AAA'}]
-                      },
-                        {'type': 'Experiments',
-                        'options': [{'text': 'xxx'}, {'text': 'yyy'}, {'text': 'zzz'}]}
-
-      ],
-      'plotInfo': {'expInfo': 'blah blah blah this is experiment info',
-                  'plotData': plotStats}
-    };
+    render () {
+      return <WrappedComponent { ...this.state } />
+    }
   }
 
+}
 
-  render() {
+class ExperimentsContainer extends Component {
+
+  constructor (props) {
+    super(props)
+  }
+
+  render () {
     let divStyle = {
       backgroundColor: 'white'
     }
-    // according to selected view, render
-    // appropriate selection dropdowns
-    // plotContainer
-    // and caceContainer
-    // debugger
-    let dropdowns = <SelectionContainer selectorsInfo={this.state.selectorsInfo} />
-    let plotContainer = <PlotContainer{...this.state.plotInfo} />
-    // let CACEContainer = <CACEContainer/>
-    return <div style={divStyle}>{dropdowns}{plotContainer}</div>
 
+    return (
+      <div style={divStyle}>
+        <SelectionContainer selectorsInfo={this.props.selectorsInfo} />
+          {this.props.children}
+        <PlotContainer {...this.props.plotInfo} />
+      </div>
+    )
   }
 
-  function getData (table, json) {
-    axios({
-      method:'post',
-      url: `localhost:8080/table/${table}/`,
-      json: json
-    })
-  }
-
-  componentDidMount() {
-    let jsonFilters = [
-      {'unique': true, 'columns': ['org']},
-      {'unique': true, 'columns': ['election']},
-      {'columns': ['org', 'election', 'contact_rate', 'CACE', 'control', 'treatment']},
-      {'columns': ['org', 'election', 'q1', 'q3', 'ci_low', 'ci_high', 'median']}
-    ]
-
-    let attributes = ['orgs', 'elections', 'plotInfo', 'plotStats']
-    let promises = jsonFilters.map(e => getData(e))
-    Promise.all(promises)
-      .then(values => {
-        values.map((value, index) => this.setState(attributes[index], value))
-      })
-
-  }
 }
 
-export default ExperimentsContainer
+class ExperimentsWithGroupSizes extends Component {
+
+  constructor (props) {
+    super(props)
+  }
+
+  render () {
+    return (
+      <ExperimentsContainer { ...this.props }>
+        {/* <OtherThing /> */}
+      </ExperimentsContainer>
+    )
+  }
+
+}
+
+const experimentsByOrgParams = {
+  filters: {
+    orgs: {'unique': true, 'columns': ['org']},
+    elections: {'unique': true, 'columns': ['election']},
+    plotInfo: {'columns': ['org', 'election', 'contact_rate', 'CACE', 'control', 'treatment']},
+    plotStats: {'columns': ['org', 'election', 'q1', 'q3', 'ci_low', 'ci_high', 'median']}
+  },
+  table: 'by_org'
+}
+
+const demographicStatsParams = {
+  orgs: {'unique': true, 'columns': ['org']},
+  elections: {'unique': true, 'columns': ['election']},
+  dems: {'unique': true, 'columns': ['dem1']},
+}
+
+export const ExperimentsByOrg = withData(ExperimentsContainer, experimentsByOrgParams)
+export const DemographicStats = withData(ExperimentsWithGroupSizes, demographicStatsParams)
