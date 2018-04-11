@@ -1,27 +1,28 @@
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
 import Selector from './Selector'
+import { changeExperimentsFilter, changeDemographicsFilter } from '../actions'
 
 class SelectionContainer extends Component {
-  constructor(props) {
-    super(props)
-  }
 
-  changeSelection(selectorsInfo) {
-    this.setState(selectorsInfo)
-  }
-
-  handler() {
-    this.setState({
-      messageShown: true
-    })
+  handleChange() {
+    return 
   }
 
   render() {
     let selectorObjs = this.props.selectorsInfo.map((selectionInfo, index) =>
       <Selector key={index} {...selectionInfo} />
     )
-    return <div>{selectorObjs}</div>;
+    return <div>{selectorObjs}</div>
   }
 }
 
-export default SelectionContainer
+export const ExperimentsSelectionContainer = connect(
+  null, 
+  { changeExperimentsFilter: changeFilter }
+)(SelectionContainer)
+
+export const DemographicsSelectionContainer = connect(
+  null,
+  { changeDemographicsFilter: changeFilter } 
+)(SelectionContainer)

@@ -1,4 +1,5 @@
 import { CHANGE_EXPERIMENTS_FILTER } from '../actions/'
+import { changeFilter } from './index'
   
 const initialState = {
   selectors: {
@@ -10,13 +11,7 @@ const initialState = {
 const experimentsByOrg = (state = initialState, action) => {
   switch (action.type) {
     case CHANGE_EXPERIMENTS_FILTER:
-      return { 
-        ...state,
-        selectors: {
-          ...state.selectors, 
-          [action.category]: action.value
-        }
-      }
+      return changeFilter(state, action)
     default:
       return state
   }

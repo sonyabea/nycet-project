@@ -1,4 +1,5 @@
 import { CHANGE_DEMOGRAPHICS_FILTER } from '../actions/'
+import { changeFilter } from './index'
   
 const initialState = {
   selectors: {
@@ -11,13 +12,7 @@ const initialState = {
 const demographicStats = (state = initialState, action) => {
   switch (action.type) {
     case CHANGE_DEMOGRAPHICS_FILTER:
-      return { 
-        ...state,
-        selectors: {
-          ...state.selectors, 
-          [action.category]: action.value
-        }
-      }
+      return changeFilter(state, action)
     default:
       return state
   }

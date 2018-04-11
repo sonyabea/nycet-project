@@ -8,3 +8,13 @@ export default combineReducers({
 	demographicStats,
 	experimentsByOrg
 })
+
+export const changeFilter = (state, action) => {
+	return { 
+		...state,
+		selectors: {
+			...state.selectors, 
+			[action.category]: action.value
+		}
+	}
+}

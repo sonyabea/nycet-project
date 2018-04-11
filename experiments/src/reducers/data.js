@@ -1,4 +1,4 @@
-import { PULL_ALL_DATA } from '../actions/'
+import { LOAD_DATA } from '../actions/'
 import axios from 'axios'
   
 const initialState = {
@@ -7,7 +7,7 @@ const initialState = {
 
 const data = (state = initialState, action) => {
   switch (action.type) {
-    case PULL_ALL_DATA:
+    case LOAD_DATA:
       return { ...state, all: action.data}
     default:
       return state
