@@ -4,16 +4,12 @@ import Selector from './Selector'
 class SelectionContainer extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      selectorsInfo: []
-    }
   }
 
   changeSelection(selectorsInfo) {
     this.setState(selectorsInfo)
   }
 
-    // This method will be sent to the child component
   handler() {
     this.setState({
       messageShown: true
