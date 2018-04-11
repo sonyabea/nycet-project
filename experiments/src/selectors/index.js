@@ -32,7 +32,6 @@ const getSelectionOptions = (argsList) => {
 export const getExperimentsPlotData = getPlotData('experiments')
 export const getDemographicsPlotData = getPlotData('demographics')
 
-
 export const getExperimentsSelectionOptions = state => createSelector(
 	[ getData, ...['election', 'org'].map(c => getSelected('experiments', c)) ],
 	(data, selectedElection, selectedOrg) => getSelectionOptions(arguments)

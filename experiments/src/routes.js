@@ -1,4 +1,4 @@
-import { ExperimentsByOrg, DemographicStats } from './components/ExperimentsContainer'
+import { ExperimentsByOrg, DemographicStats } from './components/Experiments'
 import { Redirect } from 'react-router-dom'
 
 const redirectFromHome = () => {

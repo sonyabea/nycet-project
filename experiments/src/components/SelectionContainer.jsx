@@ -1,12 +1,13 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import Selector from './Selector'
+import { getExperimentsSelectionOptions, getDemographicsSelectionOptions } from '../selectors'
 import { changeExperimentsFilter, changeDemographicsFilter } from '../actions'
 
 class SelectionContainer extends Component {
 
   handleChange() {
-    return 
+    return
   }
 
   render() {
@@ -18,11 +19,11 @@ class SelectionContainer extends Component {
 }
 
 export const ExperimentsSelectionContainer = connect(
-  null, 
-  { changeExperimentsFilter: changeFilter }
+  state => { selectionOptions: getExperimentsSelectionOptions(state) }, 
+  { changeFilter: changeExperimentsFilter }
 )(SelectionContainer)
 
 export const DemographicsSelectionContainer = connect(
-  null,
-  { changeDemographicsFilter: changeFilter } 
+  state => { selectionOptions: getDemographicsSelectionOptions(state) },
+  { changeFilter: changeDemographicsFilter } 
 )(SelectionContainer)

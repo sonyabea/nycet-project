@@ -3,8 +3,8 @@ import { changeFilter } from './index'
   
 const initialState = {
   selectors: {
-    org: null,
-    experiment: null
+    election: null,
+    org: null
   }
 }
 

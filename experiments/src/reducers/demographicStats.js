@@ -3,9 +3,9 @@ import { changeFilter } from './index'
   
 const initialState = {
   selectors: {
-    experiment: null,
-    demo1: null,
-    demo2: null
+    election: null,
+    demo_type_1: null,
+    demo_type_2: null
   }
 }
 
