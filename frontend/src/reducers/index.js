@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux';
-import { mapStateReducer } from './reducers';
+import { mapStateReducer, mapDimensionsReducer } from './reducers';
 
 const NYCETAppReducers = combineReducers({
-  mapComponents: mapStateReducer
+  mapComponents: mapStateReducer,
+  mapDimensions: mapDimensionsReducer
 });
 
 export default NYCETAppReducers;

@@ -16,6 +16,8 @@ const filterFiles = (geoFile, dataFile, mapRegionType, dataRegionType) => {
           filteredData]
   }
 
+//CREATE FUNCTION SOMEWHERE THAT MAPS KEYS OF FEATURES/DATA TO COMMON NAME -- COMPONENTS SHOULDNT HAVE TO WORRY ABOUT IT.
+
 export const loadMapData = () => ((dispatch) => {
 
 // export const determineGranularity = (dispatch) => {
@@ -52,6 +54,13 @@ export const loadMapData = () => ((dispatch) => {
 
 
 //MAP ACTIONS
-const storeMapData = (mapObj) => ({
-  type: 'SET_MAP_DATA',
-  payload: mapObj})
+const storeMapData = (mapObj) => (
+  {type: 'SET_MAP_DATA',
+   payload: mapObj}
+)
+
+export const setMapDimensions = (width, height) => (
+  {type: 'SET_MAP_DIMENSIONS',
+   payload: [width, height]}
+)
+

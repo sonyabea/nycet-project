@@ -1,5 +1,5 @@
 import React from 'react';
-//import MapContainer from './components/MapContainer.jsx';
+import MapContainer from './components/MapContainer.jsx';
 import DataMap from './components/Map.jsx';
 //import MapTooltip from './components/MapTooltip.jsx';
 import TopTen from './components/TopTen.jsx';
@@ -16,8 +16,10 @@ const Competitiveness = () => (
             </Header>
           </div>
           <Grid>
-            <Grid.Column width={10}>
+            <Grid.Column width={10} style={{ minHeight: 380 }}>
+              <MapContainer>
                 <DataMap />
+              </MapContainer>
             </Grid.Column>
             <Grid.Column width={5}>
               <Card>

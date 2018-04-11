@@ -11,7 +11,7 @@ body {
 }
 
 .map-container {
-  min-height: 500px;
+  height: 100%;
   background-color: #181819;
   border: 1px solid #454547;
   color: #cecaca;

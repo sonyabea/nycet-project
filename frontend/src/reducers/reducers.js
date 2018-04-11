@@ -15,6 +15,16 @@ export function mapStateReducer(state={
   }
 }
 
+//currently hardcoded for a 10-row table, don't @ me
+export function mapDimensionsReducer(state={mapDimensions: [0,471]}, action) {
+  switch (action.type) {
+    case 'SET_MAP_DIMENSIONS':
+      return action.payload
+    default:
+      return state
+  }
+}
+
 
 // export function selectedIdReducer(state=null, action){
 //   switch (action.type) {

@@ -4,8 +4,6 @@ const React = require('react');
 const d3 = require('d3');
  
 const Map = ({mapWidth, mapHeight, mapComponents}) => {
-  console.log(mapWidth)
-  console.log(mapComponents)
 
   let projection = d3.geoIdentity()
                  .reflectY(true)
@@ -14,8 +12,7 @@ const Map = ({mapWidth, mapHeight, mapComponents}) => {
   let path = d3.geoPath()
     .projection(projection)
 
-  let closenessExtent= d3.extent(mapComponents.geoData.values())
-
+  let closenessExtent = d3.extent(mapComponents.geoData.values())
   let color = d3.scaleLinear()
               .domain([closenessExtent[0], 0,
                        closenessExtent[1]])
@@ -49,8 +46,8 @@ const Map = ({mapWidth, mapHeight, mapComponents}) => {
 }
 
 const mapStateToProps = (state) => ({
-  mapHeight: 400,
-  mapWidth: 600,
+  mapWidth: state.mapDimensions[0],
+  mapHeight: state.mapDimensions[1],
   mapComponents: state.mapComponents})
 
 const DataMap = connect(mapStateToProps)(Map)
