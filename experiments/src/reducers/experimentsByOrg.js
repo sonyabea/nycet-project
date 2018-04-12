@@ -2,7 +2,7 @@ import { CHANGE_EXPERIMENTS_FILTER } from '../actions/'
 import { changeFilter } from './index'
   
 const initialState = {
-  selectors: {
+  selected: {
     election: null,
     demo_1_value: null
   },

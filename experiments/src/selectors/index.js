@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import _ from 'lodash'
 
-const getAllSelected = type => state => state[type].selectors
+const getAllSelected = type => state => state[type].selected
 const getAllData = state => state.data
 
 const getData = type => type === 'demographics' ? getAllData : state => createSelector(

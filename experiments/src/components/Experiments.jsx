@@ -1,5 +1,5 @@
 import React from 'react'
-import {ExperimentsSelectionContainer, DemographicsSelectionContainer} from './SelectionContainer'
+import {ExperimentsDropdownContainer, DemographicsDropdownContainer} from './DropdownContainer'
 import {ExperimentsPlotContainer, DemographicsPlotContainer} from './PlotContainer'
 
 const Experiments = (props) => {
@@ -9,7 +9,7 @@ const Experiments = (props) => {
 
   return (
     <div style={divStyle}>
-      {this.props.selectionContainer}
+      {this.props.dropdownContainer}
         {this.props.children}
       {this.props.plotContainer}
     </div>
@@ -19,8 +19,8 @@ const Experiments = (props) => {
 export const ExperimentsByOrg = (props) => {
   return (
     <ExperimentsContainer 
-      selectionContainer={ <ExperimentsSelectionContainer /> }
-      plotContainer = { <ExperimentsPlotContainer /> }
+      dropdownContainer={<ExperimentsDropdownContainer />}
+      plotContainer={<ExperimentsPlotContainer />}
     />
   )
 }
@@ -28,7 +28,7 @@ export const ExperimentsByOrg = (props) => {
 export const DemographicStats = (props) => {
   return (
     <Experiments 
-      selectionContainer={ <DemographicsSelectionContainer /> }
+      dropdownContainer={ <DemographicsDropdownContainer /> }
       plotContainer={ <DemographicsPlotContainer /> }
     >
       <GroupSizes />

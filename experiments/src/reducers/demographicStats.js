@@ -2,7 +2,7 @@ import { CHANGE_DEMOGRAPHICS_FILTER } from '../actions/'
 import { changeFilter } from './index'
   
 const initialState = {
-  selectors: {
+  selected: {
     election: null,
     demo_type_1: null,
     demo_type_2: null
