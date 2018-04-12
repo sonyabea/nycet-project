@@ -12,7 +12,6 @@ class DropdownContainer extends Component {
   }
 
   handleChange(e) {
-    debugger
     return
   }
 

@@ -1,7 +1,9 @@
 import { combineReducers } from 'redux'
+import _ from 'lodash'
 import data from './data'
 import demographics from './demographics'
 import experiments from './experiments'
+
 
 export default combineReducers({
 	data,
@@ -12,9 +14,16 @@ export default combineReducers({
 export const changeFilter = (state, action) => {
 	return { 
 		...state,
-		selectors: {
-			...state.selectors, 
+		selected: {
+			...state.selected, 
 			[action.category]: action.value
 		}
+	}
+}
+
+export const loadInitialSelection = (state, action, columns) => {
+	return { 
+		...state,
+		selected: _.pick(action.selection, columns)
 	}
 }

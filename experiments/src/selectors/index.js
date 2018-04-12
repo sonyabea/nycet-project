@@ -2,12 +2,12 @@ import { createSelector } from 'reselect'
 import _ from 'lodash'
 
 const getAllSelected = type => state => state[type].selected
-
-const getAllData = state => state.data
+const getAllData = state => state.data.all
+export const getLoading = state => state.data.loading
 
 const getData = type => type === 'demographics' ? getAllData : createSelector(
 	[ getAllData ],
-	data => _.filter(data, {'demo_1_type': 'org', 'demo_2_type': 'all'})
+	data =>	_.filter(data, {'dem1': 'org', 'dem2': null})
 )
 
 const getPlotData = type => createSelector(
@@ -22,21 +22,21 @@ const getSelected = (type, column) => createSelector(
 
 const getAllOrgs = createSelector(
 	[ getData('experiments'), getSelected('experiments', 'election') ],
-	(data, selectedElection) => _.filter(data, { ...selectedElection, demo_1_value: 'all'}) 
+	(data, selectedElection) => _.filter(data, { ...selectedElection, dem1_value: 'all'}) 
 )
 
 export const getExperimentsPlotData = createSelector(
 	[ getPlotData('experiments'), getAllOrgs ],
 	(filteredData, allOrgs) => [ ...filteredData, ...allOrgs ]
 		.map(d => {
-			return { ...d, x: d.demo_1_value }
+			return { ...d, x: d.dem1_value }
 		})
 )
 
 export const getDemographicsPlotData = createSelector(
 	[ getPlotData('demographics'), getAllSelected('demographics') ],
 	(data, allSelected) => {
-		let xAxis = allSelected.demo_2_value === 'all' ? 'demo_2_value' : 'demo_1_value'
+		let xAxis = allSelected.dem2_value === 'all' ? 'dem2_value' : 'dem1_value'
 		return data.map(d => { 
 			return {...d, x: d[xAxis] }
 		})
@@ -77,11 +77,11 @@ const getDropdownOptions = (data, selected) => selected.reduce(
 	).dropdownOptions
 
 export const getExperimentsDropdownOptions = createSelector(
-	[ getData('experiments'), ...['election', 'demo_1_value'].map(c => getSelected('experiments', c)) ],
+	[ getData('experiments'), ...['election', 'dem1_value'].map(c => getSelected('experiments', c)) ],
 	(data, selectedElection, selectedOrg) => getDropdownOptions(data, [selectedElection, selectedOrg]) 
 )
 
 export const getDemographicsDropdownOptions = createSelector(
-	[ getData('demographics'), ...['election', 'demo_type_1', 'demo_type_2'].map(c => getSelected('demographics', c)) ],
+	[ getData('demographics'), ...['election', 'dem1', 'dem2'].map(c => getSelected('demographics', c)) ],
 	(data, selectedElection, selectedDemo1, selectedDemo2) => getDropdownOptions(data, [selectedElection, selectedDemo1, selectedDemo2])
 )

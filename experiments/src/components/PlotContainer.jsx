@@ -5,7 +5,6 @@ import Plot from './Plot'
 import { getExperimentsPlotData, getDemographicsPlotData } from '../selectors'
 
 class PlotContainer extends Component {
-
   render() {
     return (
       <div class='plot-container'>
@@ -17,9 +16,9 @@ class PlotContainer extends Component {
 }
 
 export const ExperimentsPlotContainer = connect(
-  state => ({ plotData: getExperimentsPlotData })
+  state => ({ plotData: getExperimentsPlotData(state) })
 )(PlotContainer)
 
 export const DemographicsPlotContainer = connect(
-  state => ({ plotData: getDemographicsPlotData })
+  state => ({ plotData: getDemographicsPlotData(state) })
 )(PlotContainer)

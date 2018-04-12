@@ -3,15 +3,19 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import thunk from 'redux-thunk'
 import reducer from './reducers'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import { loadData } from './actions'
 import App from './App'
 import './index.css'
 
-const middleware = [ thunk ]
-const store = createStore(
-  reducer, applyMiddleware(...middleware)
+const finalCreateStore = compose(
+  applyMiddleware(thunk),
+  window.devToolsExtension ? window.devToolsExtension() : f => f
+)(createStore)
+
+const store = finalCreateStore(
+  reducer
 )
 
 store.dispatch(loadData())

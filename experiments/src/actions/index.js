@@ -1,7 +1,11 @@
 import axios from 'axios'
+import _ from 'lodash'
 export const LOAD_DATA = 'LOAD_DATA'
+export const SET_LOADING = 'SET_LOADING'
 export const CHANGE_EXPERIMENTS_FILTER = 'CHANGE_EXPERIMENTS_FILTER'
 export const CHANGE_DEMOGRAPHICS_FILTER = 'CHANGE_DEMOGRAPHICS_FILTER'
+export const LOAD_INITIAL_EXPERIMENTS_SELECTION = 'LOAD_INITIAL_EXPERIMENTS_SELECTION'
+export const LOAD_INITIAL_DEMOGRAPHICS_SELECTION = 'LOAD_INITIAL_DEMOGRAPHICS_SELECTION'
 
 const changeFilter = (type, category, value) => { 
   return { type, category, value }
@@ -11,8 +15,20 @@ const dispatchFilter = type => (category, value) => dispatch => dispatch(changeF
 export const changeExperimentsFilter = dispatchFilter(CHANGE_EXPERIMENTS_FILTER)
 export const changeDemographicsFilter = dispatchFilter(CHANGE_DEMOGRAPHICS_FILTER)
 
+const getInitialSelection = (data, filter) => _.chain(data)
+  .filter(filter)
+  .sortBy(d => (1 / d.control))
+  .value()[0]
+
 export const loadData = () => dispatch => {
   axios({ method: 'post', url: 'http://localhost:8080/table/cace_metrics/', data: {} })
-    .then(res => dispatch({ type: LOAD_DATA, data: res.data })
+    .then(res => {
+      dispatch({ type: LOAD_DATA, data: res.data })
+      let initialExperimentsSelection = getInitialSelection(res.data, {dem1: 'org', dem2: null})
+      let initialDemographicsSelection = getInitialSelection(res.data, {dem1: 'race'})
+      dispatch({ type: LOAD_INITIAL_EXPERIMENTS_SELECTION, selection: initialExperimentsSelection })
+      dispatch({ type: LOAD_INITIAL_DEMOGRAPHICS_SELECTION, selection: initialDemographicsSelection })
+      dispatch({ type: SET_LOADING, loading: false })
+    }
   )
 }
