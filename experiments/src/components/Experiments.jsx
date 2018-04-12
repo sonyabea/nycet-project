@@ -2,23 +2,23 @@ import React from 'react'
 import {ExperimentsDropdownContainer, DemographicsDropdownContainer} from './DropdownContainer'
 import {ExperimentsPlotContainer, DemographicsPlotContainer} from './PlotContainer'
 
-const Experiments = (props) => {
+const Experiments = ({dropdownContainer, children, plotContainer}) => {
   let divStyle = {
     backgroundColor: 'white'
   }
 
   return (
     <div style={divStyle}>
-      {this.props.dropdownContainer}
-        {this.props.children}
-      {this.props.plotContainer}
+      {dropdownContainer}
+        {children}
+      {plotContainer}
     </div>
   )
 }
 
 export const ExperimentsByOrg = (props) => {
   return (
-    <ExperimentsContainer 
+    <Experiments
       dropdownContainer={<ExperimentsDropdownContainer />}
       plotContainer={<ExperimentsPlotContainer />}
     />
@@ -31,7 +31,7 @@ export const DemographicStats = (props) => {
       dropdownContainer={ <DemographicsDropdownContainer /> }
       plotContainer={ <DemographicsPlotContainer /> }
     >
-      <GroupSizes />
+      {/* <GroupSizes /> */}
     </Experiments>
   )
 }

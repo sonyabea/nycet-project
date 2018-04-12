@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux'
 import data from './data'
-import demographicStats from './demographicStats'
-import experimentsByOrg from './experimentsByOrg'
+import demographics from './demographics'
+import experiments from './experiments'
 
 export default combineReducers({
 	data,
-	demographicStats,
-	experimentsByOrg
+	demographics,
+	experiments
 })
 
 export const changeFilter = (state, action) => {

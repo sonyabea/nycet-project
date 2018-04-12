@@ -1,24 +1,25 @@
 import React, { Component } from 'react'
-import connect from 'react-redux'
-import ExperimentInfo from './ExperimentInfo'
+import { connect } from 'react-redux'
+// import ExperimentInfo from './ExperimentInfo'
 import Plot from './Plot'
 import { getExperimentsPlotData, getDemographicsPlotData } from '../selectors'
 
 class PlotContainer extends Component {
+
   render() {
     return (
       <div class='plot-container'>
-        <ExperimentInfo info={plotInfo} />
-        <Plot data={plotData} />
+        {/* <ExperimentInfo info={plotInfo} /> */}
+        <Plot data={this.props.plotData} />
       </div>
     )
   }
 }
 
-export const ExperimentsPlotContainer = connnect(
-  state => {plotData: getExperimentsPlotData}
+export const ExperimentsPlotContainer = connect(
+  state => ({ plotData: getExperimentsPlotData })
 )(PlotContainer)
 
 export const DemographicsPlotContainer = connect(
-  state => {plotData: getDemographicsPlotData}
+  state => ({ plotData: getDemographicsPlotData })
 )(PlotContainer)

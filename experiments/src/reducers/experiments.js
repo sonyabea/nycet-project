@@ -9,7 +9,7 @@ const initialState = {
   data: null
 }
 
-const experimentsByOrg = (state = initialState, action) => {
+const experiments = (state = initialState, action) => {
   switch (action.type) {
     case CHANGE_EXPERIMENTS_FILTER:
       return changeFilter(state, action)
@@ -18,4 +18,4 @@ const experimentsByOrg = (state = initialState, action) => {
   }
 }
 
-export default experimentsByOrg
+export default experiments

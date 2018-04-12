@@ -12,6 +12,7 @@ export const changeExperimentsFilter = dispatchFilter(CHANGE_EXPERIMENTS_FILTER)
 export const changeDemographicsFilter = dispatchFilter(CHANGE_DEMOGRAPHICS_FILTER)
 
 export const loadData = () => dispatch => {
-  axios({ method: 'post', url: 'localhost:8080/table/cace_metrics/', data: {} })
-    .then(res => dispatch({ type: LOAD_DATA, data }))
+  axios({ method: 'post', url: 'http://localhost:8080/table/cace_metrics/', data: {} })
+    .then(res => dispatch({ type: LOAD_DATA, data: res.data })
+  )
 }

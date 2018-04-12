@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Dropdown from './Dropdown'
+import CustomDropdown from './CustomDropdown'
 import { getExperimentsDropdownOptions, getDemographicsDropdownOptions } from '../selectors'
 import { changeExperimentsFilter, changeDemographicsFilter } from '../actions'
 
@@ -8,29 +8,29 @@ class DropdownContainer extends Component {
 
   componentDidMount() {
     // set default values
-    let { dropdownOptions } = this.props
-
+    return
   }
 
   handleChange(e) {
     debugger
+    return
   }
 
   render() {
-    let { selectionOptions } = this.props
+    let { dropdownOptions } = this.props
     let selectorObjs = Object.keys(dropdownOptions).map((key, index) =>
-      <Selector key={index} type={key} options={dropdownOptions[key]} />
+      <CustomDropdown key={index} type={key} options={dropdownOptions[key]} />
     )
     return <div>{selectorObjs}</div>
   }
 }
 
 export const ExperimentsDropdownContainer = connect(
-  state => { dropdownOptions: getExperimentsDropdownOptions(state) }, 
+  state => ({ dropdownOptions: getExperimentsDropdownOptions(state) }),
   { changeFilter: changeExperimentsFilter }
 )(DropdownContainer)
 
 export const DemographicsDropdownContainer = connect(
-  state => { dropdownOptions: getDemographicsDropdownOptions(state) },
+  state => ({ dropdownOptions: getDemographicsDropdownOptions(state) }),
   { changeFilter: changeDemographicsFilter } 
 )(DropdownContainer)

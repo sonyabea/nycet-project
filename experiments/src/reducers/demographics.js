@@ -9,7 +9,7 @@ const initialState = {
   }
 }
 
-const demographicStats = (state = initialState, action) => {
+const demographics = (state = initialState, action) => {
   switch (action.type) {
     case CHANGE_DEMOGRAPHICS_FILTER:
       return changeFilter(state, action)
@@ -18,4 +18,4 @@ const demographicStats = (state = initialState, action) => {
   }
 }
 
-export default demographicStats
+export default demographics
