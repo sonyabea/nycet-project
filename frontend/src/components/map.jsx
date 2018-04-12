@@ -1,4 +1,4 @@
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'; 
 import { loadMapData } from '../actions/index';
 const React = require('react');
@@ -22,15 +22,17 @@ const Map = ({mapWidth, mapHeight, mapComponents, depthLevel, drillDown}) => {
   let renderShapes = () => (mapComponents.geoJson.features.map((d,i) => {
       // let selected = (d.properties[props.mapRegionType] === props.selectedId) ? 'glow' : 'district'
       return (
-      // <Link key={`link-${i}`} to={{pathname: `/AD/${d.properties[props.mapRegionType]}`}}>
+      //'AD' is hardcoded here, but that should eventually come from store
+      <Link key={`link-${i}`} to={{pathname: `/AD/${d.properties.districtNumber}`}}>
         <path
           data={d}
           key={ `path-${ i }` }
           d={ `${d3.geoPath().projection(projection)(d)}` }
           fill={ `${ color(mapComponents.geoData.get(d.properties.districtNumber))}`}
           onClick={() => (drillDown(depthLevel, d.properties.districtNumber))}
+          className='district'
         />
-      // </Link>
+      </Link>
       )
     }
 )

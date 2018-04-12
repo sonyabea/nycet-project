@@ -14,7 +14,7 @@ class MapContainerComponent extends Component{
     return shouldResize
     
   }
-
+  //this is busted; when you get a chance, figure out a way to be responsive here
   getDimensions(){
     let shouldResize = this.node.clientWidth !== this.props.width
     if (shouldResize) {

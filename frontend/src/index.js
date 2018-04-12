@@ -11,23 +11,28 @@ import { Route } from 'react-router-dom';
 import Competitiveness from './App.jsx';
 import NYCETAppReducers from './reducers/index';
 import { loadMapData } from './actions/index';
+import registerServiceWorker from './registerServiceWorker'
 
 let store = createStore(NYCETAppReducers, applyMiddleware(thunkMiddleware))
 
 //initially load top-level data, with no selection.
 store.dispatch(loadMapData(0, null))
 
-const announce = () => console.log(store.getState())
+// debugging helper
+// const announce = () => console.log(store.getState())
+// setInterval(announce, 7000)
 
-setInterval(announce, 7000)
-
+//eventually, put a top level "Competetiveness" container component and allocate
+//components per route -- e.g., detail pages etc.
 ReactDOM.render(
 <Provider store={store}>
   <BrowserRouter>
     <div>
-      <Route path='/' component={Competitiveness} />
+      <Route path='/:parentDistType?/:parentDistId?' component={Competitiveness} />
     </div>
   </BrowserRouter>
 </Provider>,
   document.getElementById('root')
 );
+
+registerServiceWorker();
