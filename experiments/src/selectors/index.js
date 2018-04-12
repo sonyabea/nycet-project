@@ -22,7 +22,13 @@ const getSelectionOptions = (argsList) => {
 	let selectionOptions = {}
 	argsList.slice(1).reduce((a, b) => {
 		let key = _.keys(b)[0]
-		selectionOptions[key] = _.chain(a).map(b).uniq().value()
+		selectionOptions[key] = _.chain(a) // omg
+			.groupBy(b)
+			.mapValues(v => _.sumBy(v, 'control'))
+			.toPairs()
+			.sortBy(x => 1 / x[1]) // hopefully there aren't any zeros
+			.flatMap(x => x[0])
+			.value()
 		return _.filter(a, b)
 	}, argsList[0])
 	// do a null check for selectionOptions

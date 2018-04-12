@@ -6,6 +6,10 @@ import { changeExperimentsFilter, changeDemographicsFilter } from '../actions'
 
 class SelectionContainer extends Component {
 
+  componentDidMount() {
+    return
+  }
+
   handleChange() {
     return
   }
