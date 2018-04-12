@@ -1,7 +1,8 @@
-import React from 'react';
-import { Switch, Route } from 'react-router';
+import React from 'react'
+import { Switch, Route } from 'react-router'
 import routesInfo from './routes'
-import './App.css';
+import Headers from './headers'
+import './App.css'
 
 const App = (props) => {
 
@@ -9,7 +10,7 @@ const App = (props) => {
   let routes = routesInfo.map(r => <Route { ...r } />)
   return (
     <div className="App">
-      <HeadersContainer linksInfo={linksInfo} />
+      <Headers linksInfo={linksInfo} />
       <Switch>
         {routes}
       </Switch>

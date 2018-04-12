@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Selector from './Selector'
 import { getExperimentsSelectionOptions, getDemographicsSelectionOptions } from '../selectors'
@@ -15,8 +15,9 @@ class SelectionContainer extends Component {
   }
 
   render() {
-    let selectorObjs = this.props.selectorsInfo.map((selectionInfo, index) =>
-      <Selector key={index} {...selectionInfo} />
+    let { selectionOptions } = this.props
+    let selectorObjs = Object.keys(selectionOptions).map((key, index) =>
+      <Selector key={index} type={key} options={selectionOptions[key]} />
     )
     return <div>{selectorObjs}</div>
   }

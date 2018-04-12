@@ -4,7 +4,6 @@ import demographicStats from './demographicStats'
 import experimentsByOrg from './experimentsByOrg'
 
 export default combineReducers({
-	data,
 	demographicStats,
 	experimentsByOrg
 })

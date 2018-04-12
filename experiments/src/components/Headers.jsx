@@ -1,9 +1,8 @@
 import React from 'react'
-import {ExperimentsByOrg, DemographicStats} from './ExperimentsContainer'
-import {NavLink} from 'react-router-dom'
 
-const Header = ({path, name}) => {
-  return <NavLink to={path}>{name}</NavLink>
+const Headers = ({linksInfo}) => {
+  let headers = linksInfo.map(l => <Header { ...l } />)
+  return <div>{headers}</div>
 }
 
-export default Header
+export default Headers
