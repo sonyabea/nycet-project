@@ -2,7 +2,6 @@ import axios from 'axios'
 export const LOAD_DATA = 'LOAD_DATA'
 export const CHANGE_EXPERIMENTS_FILTER = 'CHANGE_EXPERIMENTS_FILTER'
 export const CHANGE_DEMOGRAPHICS_FILTER = 'CHANGE_DEMOGRAPHICS_FILTER'
- 
 
 const changeFilter = (type, category, value) => { 
   return { type, category, value }

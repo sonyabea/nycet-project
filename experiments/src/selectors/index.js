@@ -2,7 +2,12 @@ import { createSelector } from 'reselect'
 import _ from 'lodash'
 
 const getAllSelected = type => state => state[type].selectors
-const getData = type => state => state[type].data
+const getAllData = state => state.data
+
+const getData = type => type === 'demographics' ? getAllData : state => createSelector(
+	[ getAllData ],
+	data => _.filter(data, {'demo_1_type': 'org', 'demo_2_type': 'all'})
+)
 
 const getPlotData = type => state => createSelector(
 	[ getData(type), getAllSelected(type) ],
@@ -16,14 +21,14 @@ const getSelected = (type, column) => state => createSelector(
 
 const getAllOrgs = state => createSelector(
 	[ getData('experiments'), getSelected('experiments', 'election') ],
-	(data, selectedElection) => _.filter(data, { ...selectedElection, org: 'all'}) 
+	(data, selectedElection) => _.filter(data, { ...selectedElection, demo_1_value: 'all'}) 
 )
 
 export const getExperimentsPlotData = state => createSelector(
-	[ getPlotData('experiments'), getAllOrgs('experiments') ],
+	[ getPlotData('experiments'), getAllOrgs ],
 	(filteredData, allOrgs) => [ ...filteredData, ...allOrgs ]
 		.map(d => {
-			return { ...d, x: d.org }
+			return { ...d, x: d.demo_1_value }
 		})
 )
 
@@ -71,7 +76,7 @@ const getSelectionOptions = (argsList) => argsList.slice(1).reduce(
 	}).selectionOptions
 
 export const getExperimentsSelectionOptions = state => createSelector(
-	[ getData('experiments'), ...['election', 'org'].map(c => getSelected('experiments', c)) ],
+	[ getData('experiments'), ...['election', 'demo_1_value'].map(c => getSelected('experiments', c)) ],
 	(data, selectedElection, selectedOrg) => getSelectionOptions(arguments)
 )
 
