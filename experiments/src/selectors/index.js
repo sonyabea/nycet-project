@@ -5,35 +5,54 @@ const getAllSelected = type => state => state[type].selectors
 const getData = type => state => state[type].data
 
 const getPlotData = type => state => createSelector(
-	[getData(type), getAllSelected(type)],
+	[ getData(type), getAllSelected(type) ],
 	(data, allSelected) => _.filter(data, allSelected)
 )
 
 const getSelected = (type, column) => state => createSelector(
-	[getAllSelected(type)],
+	[ getAllSelected(type) ],
 	allSelected => _.pick(allSelected, column)
 )
 
 const getAllOrgs = state => createSelector(
-	[getData('experiments'), getSelected('experiments', 'election')],
+	[ getData('experiments'), getSelected('experiments', 'election') ],
 	(data, selectedElection) => _.filter(data, { ...selectedElection, org: 'all'}) 
 )
 
 export const getExperimentsPlotData = state => createSelector(
-	[getPlotData('experiments'), getAllOrgs('experiments')],
+	[ getPlotData('experiments'), getAllOrgs('experiments') ],
 	(filteredData, allOrgs) => [ ...filteredData, ...allOrgs ]
+		.map(d => {
+			return { ...d, x: d.org }
+		})
 )
 
-export const getDemographicsPlotData = getPlotData('demographics')
+export const getDemographicsPlotData = state => createSelector(
+	[ getPlotData('demographics'), getAllSelected('demographics') ],
+	(data, allSelected) => {
+		let xAxis = allSelected.demo_2_value === 'all' ? 'demo_2_value' : 'demo_1_value'
+		return data.map(d => { 
+			return {...d, x: d[xAxis] }
+		})
+	}
+)
 
 export const getSizeOfGroups = state => createSelector(
-	[getData('demographics'), getSelected('demographics', 'election')],
-	(data, selectedElection) => _.chain(data).filter(selectedElection).pick(['control', 'treatment']).value()
+	[ getPlotData('demographics') ],
+	data => _.chain(data)
+		.map(_.pick(['control', 'treatment']))
+		.reduce((a, b) => {
+			return {
+				control: a.control + b.control,
+				treatment: a.treatment + b.treatment
+			}
+		})
+		.value()
 )
 
 // take data, get first column (sorted by sum of control), store
 // filter data over first column, get second column (sorted by sum of control), store
-// keep going (okay there's no way anyone's reading this)
+// keep going (okay there's no way anyone's gonna be able to this)
 
 const getSelectionOptions = (argsList) => argsList.slice(1).reduce(
 	(a, b) => {
