@@ -6,6 +6,7 @@ const initialState = {
     election: null,
     dem1_value: null
   },
+  order: ['election', 'dem1_value']
 }
 
 const experiments = (state = initialState, action) => {

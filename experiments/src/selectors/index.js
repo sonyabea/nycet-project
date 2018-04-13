@@ -1,11 +1,14 @@
 import { createSelector } from 'reselect'
 import _ from 'lodash'
 
-const getAllData = state => state.data.all
-export const getAllSelected = type => state => state[type].selected
+
 export const getLoading = state => state.data.loading
 
-const getData = type => type === 'demographics' ? getAllData : createSelector(
+const getAllData = state => state.data.all
+export const getAllSelected = type => state => state[type].selected
+export const getOrder = type => state => state[type].order
+
+export const getData = type => type === 'demographics' ? getAllData : createSelector(
 	[ getAllData ],
 	data =>	_.filter(data, {'dem1': 'org', 'dem2': null})
 )
@@ -62,7 +65,7 @@ export const getSizeOfGroups = createSelector(
 // filter data over first column, get second column (sorted by sum of control), store
 // keep going (okay there's no way anyone's gonna be able to this)
 
-const getDropdownOptions = (data, selected) => selected.reduce(
+const deriveDropdownOptions = (data, selected) => selected.reduce(
 	(a, b) => {
 		let { data: currentData, dropdownOptions } = a
 		let key = _.keys(b)[0]
@@ -79,12 +82,17 @@ const getDropdownOptions = (data, selected) => selected.reduce(
 	{ data, 'dropdownOptions': {} }
 	).dropdownOptions
 
-export const getExperimentsDropdownOptions = createSelector(
+
+// refactor this to just be able to enter type
+const getExperimentsDropdownOptions = createSelector(
 	[ getData('experiments'), ...['election', 'dem1_value'].map(c => getSelected('experiments', c)) ],
-	(data, selectedElection, selectedOrg) => getDropdownOptions(data, [selectedElection, selectedOrg]) 
+	(data, selectedElection, selectedOrg) => deriveDropdownOptions(data, [selectedElection, selectedOrg]) 
 )
 
-export const getDemographicsDropdownOptions = createSelector(
+const getDemographicsDropdownOptions = createSelector(
 	[ getData('demographics'), ...['election', 'dem1', 'dem2'].map(c => getSelected('demographics', c)) ],
-	(data, selectedElection, selectedDemo1, selectedDemo2) => getDropdownOptions(data, [selectedElection, selectedDemo1, selectedDemo2])
+	(data, selectedElection, selectedDemo1, selectedDemo2) => deriveDropdownOptions(data, [selectedElection, selectedDemo1, selectedDemo2])
 )
+
+export const getDropdownOptions = type => 
+	type === 'experiments' ? getExperimentsDropdownOptions : getDemographicsDropdownOptions

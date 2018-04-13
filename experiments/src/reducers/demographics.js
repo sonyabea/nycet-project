@@ -6,7 +6,8 @@ const initialState = {
     election: null,
     dem1: null,
     dem2: null
-  }
+  },
+  order: ['election', 'dem1', 'dem2']
 }
 
 const demographics = (state = initialState, action) => {
