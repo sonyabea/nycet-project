@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect'
 import _ from 'lodash'
 
-
 export const getLoading = state => state.data.loading
 
 const getAllData = state => state.data.all
@@ -82,17 +81,12 @@ const deriveDropdownOptions = (data, selected) => selected.reduce(
 	{ data, 'dropdownOptions': {} }
 	).dropdownOptions
 
-
-// refactor this to just be able to enter type
-const getExperimentsDropdownOptions = createSelector(
-	[ getData('experiments'), ...['election', 'dem1_value'].map(c => getSelected('experiments', c)) ],
-	(data, selectedElection, selectedOrg) => deriveDropdownOptions(data, [selectedElection, selectedOrg]) 
+const getOrderedSelected = type => createSelector(
+	[ getOrder(type), getAllSelected(type) ],
+	(order, allSelected) => order.map(c => _.pick(allSelected, c))
 )
 
-const getDemographicsDropdownOptions = createSelector(
-	[ getData('demographics'), ...['election', 'dem1', 'dem2'].map(c => getSelected('demographics', c)) ],
-	(data, selectedElection, selectedDemo1, selectedDemo2) => deriveDropdownOptions(data, [selectedElection, selectedDemo1, selectedDemo2])
+export const getDropdownOptions = type => createSelector(
+	[ getData(type), getOrderedSelected(type) ],
+	deriveDropdownOptions
 )
-
-export const getDropdownOptions = type => 
-	type === 'experiments' ? getExperimentsDropdownOptions : getDemographicsDropdownOptions
