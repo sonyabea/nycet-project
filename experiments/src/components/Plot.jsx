@@ -8,8 +8,6 @@ const Plot = ({data}) => {
     .map(d => ({ ...d, min: d.ci_low, max: d.ci_high }))
     .map(d => _.pick(d, ['x', 'min', 'median', 'max', 'q1', 'q3']))
 
-  debugger
-
   return (
     <VictoryChart domainPadding={20}>
       <VictoryBoxPlot

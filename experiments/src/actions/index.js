@@ -17,7 +17,7 @@ export const changeDemographicsFilter = dispatchFilter(CHANGE_DEMOGRAPHICS_FILTE
 
 const getInitialSelection = data => filter => _.chain(data)
   .filter(filter)
-  .sortBy(d => (1 / d.control))
+  .sortBy(d => (1 / d.control_pop))
   .value()[0]
 
 export const loadData = () => dispatch => {

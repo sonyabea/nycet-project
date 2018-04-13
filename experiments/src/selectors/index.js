@@ -14,10 +14,7 @@ export const getData = type => type === 'demographics' ? getAllData : createSele
 
 const getPlotData = type => createSelector(
 	[ getData(type), getAllSelected(type) ],
-	(data, allSelected) => {
-		debugger
-		return _.filter(data, allSelected)
-	}
+	(data, allSelected) => _.filter(data, allSelected)
 )
 
 const getSelected = (type, column) => createSelector(
@@ -33,35 +30,31 @@ const getAllOrgs = createSelector(
 export const getExperimentsPlotData = createSelector(
 	[ getPlotData('experiments'), getAllOrgs ],
 	(filteredData, allOrgs) => [ ...filteredData, ...allOrgs ]
-		.map(d => {
-			return { ...d, x: d.dem1_value }
-		})
+		.map(d => ({ ...d, x: d.dem1_value }))
 )
 
 export const getDemographicsPlotData = createSelector(
 	[ getPlotData('demographics'), getAllSelected('demographics') ],
-	(data, allSelected) => {
-		return !allSelected.dem2 ?
+	(data, allSelected) => !allSelected.dem2 ?
 			data.map(d => ({ ...d, x: d.dem1_value })) :
 			data.map(d => ({ ...d, x: (d.dem1_value + ' / ' + d.dem2_value) }))
-	}
 )
 
 export const getSizeOfGroups = createSelector(
 	[ getPlotData('demographics') ],
 	data => _.chain(data)
-		.map(_.pick(['control', 'treatment']))
+		.map(_.pick(['control_pop', 'treatment_pop']))
 		.reduce((a, b) => {
 			return {
-				control: a.control + b.control,
-				treatment: a.treatment + b.treatment
+				control_pop: a.control_pop + b.control_pop,
+				treatment_pop: a.treatment_pop + b.treatment_pop
 			}
 		})
 		.value()
 )
 
-// take data, get first column (sorted by sum of control), store
-// filter data over first column, get second column (sorted by sum of control), store
+// take data, get first column (sorted by sum of control_pop), store
+// filter data over first column, get second column (sorted by sum of control_pop), store
 // keep going (okay there's no way anyone's gonna be able to this)
 
 const deriveDropdownOptions = (data, selected) => selected.reduce(
@@ -70,13 +63,13 @@ const deriveDropdownOptions = (data, selected) => selected.reduce(
 		let key = _.keys(b)[0]
 		let dropdownTexts = _.chain(currentData)
 			.groupBy(key)
-			.mapValues(v => _.sumBy(v, 'control'))
+			.mapValues(v => _.sumBy(v, 'control_pop'))
 			.toPairs()
 			.sortBy(x => 1 / x[1]) // hopefully there aren't any zeros
 			.flatMap(x => x[0])
 			.value()
-		dropdownOptions[key] = dropdownTexts.map((d, i) => ({key: i, text: d}))
-		return { data: _.filter(currentData, b), dropdownOptions }
+		let newDropdownOptions = { ...dropdownOptions, [key]: dropdownTexts.map((d, i) => ({key: i, text: d})) }
+		return { data: _.filter(currentData, b), dropdownOptions: newDropdownOptions }
 	},
 	{ data, 'dropdownOptions': {} }
 	).dropdownOptions
