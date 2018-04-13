@@ -36,9 +36,9 @@ export const getExperimentsPlotData = createSelector(
 export const getDemographicsPlotData = createSelector(
 	[ getPlotData('demographics'), getAllSelected('demographics') ],
 	(data, allSelected) => {
-		let xAxis = allSelected.dem2_value === 'all' ? 'dem2_value' : 'dem1_value'
+		let xAxis = !allSelected.dem2 ? 'dem1_value' : 'dem2_value'
 		return data.map(d => { 
-			return {...d, x: d[xAxis] }
+			return { ...d, x: d[xAxis] }
 		})
 	}
 )
@@ -62,15 +62,16 @@ export const getSizeOfGroups = createSelector(
 
 const getDropdownOptions = (data, selected) => selected.reduce(
 	(a, b) => {
-		let { currentData, dropdownOptions } = a
+		let { data: currentData, dropdownOptions } = a
 		let key = _.keys(b)[0]
-		dropdownOptions[key] = _.chain(currentData)
+		let dropdownTexts = _.chain(currentData)
 			.groupBy(key)
 			.mapValues(v => _.sumBy(v, 'control'))
 			.toPairs()
 			.sortBy(x => 1 / x[1]) // hopefully there aren't any zeros
 			.flatMap(x => x[0])
 			.value()
+		dropdownOptions[key] = dropdownTexts.map((d, i) => ({key: i, text: d}))
 		return { data: _.filter(currentData, b), dropdownOptions }
 	},
 	{ data, 'dropdownOptions': {} }

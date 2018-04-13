@@ -18,7 +18,7 @@ class DropdownContainer extends Component {
   render() {
     let { dropdownOptions } = this.props
     let selectorObjs = Object.keys(dropdownOptions).map((key, index) =>
-      <CustomDropdown key={index} type={key} options={dropdownOptions[key]} />
+      <CustomDropdown type={key} key={index} options={dropdownOptions[key]} />
     )
     return <div>{selectorObjs}</div>
   }

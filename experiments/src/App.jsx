@@ -1,6 +1,4 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { getLoading } from './selectors'
+import React from 'react'
 import routesInfo from './routes'
 import { Switch, Route } from 'react-router'
 import Headers from './components/Headers'
@@ -17,8 +15,8 @@ const App = (props) => {
   )
 }
 
-const SmartApp = connect(
-  state => ({loading: getLoading(state)})
-)(App)
+// const SmartApp = connect(
+//   state => ({loading: getLoading(state)})
+// )(App)
 
-export default SmartApp;
+export default App;
