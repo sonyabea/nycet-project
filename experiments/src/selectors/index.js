@@ -12,7 +12,10 @@ const getData = type => type === 'demographics' ? getAllData : createSelector(
 
 const getPlotData = type => createSelector(
 	[ getData(type), getAllSelected(type) ],
-	(data, allSelected) => _.filter(data, allSelected)
+	(data, allSelected) => {
+		debugger
+		return _.filter(data, allSelected)
+	}
 )
 
 const getSelected = (type, column) => createSelector(
@@ -36,10 +39,9 @@ export const getExperimentsPlotData = createSelector(
 export const getDemographicsPlotData = createSelector(
 	[ getPlotData('demographics'), getAllSelected('demographics') ],
 	(data, allSelected) => {
-		let xAxis = !allSelected.dem2 ? 'dem1_value' : 'dem2_value'
-		return data.map(d => { 
-			return { ...d, x: d[xAxis] }
-		})
+		return !allSelected.dem2 ?
+			data.map(d => ({ ...d, x: d.dem1_value })) :
+			data.map(d => ({ ...d, x: (d.dem1_value + ' / ' + d.dem2_value) }))
 	}
 )
 

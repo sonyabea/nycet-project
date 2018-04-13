@@ -11,16 +11,15 @@ export default combineReducers({
 	experiments
 })
 
-export const changeFilter = (state, action) => {
-	debugger
-	return { 
+export const changeFilter = (state, action) => (
+	{
 		...state,
 		selected: {
 			...state.selected,
 			...action.payload
 		}
 	}
-}
+)
 
 export const loadInitialSelection = (state, action, columns) => {
 	return { 

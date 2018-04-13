@@ -15,7 +15,7 @@ const dispatchFilter = type => (payload) => dispatch => dispatch(changeFilter(ty
 export const changeExperimentsFilter = dispatchFilter(CHANGE_EXPERIMENTS_FILTER)
 export const changeDemographicsFilter = dispatchFilter(CHANGE_DEMOGRAPHICS_FILTER)
 
-const getInitialSelection = (data, filter) => _.chain(data)
+const getInitialSelection = data => filter => _.chain(data)
   .filter(filter)
   .sortBy(d => (1 / d.control))
   .value()[0]
@@ -24,10 +24,9 @@ export const loadData = () => dispatch => {
   axios({ method: 'post', url: 'http://localhost:8080/table/cace_metrics/', data: {} })
     .then(res => {
       dispatch({ type: LOAD_DATA, data: res.data })
-      let initialExperimentsSelection = getInitialSelection(res.data, {dem1: 'org', dem2: null})
-      let initialDemographicsSelection = getInitialSelection(res.data, {dem1: 'race'})
-      dispatch({ type: LOAD_INITIAL_EXPERIMENTS_SELECTION, selection: initialExperimentsSelection })
-      dispatch({ type: LOAD_INITIAL_DEMOGRAPHICS_SELECTION, selection: initialDemographicsSelection })
+      let initiate = getInitialSelection(res.data)
+      dispatch({ type: LOAD_INITIAL_EXPERIMENTS_SELECTION, selection: initiate({dem1: 'org', dem2: null}) })
+      dispatch({ type: LOAD_INITIAL_DEMOGRAPHICS_SELECTION, selection: initiate({dem1: 'race'}) })
       dispatch({ type: SET_LOADING, loading: false })
     }
   )

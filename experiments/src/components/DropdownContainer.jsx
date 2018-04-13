@@ -18,7 +18,8 @@ class DropdownContainer extends Component {
         key={index}
         options={dropdownOptions[key]}
         text={selected[key]}
-        handleChange={this.handleChange.bind(this)} />
+        handleChange={this.handleChange.bind(this)}
+      />
     )
     return <div>{selectorObjs}</div>
   }
