@@ -1,24 +1,31 @@
-import React from 'react'
-import {ExperimentsDropdownContainer, DemographicsDropdownContainer} from './DropdownContainer'
-import {ExperimentsPlotContainer, DemographicsPlotContainer} from './PlotContainer'
+import React, { Component } from 'react'
+// import { Loader } from 'semantic-ui-react'
+import { connect } from 'react-redux'
+import { ExperimentsDropdownContainer, DemographicsDropdownContainer } from './DropdownContainer'
+import { ExperimentsPlotContainer, DemographicsPlotContainer } from './PlotContainer'
+import { getLoading } from '../selectors'
 
-const Experiments = ({dropdownContainer, children, plotContainer}) => {
-  let divStyle = {
-    backgroundColor: 'white'
+class Experiments extends Component {
+  
+  render () {
+    let { dropdownContainer, plotContainer, children, loading } = this.props
+    return loading ? null : (
+      <div>
+        {dropdownContainer}
+          {children}
+        {plotContainer}
+      </div>
+    )
   }
-
-  return (
-    <div style={divStyle}>
-      {dropdownContainer}
-        {children}
-      {plotContainer}
-    </div>
-  )
 }
+
+const ExperimentsContainer = connect(
+  state => ({ loading: getLoading(state) })
+)(Experiments)
 
 export const ExperimentsByOrg = (props) => {
   return (
-    <Experiments
+    <ExperimentsContainer
       dropdownContainer={<ExperimentsDropdownContainer />}
       plotContainer={<ExperimentsPlotContainer />}
     />
@@ -27,11 +34,11 @@ export const ExperimentsByOrg = (props) => {
 
 export const DemographicStats = (props) => {
   return (
-    <Experiments 
+    <ExperimentsContainer
       dropdownContainer={ <DemographicsDropdownContainer /> }
       plotContainer={ <DemographicsPlotContainer /> }
     >
       {/* <GroupSizes /> */}
-    </Experiments>
+    </ExperimentsContainer>
   )
 }

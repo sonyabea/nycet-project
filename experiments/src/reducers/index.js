@@ -12,11 +12,12 @@ export default combineReducers({
 })
 
 export const changeFilter = (state, action) => {
+	debugger
 	return { 
 		...state,
 		selected: {
-			...state.selected, 
-			[action.category]: action.value
+			...state.selected,
+			...action.payload
 		}
 	}
 }

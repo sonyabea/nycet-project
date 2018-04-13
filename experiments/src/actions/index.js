@@ -7,10 +7,10 @@ export const CHANGE_DEMOGRAPHICS_FILTER = 'CHANGE_DEMOGRAPHICS_FILTER'
 export const LOAD_INITIAL_EXPERIMENTS_SELECTION = 'LOAD_INITIAL_EXPERIMENTS_SELECTION'
 export const LOAD_INITIAL_DEMOGRAPHICS_SELECTION = 'LOAD_INITIAL_DEMOGRAPHICS_SELECTION'
 
-const changeFilter = (type, category, value) => { 
-  return { type, category, value }
+const changeFilter = (type, payload) => { 
+  return { type, payload }
 }
-const dispatchFilter = type => (category, value) => dispatch => dispatch(changeFilter(type, category, value))
+const dispatchFilter = type => (payload) => dispatch => dispatch(changeFilter(type, payload))
 
 export const changeExperimentsFilter = dispatchFilter(CHANGE_EXPERIMENTS_FILTER)
 export const changeDemographicsFilter = dispatchFilter(CHANGE_DEMOGRAPHICS_FILTER)
