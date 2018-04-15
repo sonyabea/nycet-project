@@ -6,7 +6,6 @@ import { ExperimentsPlotContainer, DemographicsPlotContainer } from './PlotConta
 import { getLoading } from '../selectors'
 
 class Experiments extends Component {
-  
   render () {
     let { dropdownContainer, plotContainer, children, loading } = this.props
     return loading ? null : (
@@ -38,7 +37,7 @@ export const DemographicStats = (props) => {
       dropdownContainer={ <DemographicsDropdownContainer /> }
       plotContainer={ <DemographicsPlotContainer /> }
     >
-      {/* <GroupSizes /> */}
+    {/* { <GroupSizes />} */}
     </ExperimentsContainer>
   )
 }

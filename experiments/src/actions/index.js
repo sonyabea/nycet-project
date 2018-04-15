@@ -6,14 +6,7 @@ export const CHANGE_EXPERIMENTS_FILTER = 'CHANGE_EXPERIMENTS_FILTER'
 export const CHANGE_DEMOGRAPHICS_FILTER = 'CHANGE_DEMOGRAPHICS_FILTER'
 export const LOAD_INITIAL_EXPERIMENTS_SELECTION = 'LOAD_INITIAL_EXPERIMENTS_SELECTION'
 export const LOAD_INITIAL_DEMOGRAPHICS_SELECTION = 'LOAD_INITIAL_DEMOGRAPHICS_SELECTION'
-
-const changeFilter = (type, payload) => { 
-  return { type, payload }
-}
-const dispatchFilter = type => (payload) => dispatch => dispatch(changeFilter(type, payload))
-
-export const changeExperimentsFilter = dispatchFilter(CHANGE_EXPERIMENTS_FILTER)
-export const changeDemographicsFilter = dispatchFilter(CHANGE_DEMOGRAPHICS_FILTER)
+export const CHANGE_DEMO_GROUP_SELECTIONS = 'CHANGE_DEMO_GROUP_SELECTIONS'
 
 const getInitialSelection = data => filter => _.chain(data)
   .filter(filter)
@@ -31,3 +24,11 @@ export const loadData = () => dispatch => {
     }
   )
 }
+
+const changeFilter = (type, payload) => { 
+  return { type, payload }
+}
+const dispatchFilter = type => (payload) => dispatch => dispatch(changeFilter(type, payload))
+
+export const changeExperimentsFilter = dispatchFilter(CHANGE_EXPERIMENTS_FILTER)
+export const changeDemographicsFilter = dispatchFilter(CHANGE_DEMOGRAPHICS_FILTER)

@@ -1,16 +1,46 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-// import ExperimentInfo from './ExperimentInfo'
 import Plot from './Plot'
+import DemoSelections from './DemoSelections'
 import { getExperimentsPlotData, getDemographicsPlotData, getLoading } from '../selectors'
 
 class PlotContainer extends Component {
-  render() {
+
+  render () {
     return (
       <div>
+        <Plot data={this.props.plotData} />
         {this.props.children}
-        <Plot data={this.props.plotData} loading={this.props.loading} />
       </div>
+    )
+  }
+}
+
+class PlotContainerWithSelector extends Component {
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      currentlySelected: []
+    }
+  }
+
+  handleClick (event, element) {
+    if (element.checked) {
+      this.setState({currentlySelected: [...this.state.currentlySelected, element.label]})
+    } else {
+      this.setState({currentlySelected: this.state.currentlySelected.filter(selection => selection !== element.label)})
+    }
+
+  }
+
+  render() {
+    let demoSelectionOptions = this.props.plotData.map(d => d.x)
+    let filteredPlotData = this.props.plotData.filter(d => this.state.currentlySelected.includes(d.x))
+    return (
+      <PlotContainer plotData={filteredPlotData}>
+        <DemoSelections options={demoSelectionOptions} handleClick={this.handleClick.bind(this)} />
+      </PlotContainer>
     )
   }
 }
@@ -21,4 +51,4 @@ export const ExperimentsPlotContainer = connect(
 
 export const DemographicsPlotContainer = connect(
   state => ({ plotData: getDemographicsPlotData(state), loading: getLoading(state) })
-)(PlotContainer)
+)(PlotContainerWithSelector)
