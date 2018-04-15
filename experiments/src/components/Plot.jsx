@@ -21,6 +21,7 @@ const Plot = ({data}) => {
         data={boxPlotData}
       />
       <VictoryAxis style={axisStyle} />
+      <VictoryAxis dependentAxis style={axisStyle} />
     </VictoryChart>
   )
 }
