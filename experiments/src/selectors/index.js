@@ -5,10 +5,9 @@ export const getLoading = state => state.data.loading
 
 const getAllData = state => state.data.all
 export const getAllSelected = type => state => state[type].selected
-const getColumns = type => state => state[type].columns
 
-export const getColumnNames = type => createSelector([getColumns], columns => _.map(columns, 'name'))
-export const getColumnDisplayNames = type => createSelector([getColumns], columns => _.map(columns, 'display'))
+const getColumns = type => state => state[type].columns
+export const getColumnNames = type => state => getColumns(type)(state).map(c => c.name)
 
 export const getData = type => type === 'demographics' ? getAllData : createSelector(
 	[ getAllData ],
@@ -59,28 +58,35 @@ export const getSizeOfGroups = createSelector(
 // take data, get first column (sorted by sum of control_pop), store
 // filter data over first column, get second column (sorted by sum of control_pop), store
 // keep going (okay there's no way anyone's gonna be able to this)
+const capitalize = string => string.charAt(0).toUpperCase() + string.substr(1)
+
+const getOrderedSelected = type => createSelector(
+	[ getColumns(type), getAllSelected(type) ],
+	(columns, allSelected) => columns.map(c => ({ ...c, selected: allSelected[c.name]}))
+)
 
 const deriveDropdownOptions = (data, selected) => selected.reduce(
 	(a, b) => {
 		let { data: currentData, dropdownOptions } = a
-		let key = _.keys(b)[0]
 		let dropdownTexts = _.chain(currentData)
-			.groupBy(key)
+			.groupBy(b.name)
 			.mapValues(v => _.sumBy(v, 'control_pop'))
 			.toPairs()
-			.sortBy(x => 1 / (x[1] + 1))// sort by descending, account for any possible zeros in denominator
+			.sortBy(x => 1 / (x[1] + 1)) // sort by descending, account for any possible zeros in denominator
 			.flatMap(x => x[0])
 			.value()
-		let newDropdownOptions = { ...dropdownOptions, [key]: dropdownTexts.map(d => ({key: d, text: d, value: d})) }
-		return { data: _.filter(currentData, b), dropdownOptions: newDropdownOptions }
+		let newDropdownOptions = dropdownTexts.map(d => ({key: d, text: capitalize(d), value: d}))
+		return {
+			data: _.filter(currentData, {[b.name]: b.selected}),
+			dropdownOptions: [
+				...dropdownOptions, 
+				{ ...b, selected: b.selected && capitalize(b.selected), options: newDropdownOptions }
+			]
+		}
 	},
-	{ data, 'dropdownOptions': {} }
+	{ data, 'dropdownOptions': [] }
 	).dropdownOptions
 
-const getOrderedSelected = type => createSelector(
-	[ getColumnNames(type), getAllSelected(type) ],
-	(columns, allSelected) => columns.map(c => _.pick(allSelected, c))
-)
 
 export const getDropdownOptions = type => createSelector(
 	[ getData(type), getOrderedSelected(type) ],

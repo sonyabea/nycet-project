@@ -5,16 +5,16 @@ const addPadding = {
   'padding-right': '10px'
 }
 
-const CustomDropdown = ({type, options, text, handleChange}) => (
+const CustomDropdown = ({name, display, options, selected, handleChange}) => (
   <div style={addPadding}>
     <Header as='h4'>
       <Header.Content>
-        <span style={addPadding}>{type}:</span>
-        <Dropdown 
+        <span style={addPadding}>{display}:</span>
+        <Dropdown
           selection compact
-          type={type}
+          type={name}
           options={options}
-          text={text}
+          text={selected}
           onChange={handleChange}
         />
       </Header.Content>

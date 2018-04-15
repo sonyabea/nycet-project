@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 import CustomDropdown from './CustomDropdown'
-import { getDropdownOptions, getAllSelected, getData, getColumnNames, getColumnDisplayNames } from '../selectors'
+import { getDropdownOptions, getAllSelected, getData, getColumnNames } from '../selectors'
 import { changeExperimentsFilter, changeDemographicsFilter } from '../actions'
 
 class DropdownContainer extends Component {
@@ -22,21 +22,16 @@ class DropdownContainer extends Component {
     }, initialObject).selected
   }
 
+
   handleChange (event, element) {
-    let newSelected = this.deriveSelected(element.type, event.target.innerText)
+    let newSelected = this.deriveSelected(element.type, element.value)
     this.props.changeFilter(newSelected)
   }
 
   render () {
-    let { dropdownOptions, allSelected } = this.props
-    let dropdowns = Object.keys(dropdownOptions).map((key, index) =>
-      <CustomDropdown
-        type={key}
-        key={index}
-        options={dropdownOptions[key]}
-        text={allSelected[key]}
-        handleChange={this.handleChange.bind(this)}
-      />
+    let { dropdownOptions } = this.props
+    let dropdowns = dropdownOptions.map(d =>
+      <CustomDropdown { ...d } handleChange={this.handleChange.bind(this)} />
     )
     return <div className='flex-container'>{dropdowns}</div>
   }
@@ -47,7 +42,6 @@ const getSelectors = type => state => ({
   allSelected: getAllSelected(type)(state),
   data: getData(type)(state),
   columnNames: getColumnNames(type)(state),
-  columnDisplayNames: getColumnDisplayNames(type)(state)
 })
 
 export const ExperimentsDropdownContainer = connect(
