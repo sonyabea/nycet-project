@@ -68,7 +68,7 @@ const deriveDropdownOptions = (data, selected) => selected.reduce(
 			.sortBy(x => 1 / (x[1] + 1))// sort by descending, account for any possible zeros in denominator
 			.flatMap(x => x[0])
 			.value()
-		let newDropdownOptions = { ...dropdownOptions, [key]: dropdownTexts.map((d, i) => ({key: i, text: d})) }
+		let newDropdownOptions = { ...dropdownOptions, [key]: dropdownTexts.map(d => ({key: d, text: d, value: d})) }
 		return { data: _.filter(currentData, b), dropdownOptions: newDropdownOptions }
 	},
 	{ data, 'dropdownOptions': {} }

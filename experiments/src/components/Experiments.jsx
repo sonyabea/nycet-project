@@ -5,13 +5,18 @@ import { ExperimentsDropdownContainer, DemographicsDropdownContainer } from './D
 import { ExperimentsPlotContainer, DemographicsPlotContainer } from './PlotContainer'
 import { getLoading } from '../selectors'
 
+const experimentsStyles = {
+  'flex-direction': 'column',
+  'width': '75%',
+  'margin': 'auto'
+}
+
 class Experiments extends Component {
   render () {
-    let { dropdownContainer, plotContainer, children, loading } = this.props
+    let { dropdownContainer, plotContainer, loading } = this.props
     return loading ? null : (
-      <div>
+      <div style={experimentsStyles}>
         {dropdownContainer}
-          {children}
         {plotContainer}
       </div>
     )
@@ -36,8 +41,6 @@ export const DemographicStats = (props) => {
     <ExperimentsContainer
       dropdownContainer={ <DemographicsDropdownContainer /> }
       plotContainer={ <DemographicsPlotContainer /> }
-    >
-    {/* { <GroupSizes />} */}
-    </ExperimentsContainer>
+    />
   )
 }

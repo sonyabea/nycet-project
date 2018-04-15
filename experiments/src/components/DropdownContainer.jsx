@@ -29,7 +29,7 @@ class DropdownContainer extends Component {
 
   render () {
     let { dropdownOptions, allSelected } = this.props
-    let selectorObjs = Object.keys(dropdownOptions).map((key, index) =>
+    let dropdowns = Object.keys(dropdownOptions).map((key, index) =>
       <CustomDropdown
         type={key}
         key={index}
@@ -38,7 +38,7 @@ class DropdownContainer extends Component {
         handleChange={this.handleChange.bind(this)}
       />
     )
-    return <div>{selectorObjs}</div>
+    return <div className='flex-container'>{dropdowns}</div>
   }
 }
 

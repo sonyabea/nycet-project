@@ -26,12 +26,11 @@ class PlotContainerWithSelector extends Component {
   }
 
   handleClick (event, element) {
-    if (element.checked) {
-      this.setState({currentlySelected: [...this.state.currentlySelected, element.label]})
-    } else {
-      this.setState({currentlySelected: this.state.currentlySelected.filter(selection => selection !== element.label)})
-    }
-
+    let { currentlySelected } = this.state
+    let newState = element.checked ?
+      [...currentlySelected, element.label] :
+      currentlySelected.filter(selection => selection !== element.label)
+    this.setState({currentlySelected: newState})
   }
 
   render() {

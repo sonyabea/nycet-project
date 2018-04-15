@@ -1,7 +1,7 @@
 import React from 'react'
 import routesInfo from './routes'
 import { Switch, Route } from 'react-router'
-import Headers from './components/Headers'
+import MainMenu from './components/MainMenu'
 import './App.css'
 
 const App = (props) => {
@@ -9,14 +9,10 @@ const App = (props) => {
   let routes = routesInfo.map(r => <Route { ...r } key={r.name}/>)
   return (
     <div className="App">
-      <Headers linksInfo={linksInfo} />
+      <MainMenu linksInfo={linksInfo} />
       <Switch>{routes}</Switch>
     </div>
   )
 }
-
-// const SmartApp = connect(
-//   state => ({loading: getLoading(state)})
-// )(App)
 
 export default App;

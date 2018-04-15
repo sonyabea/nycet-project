@@ -6,10 +6,14 @@ body {
   color: #cecaca; */
 }
 
-.container-header{
+.container-header {
   padding: .75rem;
 }
 
+.flex-container {
+  display: flex;
+  justify-content: space-evenly
+}
 
 h1 {
   /* font-family: "Open Sans", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif; */
