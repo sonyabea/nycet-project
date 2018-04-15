@@ -4,7 +4,6 @@ import data from './data'
 import demographics from './demographics'
 import experiments from './experiments'
 
-
 export default combineReducers({
 	data,
 	demographics,

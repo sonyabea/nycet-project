@@ -5,7 +5,10 @@ export const getLoading = state => state.data.loading
 
 const getAllData = state => state.data.all
 export const getAllSelected = type => state => state[type].selected
-export const getOrder = type => state => state[type].order
+const getColumns = type => state => state[type].columns
+
+export const getColumnNames = type => createSelector([getColumns], columns => _.map(columns, 'name'))
+export const getColumnDisplayNames = type => createSelector([getColumns], columns => _.map(columns, 'display'))
 
 export const getData = type => type === 'demographics' ? getAllData : createSelector(
 	[ getAllData ],
@@ -75,8 +78,8 @@ const deriveDropdownOptions = (data, selected) => selected.reduce(
 	).dropdownOptions
 
 const getOrderedSelected = type => createSelector(
-	[ getOrder(type), getAllSelected(type) ],
-	(order, allSelected) => order.map(c => _.pick(allSelected, c))
+	[ getColumnNames(type), getAllSelected(type) ],
+	(columns, allSelected) => columns.map(c => _.pick(allSelected, c))
 )
 
 export const getDropdownOptions = type => createSelector(

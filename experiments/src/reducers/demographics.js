@@ -7,7 +7,11 @@ const initialState = {
     dem1: null,
     dem2: null
   },
-  order: ['election', 'dem1', 'dem2']
+  columns: [
+    { name: 'election', display: 'Election' }, 
+    { name: 'dem1', display: 'Primary Demographic' },
+    { name: 'dem2', display: 'Secondary Demographic' }
+  ]
 }
 
 const demographics = (state = initialState, action) => {

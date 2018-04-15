@@ -2,16 +2,16 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 import CustomDropdown from './CustomDropdown'
-import { getDropdownOptions, getAllSelected, getData, getOrder } from '../selectors'
+import { getDropdownOptions, getAllSelected, getData, getColumnNames, getColumnDisplayNames } from '../selectors'
 import { changeExperimentsFilter, changeDemographicsFilter } from '../actions'
 
 class DropdownContainer extends Component {
 
   deriveSelected (category, value) {
-    let { allSelected, data, order } = this.props
+    let { allSelected, data, columnNames } = this.props
     let selected = { ...allSelected, [category]: value }
-    let index = order.indexOf(category) + 1
-    let [ previousColumns, relevantColumns ] = [ order.slice(0, index), order.slice(index) ]
+    let index = columnNames.indexOf(category) + 1
+    let [ previousColumns, relevantColumns ] = [ columnNames.slice(0, index), columnNames.slice(index) ]
     let initialObject = { data: _.filter(data, _.pick(selected, previousColumns)), selected }
     return relevantColumns.reduce((a, column) => {
       let { data, selected } = a
@@ -46,7 +46,8 @@ const getSelectors = type => state => ({
   dropdownOptions: getDropdownOptions(type)(state),
   allSelected: getAllSelected(type)(state),
   data: getData(type)(state),
-  order: getOrder(type)(state)
+  columnNames: getColumnNames(type)(state),
+  columnDisplayNames: getColumnDisplayNames(type)(state)
 })
 
 export const ExperimentsDropdownContainer = connect(
