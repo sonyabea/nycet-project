@@ -10,10 +10,11 @@ class PlotContainer extends Component {
 
   render () {
     return (
-      <div>
-        {this.props.primaryInfo}
+      <div className='flex-container'>
+        <div style={{width: '20%'}}>
+          {this.props.children}
+        </div>
         <Plot data={this.props.plotData} />
-        {this.props.children}
       </div>
     )
   }
@@ -47,10 +48,8 @@ class DemographicsPlot extends Component {
     let demoSelectionOptions = this.props.plotData.map(d => d.x)
     let filteredPlotData = this.props.plotData.filter(d => this.state.currentlySelected.includes(d.x))
     return (
-      <PlotContainer 
-        plotData={filteredPlotData}
-        primaryInfo={ <GroupSizes { ...groupSizes } /> }
-      >
+      <PlotContainer plotData={filteredPlotData}>
+        <GroupSizes { ...groupSizes } />
         <DemoSelections options={demoSelectionOptions} handleClick={this.handleClick.bind(this)} />
       </PlotContainer>
     )
