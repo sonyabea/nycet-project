@@ -6,7 +6,7 @@ import TopTen from './components/TopTen.jsx';
 import { Grid, Header, Card, Container } from 'semantic-ui-react';
 import './App.css';
 
-//no need for props in this obj.. yet
+//TODO: make smarter -- get props from url and pass to map/other things
 const Competitiveness = () => (
       <div className="App">
         <Container>

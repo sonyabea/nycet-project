@@ -49,6 +49,7 @@ const Map = ({mapWidth, mapHeight, mapComponents, depthLevel, drillDown}) => {
     )
 }
 
+//filter map from ownprops
 const mapStateToProps = (state) => ({
   mapWidth: state.mapDimensions[0],
   mapHeight: state.mapDimensions[1],

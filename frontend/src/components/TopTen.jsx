@@ -1,4 +1,5 @@
 import { Table } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'; 
 import { loadMapData } from '../actions/index';
 const React = require('react');
@@ -11,12 +12,15 @@ const TopTenContainer = ({geoData, depthLevel, drillDown}) => {
   let topTen = sortedDists.slice(0,10)
   topTen.forEach((dist) => (dist.party = (dist.value > 0) ? 'Democrat' : 'Republican'))
   let distRows = topTen.map((dist, i) => (
-    // <Table.Row key={`top-ten-${i}`} onMouseEnter={(e) => (props.onTableHover(e, dist.key))}>
-    <Table.Row key={`top-ten-${i}`}  onClick={() => (drillDown(depthLevel, parseInt(dist.key, 10)))} >
-      <Table.Cell>{dist.key}</Table.Cell>
-      <Table.Cell>{`${Math.abs(dist.value)}%`}</Table.Cell>
-      <Table.Cell>{dist.party}</Table.Cell>
-    </Table.Row>
+    //restore style later by removing Link and applying a real href to the table row
+    //using browserHistory and push
+    <Link key={`link-${i}`} to={{pathname: `/AD/${dist.key}`}} style={{textDecoration: 'none'}}>
+      <Table.Row key={`top-ten-${i}`}  onClick={() => (drillDown(depthLevel, parseInt(dist.key, 10)))} >
+        <Table.Cell>{dist.key}</Table.Cell>
+        <Table.Cell>{`${Math.abs(dist.value)}%`}</Table.Cell>
+        <Table.Cell>{dist.party}</Table.Cell>
+      </Table.Row>
+    </Link>
     ))
       
   return (

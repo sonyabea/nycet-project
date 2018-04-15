@@ -1,8 +1,12 @@
 import { combineReducers } from 'redux';
-import { mapStateReducer, mapDimensionsReducer, depthLevelReducer } from './reducers';
+import { topLevelMapReducer,
+         EDLevelMapReducer,
+         mapDimensionsReducer, 
+         depthLevelReducer } from './reducers';
 
 const NYCETAppReducers = combineReducers({
-  mapComponents: mapStateReducer,
+  topLevelMap: topLevelMapReducer,
+  EDLevelMap: EDLevelMapReducer,
   mapDimensions: mapDimensionsReducer,
   depthLevel: depthLevelReducer
 });

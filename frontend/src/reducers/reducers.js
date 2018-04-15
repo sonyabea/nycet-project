@@ -1,10 +1,21 @@
 const d3 = require('d3');
 
-export function mapStateReducer(state={
+export function topLevelMapReducer(state={
                           geoJson: {type: '', features: []},
                           geoData: d3.map()}, action) {
   switch (action.type) {
-    case 'SET_DEPTH':
+    case 'LOAD_TOP_LEVEL_MAP':
+      return action.payload.mapData
+    default:
+      return state
+  }
+}
+
+export function EDLevelMapReducer(state={
+                          geoJson: {type: '', features: []},
+                          geoData: d3.map()}, action) {
+  switch (action.type) {
+    case 'LOAD_ED_LEVEL_MAP':
       return action.payload.mapData
     default:
       return state
