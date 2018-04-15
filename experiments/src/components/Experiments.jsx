@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { ExperimentsDropdownContainer, DemographicsDropdownContainer } from './DropdownContainer'
 import { ExperimentsPlotContainer, DemographicsPlotContainer } from './PlotContainer'
+import CACEContainer from './CACEContainer'
 import { getLoading } from '../selectors'
 
 const experimentsStyles = {
@@ -16,6 +17,7 @@ class Experiments extends Component {
     let { dropdownContainer, plotContainer, loading } = this.props
     return loading ? null : (
       <div style={experimentsStyles}>
+        <CACEContainer />
         {dropdownContainer}
         {plotContainer}
       </div>
