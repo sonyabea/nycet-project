@@ -42,19 +42,6 @@ export const getDemographicsPlotData = createSelector(
 			data.map(d => ({ ...d, x: (d.dem1_value + ' / ' + d.dem2_value) }))
 )
 
-export const getSizeOfGroups = createSelector(
-	[ getPlotData('demographics') ],
-	data => _.chain(data)
-		.map(_.pick(['control_pop', 'treatment']))
-		.reduce((a, b) => {
-			return {
-				control_pop: a.control_pop + b.control_pop,
-				treatment_pop: a.treatment_pop + b.treatment_pop
-			}
-		})
-		.value()
-)
-
 // take data, get first column (sorted by sum of control_pop), store
 // filter data over first column, get second column (sorted by sum of control_pop), store
 // keep going (okay there's no way anyone's gonna be able to this)

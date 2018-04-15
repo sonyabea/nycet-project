@@ -12,7 +12,9 @@ body {
 
 .flex-container {
   display: flex;
-  justify-content: space-evenly
+  justify-content: space-evenly;
+  margin: auto;
+  margin-top: 2%;
 }
 
 h1 {

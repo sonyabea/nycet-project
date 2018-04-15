@@ -7,15 +7,14 @@ import { getLoading } from '../selectors'
 
 const experimentsStyles = {
   'flex-direction': 'column',
-  'width': '75%',
-  'margin': 'auto'
+  'width': '75%'
 }
 
 class Experiments extends Component {
   render () {
     let { dropdownContainer, plotContainer, loading } = this.props
     return loading ? null : (
-      <div style={experimentsStyles}>
+      <div className='flex-container' style={experimentsStyles}>
         {dropdownContainer}
         {plotContainer}
       </div>
