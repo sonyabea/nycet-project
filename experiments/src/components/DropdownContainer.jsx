@@ -7,7 +7,7 @@ import { changeExperimentsFilter, changeDemographicsFilter } from '../actions'
 
 class DropdownContainer extends Component {
 
-  deriveSelected(category, value) {
+  deriveSelected (category, value) {
     let { allSelected, data, order } = this.props
     let selected = { ...allSelected, [category]: value }
     let index = order.indexOf(category) + 1
@@ -15,21 +15,19 @@ class DropdownContainer extends Component {
     let initialObject = { data: _.filter(data, _.pick(selected, previousColumns)), selected }
     return relevantColumns.reduce((a, column) => {
       let { data, selected } = a
-      debugger
       let value = _.chain(data).filter(_.pick(selected, column)).isEmpty().value() ?
         _.maxBy(data, 'control_pop')[column] : selected[column]
       let newSelected = { [column]: value }
-      let filteredData = _.filter(data, newSelected)
-      return { data: filteredData, selected: { ...selected, ...newSelected } }
+      return { data: _.filter(data, newSelected), selected: { ...selected, ...newSelected } }
     }, initialObject).selected
   }
 
-  handleChange(event, element) {
+  handleChange (event, element) {
     let newSelected = this.deriveSelected(element.type, event.target.innerText)
     this.props.changeFilter(newSelected)
   }
 
-  render() {
+  render () {
     let { dropdownOptions, allSelected } = this.props
     let selectorObjs = Object.keys(dropdownOptions).map((key, index) =>
       <CustomDropdown

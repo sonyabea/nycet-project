@@ -43,7 +43,7 @@ export const getDemographicsPlotData = createSelector(
 export const getSizeOfGroups = createSelector(
 	[ getPlotData('demographics') ],
 	data => _.chain(data)
-		.map(_.pick(['control_pop', 'treatment_pop']))
+		.map(_.pick(['control_pop', 'treatment']))
 		.reduce((a, b) => {
 			return {
 				control_pop: a.control_pop + b.control_pop,
@@ -65,7 +65,7 @@ const deriveDropdownOptions = (data, selected) => selected.reduce(
 			.groupBy(key)
 			.mapValues(v => _.sumBy(v, 'control_pop'))
 			.toPairs()
-			.sortBy(x => 1 / x[1]) // hopefully there aren't any zeros
+			.sortBy(x => 1 / (x[1] + 1))// sort by descending, account for any possible zeros in denominator
 			.flatMap(x => x[0])
 			.value()
 		let newDropdownOptions = { ...dropdownOptions, [key]: dropdownTexts.map((d, i) => ({key: i, text: d})) }
