@@ -17,6 +17,11 @@ body {
   margin-top: 2%;
 }
 
+.plot-top {
+  display: flex;
+  justify-content: space-between;
+}
+
 h1 {
   /* font-family: "Open Sans", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif; */
   font-family: 'Yantramanav';
