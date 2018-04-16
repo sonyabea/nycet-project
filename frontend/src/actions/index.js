@@ -10,20 +10,21 @@ const electionDataLoc = 'https://raw.githubusercontent.com/cngonzalez/nycet-flat
 const DISTRICT_LEVEL_LABELS = {
   //top-level: NYC show all AD, SD, CD
   //eventually add diff levels
-  0: [assemblyLoc, assemblyDataLoc, 'AssemDist', 'districtnumber'],
+  AD: [assemblyLoc, assemblyDataLoc, 'AssemDist', 'districtnumber'],
   //mid-level: show EDs for a specific level
-  1: [electionLoc, electionDataLoc, 'ElectDist', 'ed']}
+  ED: [electionLoc, electionDataLoc, 'ElectDist', 'ed']}
 
 
 //ACTION CREATORS
-export const loadMapData = (level=0, selected=null, parentDistrictType='AD') => (
+export const loadMapData = (selected=null, districtType='AD', actionType='LOAD_TOP_LEVEL_MAP') => (
   //use this thunk syntax, because d3.queue happens async
   (dispatch) => { 
 
+    dispatch(announceLoading)
     let [geoSource,
          dataSource,
          mapRegionType,
-         dataRegionType] = DISTRICT_LEVEL_LABELS[level];
+         dataRegionType] = DISTRICT_LEVEL_LABELS[districtType];
 
     return (
       d3.queue()
@@ -31,7 +32,7 @@ export const loadMapData = (level=0, selected=null, parentDistrictType='AD') => 
         .defer(d3.tsv, dataSource) 
         .await((error, geoFile, dataFile) => {
           let [filteredGeo,
-               filteredData] = filterFiles(geoFile, dataFile, mapRegionType, dataRegionType, level, selected);
+               filteredData] = filterFiles(geoFile, dataFile, mapRegionType, dataRegionType, selected);
 
           let dataMap = d3.map()
           filteredData.forEach((d) => {
@@ -39,7 +40,7 @@ export const loadMapData = (level=0, selected=null, parentDistrictType='AD') => 
             dataMap.set(d[dataRegionType], d.margin)})
             dispatch(storeMapData(
                    {geoJson: filteredGeo, 
-                    geoData: dataMap}, level, parentDistrictType))
+                    geoData: dataMap}, actionType))
         })
       )
    }
@@ -47,11 +48,9 @@ export const loadMapData = (level=0, selected=null, parentDistrictType='AD') => 
 
 
 //ACTIONS
-export const storeMapData = (mapObj, level, districtType) => ( 
-  {type: 'SET_DEPTH',
-   payload: {mapData: mapObj,
-             level: level,
-             parentDistrictType: districtType}}
+export const storeMapData = (mapObj, actionType) => ( 
+  {type: actionType,
+   payload: mapObj}
 )
 
 export const setMapDimensions = (width, height) => (
@@ -59,3 +58,6 @@ export const setMapDimensions = (width, height) => (
    payload: [width, height]}
 )
 
+export const announceLoading = () => (
+  {type: 'LOAD_DATA'}
+)

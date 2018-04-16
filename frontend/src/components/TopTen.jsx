@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { loadMapData } from '../actions/index';
 const React = require('react');
 
-const TopTenContainer = ({geoData, depthLevel, drillDown}) => {
+const TopTenContainer = ({geoData, drillDown}) => {
   let filteredDists = geoData.entries().filter((a) => (a.value !== 0));
   let sortedDists = filteredDists.sort((a, b) => (
     Math.abs(a.value) - Math.abs(b.value)))
@@ -15,7 +15,7 @@ const TopTenContainer = ({geoData, depthLevel, drillDown}) => {
     //restore style later by removing Link and applying a real href to the table row
     //using browserHistory and push
     <Link key={`link-${i}`} to={{pathname: `/AD/${dist.key}`}} style={{textDecoration: 'none'}}>
-      <Table.Row key={`top-ten-${i}`}  onClick={() => (drillDown(depthLevel, parseInt(dist.key, 10)))} >
+      <Table.Row key={`top-ten-${i}`}  onClick={() => (drillDown(parseInt(dist.key, 10)))} >
         <Table.Cell>{dist.key}</Table.Cell>
         <Table.Cell>{`${Math.abs(dist.value)}%`}</Table.Cell>
         <Table.Cell>{dist.party}</Table.Cell>
@@ -39,17 +39,12 @@ const TopTenContainer = ({geoData, depthLevel, drillDown}) => {
   )
 }
 
-const mapStateToProps = (state) => (
-  {geoData: state.mapComponents.geoData,
-   depthLevel: state.depthLevel}
-)
-
 const mapDispatchToProps = (dispatch, ownProps) => (
-  {drillDown: (depthLevel, selected) => (
-      dispatch(loadMapData((depthLevel + 1), selected)))}
+  {drillDown: (selected) => (
+      dispatch(loadMapData(selected)))}
 )
 
-const TopTen = connect(mapStateToProps, mapDispatchToProps)(TopTenContainer)
+const TopTen = connect(null, mapDispatchToProps)(TopTenContainer)
 
 
 export default TopTen;

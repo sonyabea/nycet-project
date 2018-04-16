@@ -5,7 +5,7 @@ export function topLevelMapReducer(state={
                           geoData: d3.map()}, action) {
   switch (action.type) {
     case 'LOAD_TOP_LEVEL_MAP':
-      return action.payload.mapData
+      return action.payload
     default:
       return state
   }
@@ -16,7 +16,7 @@ export function EDLevelMapReducer(state={
                           geoData: d3.map()}, action) {
   switch (action.type) {
     case 'LOAD_ED_LEVEL_MAP':
-      return action.payload.mapData
+      return action.payload
     default:
       return state
   }
@@ -32,19 +32,23 @@ export function mapDimensionsReducer(state={mapDimensions: [0,471]}, action) {
   }
 }
 
-export function depthLevelReducer(state=0, action) {
+export function districtTypeReducer(state='AD', action) {
   switch (action.type) {
-    case 'CHANGE_DEPTH':
-      return action.payload.level
+    case 'CHANGE_DISTRICT_TYPE':
+      return action.payload
     default:
       return state
   }
 }
 
-export function districtTypeReducer(state='AD', action) {
+export function isLoadingReducer(state=true, action){
   switch (action.type) {
-    case 'CHANGE_DISTRICT_TYPE':
-      return action.payload
+    case 'LOAD_DATA':
+      return true
+    case 'LOAD_TOP_LEVEL_MAP':
+      return false
+    case 'LOAD_ED_LEVEL_MAP':
+      return false
     default:
       return state
   }

@@ -1,34 +1,22 @@
 import React from 'react';
-import MapContainer from './components/MapContainer.jsx';
-import DataMap from './components/Map.jsx';
-//import MapTooltip from './components/MapTooltip.jsx';
-import TopTen from './components/TopTen.jsx';
-import { Grid, Header, Card, Container } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import Competitiveness from './components/Competitiveness'
 import './App.css';
 
-//TODO: make smarter -- get props from url and pass to map/other things
-const Competitiveness = () => (
-      <div className="App">
-        <Container>
-          <div className='page-header'>
-            <Header>
-              <h1>New York City Competitiveness - Assembly District Overview</h1>
-            </Header>
-          </div>
-          <Grid>
-            <Grid.Column width={10} style={{ minHeight: 600 }}>
-              <MapContainer>
-                <DataMap />
-              </MapContainer>
-            </Grid.Column>
-            <Grid.Column width={5}>
-              <Card>
-                <TopTen />
-              </Card>
-            </Grid.Column>
-          </Grid>
-        </Container>
-      </div>
-);
+//can add more complexity here in the children eventually
+const AppContainer = (props) => {
+  let isEd = props.match.params.parentDistType === 'ED'
+  return (
+    <div className='App'>
+      {(props.isLoading) ? "Loading!" : <Competitiveness isEd={{isEd}}/> }
+    </div>
+  )
+}
 
-export default Competitiveness;
+const mapStateToProps = (state) => ({
+  isLoading: state.isLoading
+})
+
+const App = connect(mapStateToProps)(AppContainer)
+
+export default App

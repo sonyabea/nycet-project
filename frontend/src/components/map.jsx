@@ -4,8 +4,8 @@ import { loadMapData } from '../actions/index';
 const React = require('react');
 const d3 = require('d3');
  
-const Map = ({mapWidth, mapHeight, mapComponents, depthLevel, drillDown}) => {
-
+const Map = ({mapWidth, mapHeight, mapComponents, drillDown}) => {
+  console.log(mapComponents)
   let projection = d3.geoIdentity()
                  .reflectY(true)
                  .fitSize([mapWidth,mapHeight], mapComponents.geoJson)
@@ -29,7 +29,7 @@ const Map = ({mapWidth, mapHeight, mapComponents, depthLevel, drillDown}) => {
           key={ `path-${ i }` }
           d={ `${d3.geoPath().projection(projection)(d)}` }
           fill={ `${ color(mapComponents.geoData.get(d.properties.districtNumber))}`}
-          onClick={() => (drillDown(depthLevel, d.properties.districtNumber))}
+          onClick={() => (drillDown(d.properties.districtNumber))}
           className='district'
         />
       </Link>
@@ -52,13 +52,11 @@ const Map = ({mapWidth, mapHeight, mapComponents, depthLevel, drillDown}) => {
 //filter map from ownprops
 const mapStateToProps = (state) => ({
   mapWidth: state.mapDimensions[0],
-  mapHeight: state.mapDimensions[1],
-  depthLevel: state.depthLevel,
-  mapComponents: state.mapComponents})
+  mapHeight: state.mapDimensions[1]})
 
 const mapDispatchToProps = (dispatch, ownProps) => (
-  {drillDown: (depthLevel, selected) => (
-      dispatch(loadMapData((depthLevel + 1), selected)))}
+  {drillDown: (selected) => (
+      dispatch(loadMapData(selected, 'ED', 'LOAD_ED_LEVEL_MAP')))}
 )
 
 const DataMap = connect(mapStateToProps, mapDispatchToProps)(Map)

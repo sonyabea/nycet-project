@@ -1,14 +1,14 @@
 import { combineReducers } from 'redux';
 import { topLevelMapReducer,
          EDLevelMapReducer,
-         mapDimensionsReducer, 
-         depthLevelReducer } from './reducers';
+         mapDimensionsReducer,
+         isLoadingReducer} from './reducers';
 
 const NYCETAppReducers = combineReducers({
   topLevelMap: topLevelMapReducer,
   EDLevelMap: EDLevelMapReducer,
   mapDimensions: mapDimensionsReducer,
-  depthLevel: depthLevelReducer
+  isLoading: isLoadingReducer
 });
 
 export default NYCETAppReducers;
