@@ -22,7 +22,6 @@ class DropdownContainer extends Component {
     }, initialObject).selected
   }
 
-
   handleChange (event, element) {
     let newSelected = this.deriveSelected(element.type, element.value)
     this.props.changeFilter(newSelected)

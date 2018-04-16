@@ -42,6 +42,16 @@ export const getDemographicsPlotData = createSelector(
 			data.map(d => ({ ...d, x: (d.dem1_value + ' / ' + d.dem2_value) }))
 )
 
+export const getElectionGroupSizes = type => createSelector(
+	[ getAllData, getSelected(type, 'election') ],
+	(data, election) => _.filter(data, { ...election, dem2: null })
+		.map(d => _.pick(d, ['control_pop', 'treatment_pop']))
+		.reduce((a, b) => ({
+			control_pop: a.control_pop + parseInt(b.control_pop, 10),
+			treatment_pop: a.treatment_pop + parseInt(b.treatment_pop, 10)
+		}), {control_pop: 0, treatment_pop: 0})
+)
+
 // take data, get first column (sorted by sum of control_pop), store
 // filter data over first column, get second column (sorted by sum of control_pop), store
 // keep going (okay there's no way anyone's gonna be able to this)

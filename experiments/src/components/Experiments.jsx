@@ -29,8 +29,8 @@ const ExperimentsContainer = connect(
 export const ExperimentsByOrg = (props) => {
   return (
     <ExperimentsContainer
-      dropdownContainer={<ExperimentsDropdownContainer />}
-      plotContainer={<ExperimentsPlotContainer />}
+      dropdownContainer={ <ExperimentsDropdownContainer /> }
+      plotContainer={ <ExperimentsPlotContainer /> }
     />
   )
 }

@@ -1,17 +1,16 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import _ from 'lodash'
 import Plot from './Plot'
 import DemoSelections from './DemoSelections'
 import GroupSizes from './GroupSizes'
-import { getExperimentsPlotData, getDemographicsPlotData, getLoading } from '../selectors'
+import { getExperimentsPlotData, getDemographicsPlotData, getElectionGroupSizes } from '../selectors'
 
 class PlotContainer extends Component {
 
   render () {
     return (
       <div className='flex-container'>
-        <div style={{width: '20%'}}>
+        <div style={{width: '25%'}}>
           {this.props.children}
         </div>
         <Plot data={this.props.plotData} />
@@ -38,15 +37,9 @@ class DemographicsPlot extends Component {
   }
 
   render() {
-    let { plotData } = this.props
-    let groupSizes = plotData
-      .map(d => _.pick(d, ['control_pop', 'treatment_pop']))
-      .reduce((a, b) => ({
-        control_pop: a.control_pop + parseInt(b.control_pop),
-        treatment_pop: a.treatment_pop + parseInt(b.treatment_pop)
-      }), {control_pop: 0, treatment_pop: 0})
-    let demoSelectionOptions = this.props.plotData.map(d => d.x)
-    let filteredPlotData = this.props.plotData.filter(d => this.state.currentlySelected.includes(d.x))
+    let { plotData, groupSizes } = this.props
+    let demoSelectionOptions = plotData.map(d => d.x)
+    let filteredPlotData = plotData.filter(d => this.state.currentlySelected.includes(d.x))
     return (
       <PlotContainer plotData={filteredPlotData}>
         <GroupSizes { ...groupSizes } />
@@ -57,9 +50,15 @@ class DemographicsPlot extends Component {
 }
 
 export const ExperimentsPlotContainer = connect(
-  state => ({ plotData: getExperimentsPlotData(state), loading: getLoading(state) })
+  state => ({
+    plotData: getExperimentsPlotData(state),
+    groupSizes: getElectionGroupSizes('experiments')(state)
+  })
 )(PlotContainer)
 
 export const DemographicsPlotContainer = connect(
-  state => ({ plotData: getDemographicsPlotData(state), loading: getLoading(state) })
+  state => ({
+    plotData: getDemographicsPlotData(state),
+    groupSizes: getElectionGroupSizes('demographics')(state)
+  })
 )(DemographicsPlot)
