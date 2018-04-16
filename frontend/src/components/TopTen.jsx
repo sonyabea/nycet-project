@@ -2,9 +2,10 @@ import { Table } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'; 
 import { loadMapData } from '../actions/index';
+import { withRouter } from 'react-router-dom';
 const React = require('react');
 
-const TopTenContainer = ({geoData, drillDown}) => {
+const TopTenContainer = ({history, geoData, drillDown}) => {
   let filteredDists = geoData.entries().filter((a) => (a.value !== 0));
   let sortedDists = filteredDists.sort((a, b) => (
     Math.abs(a.value) - Math.abs(b.value)))
@@ -14,13 +15,12 @@ const TopTenContainer = ({geoData, drillDown}) => {
   let distRows = topTen.map((dist, i) => (
     //restore style later by removing Link and applying a real href to the table row
     //using browserHistory and push
-    // <Link key={`link-${i}`} to={{pathname: `/AD/${dist.key}`}} style={{textDecoration: 'none'}}>
-      <Table.Row key={`top-ten-${i}`}  onClick={() => (drillDown(parseInt(dist.key, 10)))} >
+      <Table.Row key={`top-ten-${i}`}  onClick={() => {
+        history.push(`/AD/${dist.key}`); drillDown(dist.key)}} >
         <Table.Cell>{dist.key}</Table.Cell>
         <Table.Cell>{`${Math.abs(dist.value)}%`}</Table.Cell>
         <Table.Cell>{dist.party}</Table.Cell>
       </Table.Row>
-    // </Link>
     ))
       
   return (
@@ -41,10 +41,10 @@ const TopTenContainer = ({geoData, drillDown}) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => (
   {drillDown: (selected) => (
-      dispatch(loadMapData(selected)))}
+      dispatch(loadMapData({parentDistId: selected, parentDistType: 'ED'})))}
 )
 
 const TopTen = connect(null, mapDispatchToProps)(TopTenContainer)
 
 
-export default TopTen;
+export default withRouter(TopTen);

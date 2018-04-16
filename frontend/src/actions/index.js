@@ -23,8 +23,6 @@ export const loadMapData = (props) =>
     dispatch(announceLoading)
     let selected = props.parentDistId
     let districtType = (selected === 0) ? props.parentDistType : 'ED'
-    console.log(selected)
-    console.log(districtType)
     let [geoSource,
          dataSource,
          mapRegionType,
