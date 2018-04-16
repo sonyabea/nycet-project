@@ -1,15 +1,34 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+//async actions
+import thunkMiddleware from 'redux-thunk';
+//so we can actually use thunk
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-//import App from './App';
-import NYCETRouter from '../src/routes.js';
-import registerServiceWorker from './registerServiceWorker';
+import { Route } from 'react-router-dom';
+import App from './App.jsx';
+import NYCETAppReducers from './reducers/index';
+import registerServiceWorker from './registerServiceWorker'
 
-ReactDOM.render((
+let store = createStore(NYCETAppReducers, applyMiddleware(thunkMiddleware))
+
+// debugging helper
+// const announce = () => console.log(store.getState())
+// setInterval(announce, 7000)
+
+//eventually, put a top level "Competetiveness" container component and allocate
+//components per route -- e.g., detail pages etc.
+ReactDOM.render(
+<Provider store={store}>
   <BrowserRouter>
-    <NYCETRouter />
+    <div>
+      <Route path='/:parentDistType?/:parentDistId?' component={App} />
+    </div>
   </BrowserRouter>
-), document.getElementById('root'))
+</Provider>,
+  document.getElementById('root')
+);
 
 registerServiceWorker();

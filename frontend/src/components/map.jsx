@@ -1,34 +1,35 @@
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux'; 
+import { loadMapData } from '../actions/index';
 const React = require('react');
 const d3 = require('d3');
  
-const MainMap = (props) => {
-
-  var projection = d3.geoIdentity()
+const Map = ({mapWidth, mapHeight, mapComponents, drillDown}) => {
+  let projection = d3.geoIdentity()
                  .reflectY(true)
-                 .fitSize([props.width,props.height],props.mapGeo)
+                 .fitSize([mapWidth,mapHeight], mapComponents.geoJson)
 
-  var path = d3.geoPath()
+  let path = d3.geoPath()
     .projection(projection)
 
-  var closenessExtent= d3.extent(props.mapData.values())
-
-  var color = d3.scaleLinear()
+  let closenessExtent = d3.extent(mapComponents.geoData.values())
+  let color = d3.scaleLinear()
               .domain([closenessExtent[0], 0,
                        closenessExtent[1]])
               .range(['red', 'white', 'blue'])
 
-  var renderShapes = () => (props.mapGeo.features.map((d,i) => {
-      let selected = (d.properties[props.mapRegionType] === props.selectedId) ? 'glow' : 'district'
+  let renderShapes = () => (mapComponents.geoJson.features.map((d,i) => {
+      // let selected = (d.properties[props.mapRegionType] === props.selectedId) ? 'glow' : 'district'
       return (
-      <Link key={`link-${i}`} to={{pathname: `/AD/${d.properties[props.mapRegionType]}`}}>
+      //'AD' is hardcoded here, but that should eventually come from store
+      <Link key={`link-${i}`} to={{pathname: `/AD/${d.properties.districtNumber}`}}>
         <path
           data={d}
           key={ `path-${ i }` }
           d={ `${d3.geoPath().projection(projection)(d)}` }
-          className={selected}
-          fill={ `${ color(props.mapData.get(d.properties[props.mapRegionType]))}`}
-          onMouseEnter={(e) => (props.onRegionHover(e, d))}
+          fill={ `${ color(mapComponents.geoData.get(d.properties.districtNumber))}`}
+          onClick={() => drillDown(d.properties.districtNumber)}
+          className='district'
         />
       </Link>
       )
@@ -38,13 +39,26 @@ const MainMap = (props) => {
 
     return (
       <div className='map-frame'>
-        <svg width={props.width} height={props.height}>
+        <svg width={mapWidth} height={mapHeight}>
           <g className='map-layer'>
             { renderShapes() }
           </g>
         </svg>
       </div>
     )
-}  
+}
 
-export default MainMap;
+//filter map from ownprops
+const mapStateToProps = (state) => ({
+  mapWidth: state.mapDimensions[0],
+  mapHeight: state.mapDimensions[1]})
+
+const mapDispatchToProps = (dispatch, ownProps) => (
+  {drillDown: (selected) => 
+      //again, remove hardcoding eventually
+      dispatch(loadMapData({parentDistId: selected, parentDistType: 'AD'}))}
+)
+
+const DataMap = connect(mapStateToProps, mapDispatchToProps)(Map)
+
+export default DataMap  
