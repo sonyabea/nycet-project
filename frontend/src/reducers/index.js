@@ -1,12 +1,10 @@
 import { combineReducers } from 'redux';
-import { topLevelMapReducer,
-         EDLevelMapReducer,
+import { mapDataReducer,
          mapDimensionsReducer,
          isLoadingReducer} from './reducers';
 
 const NYCETAppReducers = combineReducers({
-  topLevelMap: topLevelMapReducer,
-  EDLevelMap: EDLevelMapReducer,
+  mapData: mapDataReducer,
   mapDimensions: mapDimensionsReducer,
   isLoading: isLoadingReducer
 });

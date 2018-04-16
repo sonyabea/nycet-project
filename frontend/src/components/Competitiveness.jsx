@@ -7,9 +7,8 @@ import TopTen from './TopTen.jsx';
 import { Grid, Header, Card, Container } from 'semantic-ui-react';
 
 //params passed down from URL
-const CompetitivenessContainer = ({isEd, EDMap, TopMap}) => {
-  let mapComponents = (isEd.isEd) ?  EDMap : TopMap
-
+const Competitiveness= ({mapComponents}) => {
+  console.log(mapComponents)
   return (
     <Container>
       <div className='page-header'>
@@ -32,12 +31,5 @@ const CompetitivenessContainer = ({isEd, EDMap, TopMap}) => {
     </Container>
     )
   }
-
-const mapStateToProps = (state, ownProps) => ({
-  ...ownProps, 
-  EDMap: state.EDLevelMap,
-  TopMap: state.topLevelMap})
-
-const Competitiveness = connect(mapStateToProps)(CompetitivenessContainer)
 
 export default Competitiveness;

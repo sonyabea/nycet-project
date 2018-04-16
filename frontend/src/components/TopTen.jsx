@@ -14,13 +14,13 @@ const TopTenContainer = ({geoData, drillDown}) => {
   let distRows = topTen.map((dist, i) => (
     //restore style later by removing Link and applying a real href to the table row
     //using browserHistory and push
-    <Link key={`link-${i}`} to={{pathname: `/AD/${dist.key}`}} style={{textDecoration: 'none'}}>
+    // <Link key={`link-${i}`} to={{pathname: `/AD/${dist.key}`}} style={{textDecoration: 'none'}}>
       <Table.Row key={`top-ten-${i}`}  onClick={() => (drillDown(parseInt(dist.key, 10)))} >
         <Table.Cell>{dist.key}</Table.Cell>
         <Table.Cell>{`${Math.abs(dist.value)}%`}</Table.Cell>
         <Table.Cell>{dist.party}</Table.Cell>
       </Table.Row>
-    </Link>
+    // </Link>
     ))
       
   return (

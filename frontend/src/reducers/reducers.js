@@ -1,26 +1,26 @@
 const d3 = require('d3');
 
-export function topLevelMapReducer(state={
+export function mapDataReducer(state={
                           geoJson: {type: '', features: []},
                           geoData: d3.map()}, action) {
   switch (action.type) {
-    case 'LOAD_TOP_LEVEL_MAP':
+    case 'LOAD_MAP_DATA':
       return action.payload
     default:
       return state
   }
 }
 
-export function EDLevelMapReducer(state={
-                          geoJson: {type: '', features: []},
-                          geoData: d3.map()}, action) {
-  switch (action.type) {
-    case 'LOAD_ED_LEVEL_MAP':
-      return action.payload
-    default:
-      return state
-  }
-}
+// export function EDLevelMapReducer(state={
+//                           geoJson: {type: '', features: []},
+//                           geoData: d3.map()}, action) {
+//   switch (action.type) {
+//     case 'LOAD_ED_LEVEL_MAP':
+//       return action.payload
+//     default:
+//       return state
+//   }
+// }
 
 //currently hardcoded for a 10-row table, don't @ me
 export function mapDimensionsReducer(state={mapDimensions: [0,471]}, action) {
@@ -45,9 +45,7 @@ export function isLoadingReducer(state=true, action){
   switch (action.type) {
     case 'LOAD_DATA':
       return true
-    case 'LOAD_TOP_LEVEL_MAP':
-      return false
-    case 'LOAD_ED_LEVEL_MAP':
+    case 'LOAD_MAP_DATA':
       return false
     default:
       return state

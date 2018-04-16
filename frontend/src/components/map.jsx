@@ -5,7 +5,6 @@ const React = require('react');
 const d3 = require('d3');
  
 const Map = ({mapWidth, mapHeight, mapComponents, drillDown}) => {
-  console.log(mapComponents)
   let projection = d3.geoIdentity()
                  .reflectY(true)
                  .fitSize([mapWidth,mapHeight], mapComponents.geoJson)
@@ -29,7 +28,7 @@ const Map = ({mapWidth, mapHeight, mapComponents, drillDown}) => {
           key={ `path-${ i }` }
           d={ `${d3.geoPath().projection(projection)(d)}` }
           fill={ `${ color(mapComponents.geoData.get(d.properties.districtNumber))}`}
-          onClick={() => (drillDown(d.properties.districtNumber))}
+          onClick={() => drillDown(d.properties.districtNumber)}
           className='district'
         />
       </Link>
@@ -55,8 +54,9 @@ const mapStateToProps = (state) => ({
   mapHeight: state.mapDimensions[1]})
 
 const mapDispatchToProps = (dispatch, ownProps) => (
-  {drillDown: (selected) => (
-      dispatch(loadMapData(selected, 'ED', 'LOAD_ED_LEVEL_MAP')))}
+  {drillDown: (selected) => 
+      //again, remove hardcoding eventually
+      dispatch(loadMapData({parentDistId: selected, parentDistType: 'AD'}))}
 )
 
 const DataMap = connect(mapStateToProps, mapDispatchToProps)(Map)

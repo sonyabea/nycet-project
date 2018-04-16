@@ -16,11 +16,15 @@ const DISTRICT_LEVEL_LABELS = {
 
 
 //ACTION CREATORS
-export const loadMapData = (selected=null, districtType='AD', actionType='LOAD_TOP_LEVEL_MAP') => (
+export const loadMapData = (props) => 
   //use this thunk syntax, because d3.queue happens async
-  (dispatch) => { 
+  dispatch => { 
 
     dispatch(announceLoading)
+    let selected = props.parentDistId
+    let districtType = (selected === 0) ? props.parentDistType : 'ED'
+    console.log(selected)
+    console.log(districtType)
     let [geoSource,
          dataSource,
          mapRegionType,
@@ -35,16 +39,17 @@ export const loadMapData = (selected=null, districtType='AD', actionType='LOAD_T
                filteredData] = filterFiles(geoFile, dataFile, mapRegionType, dataRegionType, selected);
 
           let dataMap = d3.map()
+          console.log(filteredData)
+          console.log(filteredGeo)
           filteredData.forEach((d) => {
             d.margin = ((d.winning_party === 'Republican') ? -d.margin : +d.margin)
             dataMap.set(d[dataRegionType], d.margin)})
             dispatch(storeMapData(
                    {geoJson: filteredGeo, 
-                    geoData: dataMap}, actionType))
+                    geoData: dataMap}, 'LOAD_MAP_DATA'))
         })
       )
-   }
-);
+  }
 
 
 //ACTIONS

@@ -16,7 +16,7 @@ import registerServiceWorker from './registerServiceWorker'
 let store = createStore(NYCETAppReducers, applyMiddleware(thunkMiddleware))
 
 //initially load top-level data, with no selection.
-store.dispatch(loadMapData(null))
+// store.dispatch(loadMapData(null))
 
 // debugging helper
 const announce = () => console.log(store.getState())
