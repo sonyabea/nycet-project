@@ -11,7 +11,7 @@ class PlotContainer extends Component {
   render () {
     return (
       <div className='flex-container'>
-        <div style={{width: '20%'}}>
+        <div style={{width: '20%', 'text-align': 'left'}}>
           {this.props.children}
         </div>
         <Plot data={this.props.plotData} />
@@ -50,7 +50,10 @@ class DemographicsPlot extends Component {
     return (
       <PlotContainer plotData={filteredPlotData}>
         <GroupSizes { ...groupSizes } />
-        <DemoSelections options={demoSelectionOptions} handleClick={this.handleClick.bind(this)} />
+        <div style={{'margin-top': '20%'}}>
+          <DemoSelections options={demoSelectionOptions} handleClick={this.handleClick.bind(this)} />
+        </div>
+
       </PlotContainer>
     )
   }
