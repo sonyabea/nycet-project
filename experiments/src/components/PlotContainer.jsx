@@ -37,11 +37,11 @@ class DemographicsPlot extends Component {
     let demoSelectionOptions = plotData.map(d => d.x)
     let filteredPlotData = plotData.filter(d => this.state.currentlySelected.includes(d.x))
     return (
-      <PlotContainer plotData={filteredPlotData}>
-        <div style={{'margin-top': '20%'}}>
+      <PlotTemplate plotData={filteredPlotData} groupSizes={groupSizes}>
+        <div style={{'marginTop': '20%'}}>
           <DemoSelections options={demoSelectionOptions} onChange={this.handleClick.bind(this)} />
         </div>
-      </PlotContainer>
+      </PlotTemplate>
     )
   }
 }
