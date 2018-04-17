@@ -1,5 +1,4 @@
 import { Table } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'; 
 import { loadMapData } from '../actions/index';
 import { withRouter } from 'react-router-dom';

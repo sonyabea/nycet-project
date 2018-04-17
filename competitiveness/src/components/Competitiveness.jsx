@@ -1,14 +1,12 @@
 import React from 'react';
 import MapContainer from './MapContainer.jsx';
 import DataMap from './Map.jsx';
-import { connect } from 'react-redux'; 
 //import MapTooltip from './components/MapTooltip.jsx';
 import TopTen from './TopTen.jsx';
 import { Grid, Header, Card, Container } from 'semantic-ui-react';
 
 //params passed down from URL
 const Competitiveness= ({mapComponents}) => {
-  console.log(mapComponents)
   return (
     <Container>
       <div className='page-header'>
