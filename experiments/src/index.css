@@ -47,3 +47,8 @@ h1 {
   stroke: #f4b342;
   stroke-width: 2px;
 }
+
+a.active.item {
+  color: 'white';
+  font-weight: 400;
+}

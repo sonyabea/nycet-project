@@ -1,26 +1,18 @@
 import React, { Component } from 'react'
 import { Menu, Segment } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router'
 
 class MainMenu extends Component {
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      activeItem: this.props.linksInfo[0]
-    }
-  }
-
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
-
   render() {
+    const { location } = this.props
+
     let menuItems = this.props.linksInfo.map(l =>
       <Menu.Item key={l.name}
         name={l.name}
         as={Link}
         to={l.path}
-        active={this.state.activeItem === l.name}
-        onClick={this.handleItemClick}
+        active={location.pathname === l.path}
       >
         {l.name}
       </Menu.Item>
@@ -35,4 +27,5 @@ class MainMenu extends Component {
 
 }
 
-export default MainMenu
+const MainMenuWithRouter = withRouter(MainMenu)
+export default MainMenuWithRouter
