@@ -8,7 +8,7 @@ import _ from 'lodash'
 
 const PlotTemplate = ({ groupSizes, plotData, children }) =>
   <div className='flex-container'>
-    <div style={{width: '25%'}}>
+    <div style={{width: '25%', 'textAlign': 'left'}}>
       <GroupSizes { ...groupSizes } />
       {children}
     </div>
