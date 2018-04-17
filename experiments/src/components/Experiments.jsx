@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 // import { Loader } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { ExperimentsDropdownContainer, DemographicsDropdownContainer } from './DropdownContainer'
