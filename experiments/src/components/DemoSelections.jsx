@@ -2,17 +2,11 @@ import React from 'react'
 import { Dropdown } from 'semantic-ui-react'
 
 
-const DemoSelections = ({options, onChange}) => {
-  function makeDict(val) {
-    var dict = {}
-    dict['key'] = val
-    dict['text'] = val
-    dict['value'] = val
-    return dict
-  }
-
-  let demoOptions = options.map(label => makeDict(label))
-  return <Dropdown placeholder='Select up to 8 demographic combinations' fluid multiple selection options={demoOptions} onChange={onChange} />
+const DemoSelections = ({options, onChange, value}) => {
+  let demoOptions = options.map(val => ({key: val, text: val, value: val}))
+  return <Dropdown placeholder='Select up to 8 demographic combinations'
+    fluid multiple selection
+    options={demoOptions} onChange={onChange} value={value}/>
 }
 
 export default DemoSelections
