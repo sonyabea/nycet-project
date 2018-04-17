@@ -1,1 +1,1 @@
-React dashboard for NYCET competetiveness.
+React dashboard for NYCET competitiveness.
