@@ -30,11 +30,7 @@ class DemographicsPlot extends Component {
   }
 
   handleClick (event, element) {
-    let { currentlySelected } = this.state
-    let newState = element.checked ?
-      [...currentlySelected, element.label] :
-      currentlySelected.filter(selection => selection !== element.label)
-    this.setState({currentlySelected: newState})
+    this.setState({currentlySelected: element.value})
   }
 
   render() {
@@ -51,7 +47,7 @@ class DemographicsPlot extends Component {
       <PlotContainer plotData={filteredPlotData}>
         <GroupSizes { ...groupSizes } />
         <div style={{'margin-top': '20%'}}>
-          <DemoSelections options={demoSelectionOptions} handleClick={this.handleClick.bind(this)} />
+          <DemoSelections options={demoSelectionOptions} onChange={this.handleClick.bind(this)} />
         </div>
 
       </PlotContainer>
