@@ -6,40 +6,27 @@ import { ExperimentsPlotContainer, DemographicsPlotContainer } from './PlotConta
 import CACEContainer from './CACEContainer'
 import { getLoading } from '../selectors'
 
-
-class Experiments extends Component {
-  render () {
-    let { dropdownContainer, plotContainer, loading } = this.props
-    return loading ? null : (
-      <div className='flex-container vertical' style={{width: '80%', margin: 'auto'}}>
-        <div className='plot-top'>
-          <div>{dropdownContainer}</div>
-          <CACEContainer/>
-        </div>
-          {plotContainer}
-      </div>
-    )
-  }
-}
+const Experiments = ({dropdownContainer, plotContainer, loading}) => loading ? null :
+  <div className='flex-container vertical' style={{width: '80%', margin: 'auto'}}>
+    <div className='plot-top'>
+      <div>{dropdownContainer}</div>
+      <CACEContainer/>
+    </div>
+      {plotContainer}
+  </div>
 
 const ExperimentsContainer = connect(
   state => ({ loading: getLoading(state) })
 )(Experiments)
 
-export const ExperimentsByOrg = (props) => {
-  return (
-    <ExperimentsContainer
-      dropdownContainer={ <ExperimentsDropdownContainer /> }
-      plotContainer={ <ExperimentsPlotContainer /> }
-    />
-  )
-}
+export const ExperimentsByOrg = () => 
+  <ExperimentsContainer
+    dropdownContainer={ <ExperimentsDropdownContainer /> }
+    plotContainer={ <ExperimentsPlotContainer /> }
+  />
 
-export const DemographicStats = (props) => {
-  return (
-    <ExperimentsContainer
-      dropdownContainer={ <DemographicsDropdownContainer /> }
-      plotContainer={ <DemographicsPlotContainer /> }
-    />
-  )
-}
+export const DemographicStats = () => 
+  <ExperimentsContainer
+    dropdownContainer={ <DemographicsDropdownContainer /> }
+    plotContainer={ <DemographicsPlotContainer /> }
+  />
