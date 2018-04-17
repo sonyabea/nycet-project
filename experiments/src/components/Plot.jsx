@@ -17,6 +17,7 @@ const Plot = ({data}) =>
       medianLabels={d => `Treatment Size: ${d.treatment_pop}\n Control Size: ${d.control_pop}`}
       medianLabelComponent={ <VictoryTooltip /> }
     />
+    <VictoryAxis tickValues={data.map(d => d.x)} tickFormat={t => ''}/>
     <VictoryAxis dependentAxis style={{tickLabels: {fontSize: 8}}}/>
   </VictoryChart>
 

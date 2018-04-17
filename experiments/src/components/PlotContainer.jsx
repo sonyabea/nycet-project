@@ -34,7 +34,7 @@ class DemographicsPlot extends Component {
                             .orderBy('total_pop')
                             .reverse()
                             .slice(0,6)
-                            .map("x")
+                            .map('x')
                             .value()
 
     return {currentlySelected: demoPreselections}
@@ -42,7 +42,7 @@ class DemographicsPlot extends Component {
 
   shouldComponentUpdate (nextProps, nextState) {
     let { length: selectionsLength } = nextState.currentlySelected
-    return (selectionsLength >= 1 && selectionsLength <= 8)
+    return (selectionsLength >= 1 && selectionsLength <= 6)
   }
 
   handleChange (event, element) {
@@ -52,7 +52,7 @@ class DemographicsPlot extends Component {
   render () {
     let { plotData, groupSizes } = this.props
     let { currentlySelected, error } = this.state
-    let demoSelectionOptions = plotData.map(d => d.x)
+    let demoSelectionOptions = plotData.map(d => ({key: d.x, text: d.x, value: d.x}))
     let filteredPlotData = plotData.filter(d => currentlySelected.includes(d.x))
     return (
       <PlotTemplate plotData={filteredPlotData} groupSizes={groupSizes}>
