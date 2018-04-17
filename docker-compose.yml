@@ -1,13 +1,13 @@
 version: '3'
 services:
-  competitiveness:
+  competitive:
     build: ./competitiveness
     environment:
       NODE_ENV: development
     ports:
       - '3000:3000'
     volumes:
-      - ./competitiveness/src:/home/app/competitiveness/src
+      - ./competitiveness/src:/home/app/competitive/src
   express:
     build: ./backend
     ports:

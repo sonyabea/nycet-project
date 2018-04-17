@@ -1,1 +1,1 @@
-React dashboard for NYCET experiments A/B testing.
+React dashboard for NYCET competitiveness.

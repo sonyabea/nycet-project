@@ -5,11 +5,11 @@ RUN useradd --user-group --create-home --shell /bin/false app &&\
 
 ENV HOME=/home/app
 
-COPY . $HOME/competitiveness
+COPY . $HOME/competitive
 # RUN chown -R app:app $HOME/*
 
 # USER app
-WORKDIR $HOME/competitiveness
+WORKDIR $HOME/competitive
 RUN npm install 
 
 # USER root
