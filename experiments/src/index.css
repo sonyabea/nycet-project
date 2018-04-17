@@ -53,6 +53,7 @@ a.active.item {
   font-weight: 400;
 }
 
-/* .VictoryContainer {
-  margin-top: -5%;
-} */
+
+svg {
+  margin-top: -5%
+}
