@@ -9,9 +9,9 @@ const App = (props) => {
   let linksInfo = routesInfo.filter(r => r.path)
   let routes = routesInfo.map(r => <Route { ...r } key={r.name}/>)
   let headerStyle = {
-    'text-align': 'left',
-    'margin-left': '2%',
-    'margin-top': '2%'
+    'textAlign': 'left',
+    'marginLeft': '2%',
+    'marginTop': '2%'
   }
   return (
     <div className="App">

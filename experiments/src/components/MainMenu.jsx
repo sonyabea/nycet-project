@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 const MainMenu = ({linksInfo}) => {
   let menuItems = linksInfo.map(l =>
-    <Menu.Item name={l.name} as={Link} to={l.path}>
+    <Menu.Item key={l.name} name={l.name} as={Link} to={l.path}>
       {l.name}
     </Menu.Item>
   )

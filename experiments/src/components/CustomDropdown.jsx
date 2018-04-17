@@ -2,7 +2,7 @@ import React from 'react'
 import { Dropdown, Header } from 'semantic-ui-react'
 
 const addPadding = {
-  'padding-right': '10px'
+  'paddingRight': '10px'
 }
 
 const CustomDropdown = ({name, display, options, selected, handleChange}) => (

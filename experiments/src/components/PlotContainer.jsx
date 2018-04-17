@@ -5,19 +5,19 @@ import DemoSelections from './DemoSelections'
 import GroupSizes from './GroupSizes'
 import { getExperimentsPlotData, getDemographicsPlotData, getElectionGroupSizes } from '../selectors'
 
-class PlotContainer extends Component {
+const PlotTemplate = ({ groupSizes, plotData, children }) => 
+  <div className='flex-container'>
+    <div style={{width: '25%'}}>
+      <GroupSizes { ...groupSizes } />
+      {children}
+    </div>
+    <Plot data={plotData} />
+  </div>
 
-  render () {
-    return (
-      <div className='flex-container'>
-        <div style={{width: '25%'}}>
-          {this.props.children}
-        </div>
-        <Plot data={this.props.plotData} />
-      </div>
-    )
-  }
-}
+// class ExperimentsPlot extends Component {
+//   render() {
+//   }
+// }
 
 class DemographicsPlot extends Component {
 
@@ -41,10 +41,9 @@ class DemographicsPlot extends Component {
     let demoSelectionOptions = plotData.map(d => d.x)
     let filteredPlotData = plotData.filter(d => this.state.currentlySelected.includes(d.x))
     return (
-      <PlotContainer plotData={filteredPlotData}>
-        <GroupSizes { ...groupSizes } />
+      <PlotTemplate plotData={filteredPlotData} groupSizes={groupSizes} >
         <DemoSelections options={demoSelectionOptions} handleClick={this.handleClick.bind(this)} />
-      </PlotContainer>
+      </PlotTemplate>
     )
   }
 }
@@ -54,7 +53,7 @@ export const ExperimentsPlotContainer = connect(
     plotData: getExperimentsPlotData(state),
     groupSizes: getElectionGroupSizes('experiments')(state)
   })
-)(PlotContainer)
+)(PlotTemplate)
 
 export const DemographicsPlotContainer = connect(
   state => ({
