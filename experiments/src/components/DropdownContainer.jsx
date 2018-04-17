@@ -30,7 +30,7 @@ class DropdownContainer extends Component {
   render () {
     let { dropdownOptions } = this.props
     let dropdowns = dropdownOptions.map(d =>
-      <CustomDropdown { ...d } key={d.name} handleChange={this.handleChange.bind(this)} />
+      <CustomDropdown { ...d } key={d.name} onChange={this.handleChange.bind(this)} />
     )
     return <div className='flex-container'>{dropdowns}</div>
   }

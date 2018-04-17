@@ -8,7 +8,7 @@ import _ from 'lodash'
 
 const PlotTemplate = ({ groupSizes, plotData, children }) =>
   <div className='flex-container'>
-    <div style={{width: '25%', 'textAlign': 'left'}}>
+    <div style={{width: '20%', 'textAlign': 'left', 'fontSize': '12px'}}>
       <GroupSizes { ...groupSizes } />
       {children}
     </div>
@@ -19,22 +19,18 @@ class DemographicsPlot extends Component {
 
   constructor (props) {
     super(props)
-
     this.state = {
-      currentlySelected: []
+      currentlySelected: [],
+      error: ''
     }
   }
 
-  handleClick (event, element) {
-    this.setState({currentlySelected: element.value})
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
+  static getDerivedStateFromProps (nextProps, prevState) {
     let demoPreselections = _.chain(nextProps.plotData)
-                            .map(dataPt =>
-                              ({...dataPt,
-                              total_pop: parseInt(dataPt.control_pop) + parseInt(dataPt.treatment_pop)})
-                            )
+                            .map(dataPt => ({
+                              ...dataPt,
+                              total_pop: parseInt(dataPt.control_pop, 10) + parseInt(dataPt.treatment_pop, 10)
+                            }))
                             .orderBy('total_pop')
                             .reverse()
                             .slice(0,6)
@@ -44,17 +40,28 @@ class DemographicsPlot extends Component {
     return {currentlySelected: demoPreselections}
   }
 
-  render() {
+  shouldComponentUpdate (nextProps, nextState) {
+    let { length: selectionsLength } = nextState.currentlySelected
+    return (selectionsLength > 0 && selectionsLength < 6)
+  }
+
+  handleChange (event, element) {
+    this.setState({currentlySelected: element.value})
+  }
+
+  render () {
     let { plotData, groupSizes } = this.props
+    let { currentlySelected, error } = this.state
     let demoSelectionOptions = plotData.map(d => d.x)
-    let filteredPlotData = plotData.filter(d => this.state.currentlySelected.includes(d.x))
+    let filteredPlotData = plotData.filter(d => currentlySelected.includes(d.x))
     return (
       <PlotTemplate plotData={filteredPlotData} groupSizes={groupSizes}>
-        <div style={{'marginTop': '20%'}}>
+        <div style={{'marginTop': '10%'}}>
           <DemoSelections
+            error={error}
             options={demoSelectionOptions}
-            onChange={this.handleClick.bind(this)}
-            value={this.state.currentlySelected}
+            onChange={this.handleChange.bind(this)}
+            value={currentlySelected}
           />
         </div>
       </PlotTemplate>
