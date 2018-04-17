@@ -8,11 +8,11 @@ import _ from 'lodash'
 
 const PlotTemplate = ({ groupSizes, plotData, children }) =>
   <div className='flex-container'>
-    <div style={{width: '20%', 'textAlign': 'left', 'fontSize': '12px'}}>
+    <div style={{width: '20%', textAlign: 'left', fontSize: '12px', marginTop: '4%'}}>
       <GroupSizes { ...groupSizes } />
       {children}
     </div>
-    <Plot data={plotData} />
+    <Plot data={plotData}/>
   </div>
 
 class DemographicsPlot extends Component {
@@ -42,7 +42,7 @@ class DemographicsPlot extends Component {
 
   shouldComponentUpdate (nextProps, nextState) {
     let { length: selectionsLength } = nextState.currentlySelected
-    return (selectionsLength > 0 && selectionsLength < 6)
+    return (selectionsLength >= 1 && selectionsLength <= 8)
   }
 
   handleChange (event, element) {

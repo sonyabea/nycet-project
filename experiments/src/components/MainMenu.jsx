@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router'
 
 class MainMenu extends Component {
+
   render() {
     const { location } = this.props
-
     let menuItems = this.props.linksInfo.map(l =>
       <Menu.Item key={l.name}
         name={l.name}
@@ -18,7 +18,7 @@ class MainMenu extends Component {
       </Menu.Item>
     )
 
-    return  (
+    return (
       <Segment inverted>
         <Menu inverted pointing secondary size='massive'>{menuItems}</Menu>
       </Segment>
