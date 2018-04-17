@@ -55,5 +55,7 @@ a.active.item {
 
 
 svg {
-  margin-top: -5%
+  margin-top: -5%;
+  position: relative;
+  z-index: -1;
 }
