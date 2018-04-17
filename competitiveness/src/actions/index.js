@@ -1,4 +1,5 @@
 import { filterFiles } from './mapHelpers'
+import axios from 'axios'
 const d3 = require('d3');
 
 //META MAP VARS -- MAKE THIS BETTER LATER
@@ -37,8 +38,6 @@ export const loadMapData = (props) =>
                filteredData] = filterFiles(geoFile, dataFile, mapRegionType, dataRegionType, selected);
 
           let dataMap = d3.map()
-          console.log(filteredData)
-          console.log(filteredGeo)
           filteredData.forEach((d) => {
             d.margin = ((d.winning_party === 'Republican') ? -d.margin : +d.margin)
             dataMap.set(d[dataRegionType], d.margin)})
