@@ -11,17 +11,6 @@ export function mapDataReducer(state={
   }
 }
 
-// export function EDLevelMapReducer(state={
-//                           geoJson: {type: '', features: []},
-//                           geoData: d3.map()}, action) {
-//   switch (action.type) {
-//     case 'LOAD_ED_LEVEL_MAP':
-//       return action.payload
-//     default:
-//       return state
-//   }
-// }
-
 //currently hardcoded for a 10-row table, don't @ me
 export function mapDimensionsReducer(state={mapDimensions: [0,471]}, action) {
   switch (action.type) {

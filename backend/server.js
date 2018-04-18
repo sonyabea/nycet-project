@@ -28,13 +28,16 @@ const db = pgp(cnxn)
 
 app.post('/table/:table/', function(req, res) {
   let {table} = req.params
-  let {filterOn, filterBy, columns, unique} = req.body
+  let {filterOn, filterBy, columns, unique, addtlQuery} = req.body
   columns = columns && columns.length > 0 ? columns.join(',') : '*'
   unique = unique ? 'DISTINCT' : ''
 
   let query = `SELECT ${unique} ${columns} FROM ${table}`
   if (filterOn && filterBy) {
     query += ` WHERE ${filterOn} = '${filterBy}'`
+  }
+  if (addtlQuery) {
+    query += addtlQuery
   }
 
   console.log(query)
