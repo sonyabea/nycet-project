@@ -3,6 +3,7 @@ import MapContainer from './MapContainer.jsx';
 import DataMap from './Map.jsx';
 //import MapTooltip from './components/MapTooltip.jsx';
 import TopTen from './TopTen.jsx';
+import { DistrictTypeSelect } from './Dropdowns.jsx'
 import { Grid, Header, Card, Container } from 'semantic-ui-react';
 
 //params passed down from URL
@@ -17,6 +18,7 @@ const Competitiveness= ({mapComponents}) => {
       <Grid>
         <Grid.Column width={10} style={{ minHeight: 600 }}>
           <MapContainer>
+            <DistrictTypeSelect />
             <DataMap mapComponents={mapComponents}/>
           </MapContainer>
         </Grid.Column>
