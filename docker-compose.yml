@@ -8,6 +8,14 @@ services:
       - '3000:3000'
     volumes:
       - ./competitiveness/src:/home/app/competitive/src
+  experiments:
+    build: ./experiments
+    environment:
+      NODE_ENV: development
+    ports:
+      - '3006:3006'
+    volumes:
+      - ./experiments/src:/home/app/experiments/src
   express:
     build: ./backend
     ports:
