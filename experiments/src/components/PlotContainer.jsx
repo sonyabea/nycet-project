@@ -79,6 +79,6 @@ export const ExperimentsPlotContainer = connect(
 export const DemographicsPlotContainer = connect(
   state => ({
     plotData: getDemographicsPlotData(state),
-    groupSizes: getElectionGroupSizes('demographics')(state)
+    groupSizes: getElectionGroupSizes('demographics')(state),
   })
 )(DemographicsPlot)
