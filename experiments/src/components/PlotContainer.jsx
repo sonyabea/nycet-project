@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import Plot from './Plot'
 import DemoSelections from './DemoSelections'
 import GroupSizes from './GroupSizes'
-import { getExperimentsPlotData, getDemographicsPlotData, getElectionGroupSizes } from '../selectors'
+import { getPlotData, getElectionGroupSizes } from '../selectors'
 import _ from 'lodash'
 
 const PlotTemplate = ({ groupSizes, plotData, children }) =>
@@ -69,16 +69,15 @@ class DemographicsPlot extends Component {
   }
 }
 
+const getSelectors = (type) => state => ({
+  plotData: getPlotData(type)(state),
+  groupSizes: getElectionGroupSizes(type)(state)
+})
+
 export const ExperimentsPlotContainer = connect(
-  state => ({
-    plotData: getExperimentsPlotData(state),
-    groupSizes: getElectionGroupSizes('experiments')(state)
-  })
+  getSelectors('experiments')
 )(PlotTemplate)
 
 export const DemographicsPlotContainer = connect(
-  state => ({
-    plotData: getDemographicsPlotData(state),
-    groupSizes: getElectionGroupSizes('demographics')(state),
-  })
+  getSelectors('demographics')
 )(DemographicsPlot)

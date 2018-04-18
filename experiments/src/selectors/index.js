@@ -14,32 +14,19 @@ export const getData = type => type === 'demographics' ? getAllData : createSele
 	data =>	_.filter(data, {'dem1': 'org', 'dem2': null})
 )
 
-const getPlotData = type => createSelector(
+export const getPlotData = type => createSelector(
 	[ getData(type), getAllSelected(type) ],
-	(data, allSelected) => _.filter(data, allSelected)
+	(data, allSelected) => {
+		let filteredData = _.filter(data, allSelected)
+		return !allSelected.dem2 ?
+			filteredData.map(d => ({ ...d, x: d.dem1_value })) :
+			filteredData.map(d => ({ ...d, x: (d.dem1_value + ' / ' + d.dem2_value) }))
+	}
 )
 
 const getSelected = (type, column) => createSelector(
 	[ getAllSelected(type) ],
 	allSelected => _.pick(allSelected, column)
-)
-
-const getAllOrgs = createSelector(
-	[ getData('experiments'), getSelected('experiments', 'election') ],
-	(data, selectedElection) => _.filter(data, { ...selectedElection, dem1_value: 'all'}) 
-)
-
-export const getExperimentsPlotData = createSelector(
-	[ getPlotData('experiments'), getAllOrgs ],
-	(filteredData, allOrgs) => [ ...filteredData, ...allOrgs ]
-		.map(d => ({ ...d, x: d.dem1_value }))
-)
-
-export const getDemographicsPlotData = createSelector(
-	[ getPlotData('demographics'), getAllSelected('demographics') ],
-	(data, allSelected) => !allSelected.dem2 ?
-			data.map(d => ({ ...d, x: d.dem1_value })) :
-			data.map(d => ({ ...d, x: (d.dem1_value + ' / ' + d.dem2_value) }))
 )
 
 export const getElectionGroupSizes = type => createSelector(
@@ -52,16 +39,19 @@ export const getElectionGroupSizes = type => createSelector(
 		}), {control_pop: 0, treatment_pop: 0})
 )
 
-// take data, get first column (sorted by sum of control_pop), store
-// filter data over first column, get second column (sorted by sum of control_pop), store
-// keep going (okay there's no way anyone's gonna be able to this)
+
 const capitalize = string => string.charAt(0).toUpperCase() + string.substr(1)
+const format = string => string.split('_').map(capitalize).join(' ')
 
 const getOrderedSelected = type => createSelector(
 	[ getColumns(type), getAllSelected(type) ],
 	(columns, allSelected) => columns.map(c => ({ ...c, selected: allSelected[c.name]}))
 )
 
+
+// take data, get first column (sorted by sum of control_pop), store
+// filter data over first column, get second column (sorted by sum of control_pop), store
+// repeat
 const deriveDropdownOptions = (data, selected) => selected.reduce(
 	(a, b) => {
 		let { data: currentData, dropdownOptions } = a
@@ -72,18 +62,17 @@ const deriveDropdownOptions = (data, selected) => selected.reduce(
 			.sortBy(x => 1 / (x[1] + 1)) // sort by descending, account for any possible zeros in denominator
 			.flatMap(x => x[0])
 			.value()
-		let newDropdownOptions = dropdownTexts.map(d => ({key: d, text: capitalize(d), value: d}))
+		let newDropdownOptions = dropdownTexts.map(d => ({key: d, text: format(d), value: d}))
 		return {
 			data: _.filter(currentData, {[b.name]: b.selected}),
 			dropdownOptions: [
 				...dropdownOptions, 
-				{ ...b, selected: b.selected && capitalize(b.selected), options: newDropdownOptions }
+				{ ...b, selected: b.selected && format(b.selected), options: newDropdownOptions }
 			]
 		}
 	},
 	{ data, 'dropdownOptions': [] }
 	).dropdownOptions
-
 
 export const getDropdownOptions = type => createSelector(
 	[ getData(type), getOrderedSelected(type) ],

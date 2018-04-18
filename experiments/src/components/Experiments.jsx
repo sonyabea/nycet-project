@@ -3,14 +3,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { ExperimentsDropdownContainer, DemographicsDropdownContainer } from './DropdownContainer'
 import { ExperimentsPlotContainer, DemographicsPlotContainer } from './PlotContainer'
-import CACEContainer from './CACEContainer'
+import CACE from './CACE'
 import { getLoading } from '../selectors'
 
 const Experiments = ({dropdownContainer, plotContainer, loading}) => loading ? null :
   <div className='flex-container vertical' style={{width: '80%', margin: 'auto'}}>
     <div className='plot-top'>
       <div>{dropdownContainer}</div>
-      <CACEContainer/>
+      <CACE/>
     </div>
       {plotContainer}
   </div>
