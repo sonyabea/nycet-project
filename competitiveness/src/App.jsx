@@ -7,7 +7,6 @@ import './App.css';
 //can add more complexity here in the children eventually
 class AppContainer extends Component {
   componentWillMount() {
-    //check for mapData?
     let parentDistType = (typeof(this.props.match.params.parentDistType) === 'undefined') ? 'AD' : this.props.match.params.parentDistType 
     let parentDistId= (typeof(this.props.match.params.parentDistId) === 'undefined') ? 0 : this.props.match.params.parentDistId
     this.props.loadMap({parentDistType, parentDistId})
