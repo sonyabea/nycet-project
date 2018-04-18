@@ -4,7 +4,7 @@ import { loadMapData } from '../actions/index';
 const React = require('react');
 const d3 = require('d3');
  
-const Map = ({mapWidth, mapHeight, mapComponents, drillDown}) => {
+const Map = ({mapWidth, mapHeight, mapComponents, parentDist, drillDown}) => {
   let projection = d3.geoIdentity()
                  .reflectY(true)
                  .fitSize([mapWidth,mapHeight], mapComponents.geoJson)
@@ -22,13 +22,13 @@ const Map = ({mapWidth, mapHeight, mapComponents, drillDown}) => {
       // let selected = (d.properties[props.mapRegionType] === props.selectedId) ? 'glow' : 'district'
       return (
       //'AD' is hardcoded here, but that should eventually come from store
-      <Link key={`link-${i}`} to={{pathname: `/AD/${d.properties.districtNumber}`}}>
+      <Link key={`link-${i}`} to={{pathname: `/${parentDist}/${d.properties.districtNumber}`}}>
         <path
           data={d}
           key={ `path-${ i }` }
           d={ `${d3.geoPath().projection(projection)(d)}` }
           fill={ `${ color(mapComponents.geoData.get(d.properties.districtNumber))}`}
-          onClick={() => drillDown(d.properties.districtNumber)}
+          onClick={() => drillDown(d.properties.districtNumber, parentDist)}
           className='district'
         />
       </Link>
@@ -51,12 +51,13 @@ const Map = ({mapWidth, mapHeight, mapComponents, drillDown}) => {
 //filter map from ownprops
 const mapStateToProps = (state) => ({
   mapWidth: state.mapDimensions[0],
-  mapHeight: state.mapDimensions[1]})
+  mapHeight: state.mapDimensions[1],
+  parentDist: state.districtType})
 
 const mapDispatchToProps = (dispatch, ownProps) => (
-  {drillDown: (selected) => 
+  {drillDown: (selected, parentDist) => 
       //again, remove hardcoding eventually
-      dispatch(loadMapData({parentDistId: selected, parentDistType: 'AD'}))}
+      dispatch(loadMapData({parentDistId: selected, parentDistType: parentDist }))}
 )
 
 const DataMap = connect(mapStateToProps, mapDispatchToProps)(Map)
