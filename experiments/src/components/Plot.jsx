@@ -4,7 +4,6 @@ import { VictoryChart, VictoryBoxPlot, VictoryAxis, VictoryLabel, VictoryTooltip
 const Plot = ({data}) =>
   <VictoryChart domainPadding={20}>
     <VictoryBoxPlot
-      animate
       boxWidth={20}
       data={data.map(d => ({ ...d, min: d.ci_low, max: d.ci_high }))}
       maxLabels={d => d.x.replace(' ', '\n')}

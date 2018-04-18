@@ -18,7 +18,7 @@ export const loadData = () => dispatch => {
     .then(res => {
       dispatch({ type: LOAD_DATA, data: res.data })
       let initiate = getInitialSelection(res.data)
-      dispatch({ type: LOAD_INITIAL_EXPERIMENTS_SELECTION, selection: initiate({dem1: 'org', dem2: null}) })
+      dispatch({ type: LOAD_INITIAL_EXPERIMENTS_SELECTION, selection: initiate({dem1: 'org', dem2: 'all'}) })
       dispatch({ type: LOAD_INITIAL_DEMOGRAPHICS_SELECTION, selection: initiate({dem1: 'race'}) })
       dispatch({ type: SET_LOADING, loading: false })
     }
