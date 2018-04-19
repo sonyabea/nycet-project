@@ -51,7 +51,6 @@ class DemographicsPlot extends Component {
       <PlotTemplate plotData={filteredPlotData} groupSizes={groupSizes}>
         <div style={{'marginTop': '10%'}}>
           <DemoSelections
-            error={error}
             options={demoSelectionOptions}
             onChange={this.handleChange.bind(this)}
             value={currentlySelected}
