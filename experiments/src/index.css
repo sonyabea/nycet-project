@@ -23,6 +23,8 @@ body {
 .plot-top {
   display: flex;
   justify-content: space-between;
+  position: relative;
+  z-index: 1;
 }
 
 h1 {
@@ -57,5 +59,4 @@ a.active.item {
 svg {
   margin-top: -5%;
   position: relative;
-  z-index: -1;
 }

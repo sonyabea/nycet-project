@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { setMapDimensions } from '../actions/index'
+import { setMapDimensions } from '../../actions/index'
 import { connect } from 'react-redux';
 
 class MapContainerComponent extends Component{
@@ -30,8 +30,7 @@ class MapContainerComponent extends Component{
   render() {
     return (
       <div ref={node => this.node = node} className='map-container'>
-        <div className='container-header'>Race Margins</div>
-          {this.props.children}
+        {this.props.children}
       </div>
     )
    }

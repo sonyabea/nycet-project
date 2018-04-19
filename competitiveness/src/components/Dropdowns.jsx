@@ -1,6 +1,6 @@
 import { Dropdown } from 'semantic-ui-react';
 import { connect } from 'react-redux'; 
-import { loadMapData } from '../actions/index';
+import { loadData } from '../actions/index';
 const React = require('react');
 
 const DistrictTypeSelectContainer = ({districtType, changeDistrict}) => (
@@ -11,6 +11,7 @@ const DistrictTypeSelectContainer = ({districtType, changeDistrict}) => (
      ]}
      defaultValue={districtType}
      onChange={(e, d) => changeDistrict({parentDistType: d.value, parentDistId: 0})}
+     className='district-select'
       />
 )
 
@@ -34,6 +35,6 @@ const RaceTypeSelectContainer = ({raceType}) => (
 const mapStateToRaceProps = (state) => ({
   raceType: state.RaceType })
 
-export const DistrictTypeSelect = connect(mapStateToDistrictProps, {changeDistrict: loadMapData})(DistrictTypeSelectContainer)
+export const DistrictTypeSelect = connect(mapStateToDistrictProps, {changeDistrict: loadData})(DistrictTypeSelectContainer)
 export const RaceTypeSelect = connect(mapStateToRaceProps)(RaceTypeSelectContainer)
 

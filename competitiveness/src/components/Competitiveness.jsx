@@ -1,35 +1,29 @@
 import React from 'react';
-import MapContainer from './MapContainer.jsx';
-import DataMap from './Map.jsx';
+import MapContainer from './map/MapContainer.jsx';
+import DataMap from './map/Map.jsx';
 //import MapTooltip from './components/MapTooltip.jsx';
 import TopTen from './TopTen.jsx';
-import { DistrictTypeSelect } from './Dropdowns.jsx'
-import { Grid, Header, Card, Container } from 'semantic-ui-react';
+import CompHeader from './CompHeader.jsx'
+import EDHeader from './EDHeader.jsx';
+import CensusDetails from './CensusDetails.jsx';
+import { Grid, Container } from 'semantic-ui-react';
 
 //params passed down from URL
-const Competitiveness= ({mapComponents}) => {
-  return (
+const Competitiveness= ({mapComponents, districtType}) => (
     <Container>
-      <div className='page-header'>
-        <Header>
-          <h1>New York City Competitiveness - Assembly District Overview</h1>
-        </Header>
-      </div>
+      <CompHeader />  
       <Grid>
-        <Grid.Column width={10} style={{ minHeight: 600 }}>
+        { districtType === 'ED' ? <EDHeader /> : '' } 
+        <Grid.Column width={10} style={{ minHeight: 600, width: "100%" }}>
           <MapContainer>
-            <DistrictTypeSelect />
             <DataMap mapComponents={mapComponents}/>
           </MapContainer>
         </Grid.Column>
         <Grid.Column width={5}>
-          <Card>
-            <TopTen geoData={mapComponents.geoData} />
-          </Card>
+          { districtType === 'ED' ? <CensusDetails /> : <TopTen geoData={mapComponents.geoData} /> } 
         </Grid.Column>
       </Grid>
     </Container>
-    )
-  }
+  )
 
 export default Competitiveness;
