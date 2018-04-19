@@ -5,8 +5,8 @@ import { withRouter } from 'react-router-dom';
 const React = require('react');
 
 const TopTenContainer = ({history, geoData, drillDown, districtType}) => {
-  let filteredDists = geoData.entries().filter((a) => (a.value !== 0));
-  let sortedDists = filteredDists.sort((a, b) => (
+  //let filteredDists = geoData.entries().filter((a) => (a.value !== 0));
+  let sortedDists = geoData.entries().sort((a, b) => (
     Math.abs(a.value) - Math.abs(b.value)))
   
   //don't do this on ed level view?

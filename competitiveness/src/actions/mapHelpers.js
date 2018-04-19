@@ -25,12 +25,13 @@ const getHlQuery = (dist) => (
 const getEdQuery = (parentDist, election, selected) => (
   {columns: [`e.pl_margin_${election.toString().toLowerCase()} as most_rec_pl_margin`,
              'd.ad',
-             'e.countyed', 
+             'e.countyed',
+             'd.county',
              'p.map as winning_pol_lean'],
-   addtlQuery: ` as e
-               JOIN electiondistricts as d ON d.countyed = e.countyed
-               JOIN maps_pollean p ON e.wp_${election.toString().toLowerCase()} = p.party
-               WHERE d.${parentDist.toString().toLowerCase()} = ${selected}`})
+   addtlQuery: [' as e',
+               'JOIN electiondistricts as d ON d.countyed = e.countyed',
+               `JOIN maps_pollean p ON e.wp_${election.toString().toLowerCase()} = p.party`,
+               `WHERE d.${parentDist.toString().toLowerCase()} = ${selected}`].join(' ')})
 
 
 export const queryDB = (dist, table, election, selected) => {
@@ -45,7 +46,6 @@ const filterToParents = (geoFile, dataPull) => {
     //set ED numbers from e.g. "Bronx Ad 57 - Ed 004" to "district" prop
     dataPull.forEach((d) => d.district = parseInt(`${d.ad}${d.countyed.split(" ")[4]}`, 10))
     let validEds = dataPull.map((d) => d.district)
-
     return geoFile.features.filter((d) => (validEds.indexOf(d.properties.districtNumber) >= 0))
 }
 

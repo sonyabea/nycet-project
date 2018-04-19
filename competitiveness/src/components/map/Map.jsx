@@ -4,7 +4,7 @@ import MapDistrict from './MapDistrict';
 const React = require('react');
 const d3 = require('d3');
  
-const Map = ({mapWidth, mapHeight, mapComponents, parentDist, drillDown}) => {
+const Map = ({mapWidth, mapHeight, mapComponents, parentDist, drillDown, county}) => {
   let projection = d3.geoIdentity()
                  .reflectY(true)
                  .fitSize([mapWidth,mapHeight], mapComponents.geoJson)
@@ -20,7 +20,7 @@ const Map = ({mapWidth, mapHeight, mapComponents, parentDist, drillDown}) => {
           d={d}
           projection={ `${d3.geoPath().projection(projection)(d)}` }
           fill={ `${ color(mapComponents.geoData.get(d.properties.districtNumber))}`}
-          onClick={() => drillDown(d.properties.districtNumber, parentDist)}
+          onClick={() => drillDown(d.properties.districtNumber, parentDist, county)}
         />
       )))
 
@@ -38,12 +38,13 @@ const Map = ({mapWidth, mapHeight, mapComponents, parentDist, drillDown}) => {
 const mapStateToProps = (state) => ({
   mapWidth: state.mapDimensions[0],
   mapHeight: state.mapDimensions[1],
-  parentDist: state.districtType})
+  parentDist: state.districtType,
+  county: state.highlightedEdData.county})
 
 const mapDispatchToProps = (dispatch, ownProps) => (
-  {drillDown: (selected, parentDist) => (
+  {drillDown: (selected, parentDist, county) => (
       dispatch(
-        loadData({parentDistId: selected, parentDistType: parentDist })
+        loadData({parentDistId: selected, parentDistType: parentDist, county: county })
       )
     )
   }

@@ -1,17 +1,14 @@
 import { filterFiles, returnLoadParams, queryDB } from './mapHelpers'
+import axios from 'axios'
 const d3 = require('d3');
-
-const loadEDData = (ed) => dispatch => (null)
 
 //ACTION CREATORS
 export const loadData = (props) => 
   //use this thunk syntax, because d3.queue happens async
   dispatch => { 
-    dispatch(announceLoading)
-    
     //already at lowest map level? 
     if (props.parentDistType === 'ED') {
-      dispatch(loadEDData(props.parentDistId))
+      dispatch(loadEDData(props.parentDistId, props.county))
     }
     else {
       dispatch(loadHLData(props))
@@ -22,6 +19,7 @@ const loadHLData = (props) => dispatch =>  {
     let selected = props.parentDistId
     let districtType = (selected === 0) ? props.parentDistType : 'ED'
     dispatch(changeDistrict(districtType, props.parentDistType, selected))
+    let election = (typeof(props.election) === 'undefined') ? props.parentDistType : props.election
     let {mapRegionType,
          geoSource, table}= returnLoadParams(districtType) 
 
@@ -32,6 +30,8 @@ const loadHLData = (props) => dispatch =>  {
           .await((error, geoFile) => {
             let [filteredGeo,
                  filteredData] = filterFiles(geoFile, dataPull.data, mapRegionType, selected);
+            let county = filteredData[0].county
+            dispatch(setCounty(county))
 
             let dataMap = d3.map()
             filteredData.forEach((d) => {
@@ -40,12 +40,50 @@ const loadHLData = (props) => dispatch =>  {
               dispatch(storeMapData(
                      {geoJson: filteredGeo, 
                       geoData: dataMap}, 'LOAD_MAP_DATA'))
+
+              //also auto-select top ED for detail view
+              if (districtType === 'ED') {
+                let topED = dataMap.entries().sort((a, b) => (
+                    Math.abs(a.value) - Math.abs(b.value)))[0]
+                dispatch(loadEDData(topED.key, county))
+              }
         })
      })
   }
 
+//HIGHLIGHT ED ACTION CREATORS
 
-//ACTIONS
+const loadEDData = (ed, county) => dispatch => {
+  
+  let stringAd = ed.toString().split('').slice(0,2).join('')
+  let stringEd = ed.toString().split('').slice(2,5).join('')
+
+  //hardcode all keys for now until db is sorted, when we can just join
+  let allParams =[{filterString: `${county.toString()}AD 0${stringAd} - ED ${stringEd}`,
+                   table: 'acs_ed_demographics',
+                   actionType: 'LOAD_ACS'},
+                  {filterString: `${county.toString().toUpperCase()}AD 0${stringAd} - ED ${stringEd}`,
+                      table: 'census_ed_demographics',
+                      actionType: 'LOAD_CENSUS'},
+                  {filterString: `${county.toString()}Ad ${stringAd} - Ed ${stringEd}`,
+                      table: 'ed_agg_voter_file',
+                      actionType: 'LOAD_TURNOUT'}]
+
+  allParams.forEach((params) => {
+    let query = {filterOn: 'countyed', filterBy: params.filterString}
+    axios({method: 'post',
+           url: `http://localhost:8080/table/${params.table}`,
+           data: query}).then((res) => (
+              dispatch(dispatchHighlightData(res.data, params.actionType))))})
+
+}
+
+//PURE ACTIONS
+
+const dispatchHighlightData = (data, action) => (
+  {type: action,
+   payload: data})
+
 export const storeMapData = (mapObj, actionType) => ( 
   {type: actionType,
    payload: mapObj}
@@ -56,10 +94,13 @@ export const setMapDimensions = (width, height) => (
    payload: [width, height]}
 )
 
-export const announceLoading = () => (
-  {type: 'LOAD_DATA'}
-)
-
 export const changeDistrict = (distType, parentDist, selected) => (
   {type: 'CHANGE_DISTRICT_TYPE',
-   payload: {main: distType, parent: parentDist, selected: selected}})
+   payload: {main: distType, parent: parentDist, selected: selected}}
+)
+
+export const setCounty = (county) => (
+  {type: 'SELECT_COUNTY',
+   payload: county}
+)
+

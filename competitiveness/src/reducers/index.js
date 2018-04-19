@@ -3,14 +3,20 @@ import { mapDataReducer,
          mapDimensionsReducer,
          districtTypeReducer,
          parentDistrictTypeReducer,
-         selectedDistrictReducer } from './reducers';
+         selectedDistrictReducer,
+         //temp and hardcoded, will allow diane to do her magic
+         selectedElectionReducer,
+         highlightedEdDataReducer } from './reducers';
+
 
 const NYCETAppReducers = combineReducers({
   mapData: mapDataReducer,
   mapDimensions: mapDimensionsReducer,
   districtType: districtTypeReducer,
   parentDistrictType: parentDistrictTypeReducer,
-  selectedDistrict: selectedDistrictReducer
+  selectedDistrict: selectedDistrictReducer,
+  selectedElection: selectedElectionReducer,
+  highlightedEdData: highlightedEdDataReducer
 });
 
 export default NYCETAppReducers;

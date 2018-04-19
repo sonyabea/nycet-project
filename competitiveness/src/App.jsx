@@ -9,7 +9,8 @@ class AppContainer extends Component {
   componentWillMount() {
     let parentDistType = (typeof(this.props.match.params.parentDistType) === 'undefined') ? 'AD' : this.props.match.params.parentDistType 
     let parentDistId = (typeof(this.props.match.params.parentDistId) === 'undefined') ? 0 : this.props.match.params.parentDistId
-    this.props.loadMap({parentDistType, parentDistId})
+    let election = this.props.election
+    this.props.loadMap({parentDistType, parentDistId, election})
   }
 
   render() {
@@ -24,7 +25,8 @@ class AppContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   mapData: state.mapData,
-  districtType: state.districtType
+  districtType: state.districtType,
+  election: state.selectedElection
 })
 
 const App = connect(mapStateToProps, { loadMap: loadData })(AppContainer)

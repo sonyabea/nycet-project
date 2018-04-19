@@ -67,6 +67,40 @@ export function selectedDistrictReducer(state=0, action){
       return state
   }
 }
+
+export function selectedElectionReducer(state='AD', action){
+  switch (action.type) {
+    case 'CHANGE_DISTRICT_TYPE':
+      let type = action.payload.selected
+      return (type !== 'ED') ? type : state
+    default:
+      return state
+  }
+}
+
+//try keeping all data here. if becomes cumbersome, filter to year.
+export function highlightedEdDataReducer(state={
+    //dunno if this is needed
+    county: 'Kings',
+    acs: {},
+    census: {},
+    turnout: {},
+    demoYear: '2016'}, action){
+      switch (action.type) {
+        case 'SELECT_COUNTY':
+          return {...state, countyed: action.payload}
+        case 'LOAD_ACS':
+          return {...state, acs: action.payload}
+        case 'LOAD_CENSUS':
+          return {...state, census: action.payload}
+        case 'LOAD_TURNOUT':
+          return {...state, turnout: action.payload}
+        default:
+          return state
+      }
+}
+
+
 // export function tooltipReducer(state={
 //                     showTooltip: false,
 //                     tooltipX: 0,
