@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'; 
-import { loadMapData } from '../actions/index';
+import { loadData } from '../../actions/index';
+import MapDistrict from './MapDistrict';
 const React = require('react');
 const d3 = require('d3');
  
@@ -9,33 +9,20 @@ const Map = ({mapWidth, mapHeight, mapComponents, parentDist, drillDown}) => {
                  .reflectY(true)
                  .fitSize([mapWidth,mapHeight], mapComponents.geoJson)
 
-  let path = d3.geoPath()
-    .projection(projection)
-
   let closenessExtent = d3.extent(mapComponents.geoData.values())
   let color = d3.scaleLinear()
               .domain([closenessExtent[0], 0,
                        closenessExtent[1]])
               .range(['red', 'white', 'blue'])
 
-  let renderShapes = () => (mapComponents.geoJson.features.map((d,i) => {
-      // let selected = (d.properties[props.mapRegionType] === props.selectedId) ? 'glow' : 'district'
-      return (
-      //'AD' is hardcoded here, but that should eventually come from store
-      <Link key={`link-${i}`} to={{pathname: `/${parentDist}/${d.properties.districtNumber}`}}>
-        <path
-          data={d}
-          key={ `path-${ i }` }
-          d={ `${d3.geoPath().projection(projection)(d)}` }
+  let renderShapes = () => (mapComponents.geoJson.features.map((d,i) => (
+        <MapDistrict key={`district-${i}`}
+          d={d}
+          projection={ `${d3.geoPath().projection(projection)(d)}` }
           fill={ `${ color(mapComponents.geoData.get(d.properties.districtNumber))}`}
           onClick={() => drillDown(d.properties.districtNumber, parentDist)}
-          className='district'
         />
-      </Link>
-      )
-    }
-)
-)
+      )))
 
     return (
       <div className='map-frame'>
@@ -48,16 +35,18 @@ const Map = ({mapWidth, mapHeight, mapComponents, parentDist, drillDown}) => {
     )
 }
 
-//filter map from ownprops
 const mapStateToProps = (state) => ({
   mapWidth: state.mapDimensions[0],
   mapHeight: state.mapDimensions[1],
   parentDist: state.districtType})
 
 const mapDispatchToProps = (dispatch, ownProps) => (
-  {drillDown: (selected, parentDist) => 
-      //again, remove hardcoding eventually
-      dispatch(loadMapData({parentDistId: selected, parentDistType: parentDist }))}
+  {drillDown: (selected, parentDist) => (
+      dispatch(
+        loadData({parentDistId: selected, parentDistType: parentDist })
+      )
+    )
+  }
 )
 
 const DataMap = connect(mapStateToProps, mapDispatchToProps)(Map)

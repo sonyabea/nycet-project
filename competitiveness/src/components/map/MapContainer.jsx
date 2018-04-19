@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { setMapDimensions } from '../actions/index'
+import { setMapDimensions } from '../../actions/index'
 import { connect } from 'react-redux';
 
 class MapContainerComponent extends Component{
