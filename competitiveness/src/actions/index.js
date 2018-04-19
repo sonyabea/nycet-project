@@ -1,11 +1,24 @@
 import { filterFiles, returnLoadParams, queryDB } from './mapHelpers'
 const d3 = require('d3');
 
+const loadEDData = (ed) => dispatch => (null)
+
 //ACTION CREATORS
-export const loadMapData = (props) => 
+export const loadData = (props) => 
   //use this thunk syntax, because d3.queue happens async
   dispatch => { 
     dispatch(announceLoading)
+    
+    //already at lowest map level? 
+    if (props.parentDistType === 'ED') {
+      dispatch(loadEDData(props.parentDistId))
+    }
+    else {
+      dispatch(loadHLData(props))
+    }
+}
+
+const loadHLData = (props) => dispatch =>  {
     let selected = props.parentDistId
     let districtType = (selected === 0) ? props.parentDistType : 'ED'
     dispatch(changeDistrict(districtType, props.parentDistType, selected))

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import Competitiveness from './components/Competitiveness'
-import {loadMapData} from './actions/index'
+import {loadData} from './actions/index'
 import './App.css';
 
 //can add more complexity here in the children eventually
@@ -27,6 +27,6 @@ const mapStateToProps = (state, ownProps) => ({
   districtType: state.districtType
 })
 
-const App = connect(mapStateToProps, { loadMap: loadMapData })(AppContainer)
+const App = connect(mapStateToProps, { loadMap: loadData })(AppContainer)
 
 export default App

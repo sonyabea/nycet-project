@@ -1,6 +1,6 @@
 import { Table, Card } from 'semantic-ui-react';
 import { connect } from 'react-redux'; 
-import { loadMapData } from '../actions/index';
+import { loadData } from '../actions/index';
 import { withRouter } from 'react-router-dom';
 const React = require('react');
 
@@ -46,7 +46,7 @@ const mapStateToProps = (state, ownProps) => (
 
 const mapDispatchToProps = (dispatch, ownProps) => (
   {drillDown: (selected, districtType) => (
-      dispatch(loadMapData({parentDistId: selected, parentDistType: districtType})))}
+      dispatch(loadData({parentDistId: selected, parentDistType: districtType})))}
 )
 
 const TopTen = connect(mapStateToProps, mapDispatchToProps)(TopTenContainer)
