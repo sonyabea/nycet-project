@@ -30,8 +30,7 @@ class MapContainerComponent extends Component{
   render() {
     return (
       <div ref={node => this.node = node} className='map-container'>
-        <div className='container-header'>Race Margins</div>
-          {this.props.children}
+        {this.props.children}
       </div>
     )
    }

@@ -8,8 +8,7 @@ export const loadMapData = (props) =>
     dispatch(announceLoading)
     let selected = props.parentDistId
     let districtType = (selected === 0) ? props.parentDistType : 'ED'
-    console.log(districtType)
-    dispatch(changeDistrict(districtType))
+    dispatch(changeDistrict(districtType, props.parentDistType, selected))
     let {mapRegionType,
          geoSource, table}= returnLoadParams(districtType) 
 
@@ -48,6 +47,6 @@ export const announceLoading = () => (
   {type: 'LOAD_DATA'}
 )
 
-export const changeDistrict = (distType) => (
+export const changeDistrict = (distType, parentDist, selected) => (
   {type: 'CHANGE_DISTRICT_TYPE',
-   payload: distType})
+   payload: {main: distType, parent: parentDist, selected: selected}})
