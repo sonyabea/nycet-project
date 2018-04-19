@@ -8,22 +8,23 @@ import './App.css';
 class AppContainer extends Component {
   componentWillMount() {
     let parentDistType = (typeof(this.props.match.params.parentDistType) === 'undefined') ? 'AD' : this.props.match.params.parentDistType 
-    let parentDistId= (typeof(this.props.match.params.parentDistId) === 'undefined') ? 0 : this.props.match.params.parentDistId
+    let parentDistId = (typeof(this.props.match.params.parentDistId) === 'undefined') ? 0 : this.props.match.params.parentDistId
     this.props.loadMap({parentDistType, parentDistId})
   }
 
   render() {
   return (
     <div className='App'>
-      {(this.props.isLoading) ? "Loading!" : <Competitiveness mapComponents={this.props.mapData}/> }
+      <Competitiveness mapComponents={this.props.mapData}
+                       districtType={this.props.districtType} />
     </div>
     )
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  isLoading: state.isLoading,
-  mapData: state.mapData
+  mapData: state.mapData,
+  districtType: state.districtType
 })
 
 const App = connect(mapStateToProps, { loadMap: loadMapData })(AppContainer)

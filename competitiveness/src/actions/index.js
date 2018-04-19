@@ -12,7 +12,7 @@ export const loadMapData = (props) =>
     let {mapRegionType,
          geoSource, table}= returnLoadParams(districtType) 
 
-        //changes econd parent dist type to election state eventaully 
+        //changes second parent dist type to election state eventaully 
         queryDB(props.parentDistType, table, props.parentDistType, selected).then(dataPull => {
         d3.queue()
           .defer(d3.json, geoSource) 
