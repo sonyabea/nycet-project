@@ -24,7 +24,7 @@ export function mapDimensionsReducer(state={mapDimensions: [0,471]}, action) {
 export function districtTypeReducer(state='AD', action) {
   switch (action.type) {
     case 'CHANGE_DISTRICT_TYPE':
-      return action.payload
+      return action.payload.main
     default:
       return state
   }
@@ -41,16 +41,32 @@ export function isLoadingReducer(state=true, action){
   }
 }
 
+export function selectedIdReducer(state=0, action){
+  switch (action.type) {
+    case 'SELECTED_DISTRICT':
+      return action.payload
+    default:
+      return state
+  }
+}
 
-// export function selectedIdReducer(state=null, action){
-//   switch (action.type) {
-//     case 'MOUSE_IN':
-//       return action.payload
-//     default:
-//       return state
-//   }
-// }
+export function parentDistrictTypeReducer(state='AD', action){
+  switch (action.type) {
+    case 'CHANGE_DISTRICT_TYPE':
+      return action.payload.parent
+    default:
+      return state
+  }
+}
 
+export function selectedDistrictReducer(state=0, action){
+  switch (action.type) {
+    case 'CHANGE_DISTRICT_TYPE':
+      return action.payload.selected
+    default:
+      return state
+  }
+}
 // export function tooltipReducer(state={
 //                     showTooltip: false,
 //                     tooltipX: 0,

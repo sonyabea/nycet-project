@@ -11,6 +11,7 @@ const DistrictTypeSelectContainer = ({districtType, changeDistrict}) => (
      ]}
      defaultValue={districtType}
      onChange={(e, d) => changeDistrict({parentDistType: d.value, parentDistId: 0})}
+     className='district-select'
       />
 )
 

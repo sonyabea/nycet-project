@@ -1,23 +1,13 @@
 body {
-  /* margin: 0; */
-  /* padding: 0; */
   font-family: sans-serif;
-  background-color: black;
-  color: #cecaca;
 }
 
 .district {
-  stroke: #1c1c1c;
+  stroke: black;
 }
 
 .map-container {
   height: 100%;
-  background-color: #181819;
-  border: 1px solid #454547;
-  color: #cecaca;
-  line-height: 1.2;
-  font-size: 1.7rem;
-  text-align: left;
 }
 
 .container-header{
@@ -26,24 +16,36 @@ body {
 
 
 h1 {
-  /* font-family: "Open Sans", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif; */
+/*   /1* font-family: "Open Sans", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif; *1/ */
   font-family: 'Yantramanav';
-  font-weight: 500;
-  font-style: normal;
-  font-size: 3rem;
-  line-height: 1.2;
-  letter-spacing: .05rem;
-  margin-bottom: 2rem;
-  color: #cecaca;
 }
 
-.page-header {
-  padding: 1.5rem 0rem 2rem;
-  max-width: 66%;
-  text-align: left;
+/* .page-header { */
+/*   padding: 1.5rem 0rem 2rem; */
+/*   max-width: 66%; */
+/*   text-align: left; */
+/* } */
+
+/* .glow { */
+/*   stroke: #f4b342; */
+/*   stroke-width: 2px; */
+/* } */
+
+.ui.card.table-card {
+  /* border: none; */
 }
 
-.glow {
-  stroke: #f4b342;
-  stroke-width: 2px;
+.ui.table {
+  border: none;
+  width: 100%;
+}
+
+table {
+  border: none;
+}
+
+.district-select {
+  color: darkblue;
+  text-decoration: underline;
+  border-bottom: 2px darkblue solid;
 }
