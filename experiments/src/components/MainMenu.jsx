@@ -6,8 +6,8 @@ import { withRouter } from 'react-router'
 class MainMenu extends Component {
 
   render() {
-    const { location } = this.props
-    let menuItems = this.props.linksInfo.map(l =>
+    const { location, linksInfo } = this.props
+    let menuItems = linksInfo.map(l =>
       <Menu.Item key={l.name}
         name={l.name}
         as={Link}

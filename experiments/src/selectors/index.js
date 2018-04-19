@@ -16,10 +16,11 @@ export const getData = type => type === 'demographics' ? getAllData : createSele
 
 export const getPlotData = type => createSelector(
 	[ getData(type), getAllSelected(type) ],
+	// if one of the values are missing,
 	(data, allSelected) =>  _.filter(data, allSelected)
-		.map(d => !d.dem2_value ?
-			{ ...d, x: d.dem1_value } :
-			{ ...d, x: (d.dem1_value + ' / ' + d.dem2_value) }
+		.map(d => d.dem1_value && d.dem2_value ?
+			{ ...d, x: (d.dem1_value + ' / ' + d.dem2_value) } :
+			{ ...d, x: d.dem1_value || d.dem2_value }
 		)
 )
 
