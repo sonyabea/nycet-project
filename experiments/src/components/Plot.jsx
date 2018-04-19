@@ -1,21 +1,25 @@
 import React from 'react'
 import { VictoryChart, VictoryBoxPlot, VictoryAxis, VictoryLabel, VictoryTooltip } from 'victory'
 
-class CustomTooltip extends React.Component {
-  static defaultEvents = VictoryTooltip.defaultEvents
-  render() {
-    const {x, y} = this.props;
-    let deltaX = 0 - (x * 0.2)
-    let deltaY = y * 0.2
-    return (
-      <VictoryTooltip dx={deltaX} dy={deltaY}/>
-    );
-  }
-}
+const withCommas = x => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
+const GroupLabel = (props) =>
+  <VictoryLabel
+    { ...props }
+    textAnchor="middle"
+    style={{fontSize: 8, fontWeight: 300}}
+  />
 
-const Plot = ({data}) =>
+const Plot = ({ data, groupSizes: {treatment_pop, control_pop} }) =>
   <VictoryChart domainPadding={20}>
+    <GroupLabel
+      text={`Election Treatment Size: ${withCommas(treatment_pop)}`}
+      x={150} y={30}
+    />
+    <GroupLabel
+      text={`Election Control Size: ${withCommas(control_pop)}`}
+      x={300} y={30}
+    />
     <VictoryBoxPlot
       data={data.map(d => ({ ...d, min: d.ci_low, max: d.ci_high }))}
       maxLabels={d => d.x.replace(' ', '\n')}
@@ -26,22 +30,12 @@ const Plot = ({data}) =>
           style={{fontSize: 6}}
         />
       }
-      q3Labels={d => `Treatment Size: ${d.treatment_pop}\n Control Size: ${d.control_pop}`}
+      q3Labels={d => `Treatment Size: ${withCommas(d.treatment_pop)}\n Control Size: ${withCommas(d.control_pop)}`}
       events={[{
         target: "maxLabels",
         eventHandlers: {
-          onMouseOver: () => {
-            return {
-              target: "q3Labels",
-              mutation: () => ({ active: true })
-            };
-          },
-          onMouseOut: () => {
-            return {
-              target: "q3Labels",
-              mutation: () => ({ active: false })
-            };
-          }
+          onMouseOver: () => ({ target: "q3Labels", mutation: () => ({ active: true }) }),
+          onMouseOut: () => ({ target: "q3Labels", mutation: () => ({ active: false }) })
         }
       }]}
       q3LabelComponent={
@@ -51,7 +45,13 @@ const Plot = ({data}) =>
       }
     />
     <VictoryAxis tickFormat={t => ''}/>
-    <VictoryAxis dependentAxis style={{tickLabels: {fontSize: 8}}}/>
+    <VictoryAxis
+      dependentAxis
+      label="hey"
+      style={{
+        tickLabels: {fontSize: 6},
+        axisLabel: {fontSize: 8}
+      }}/>
   </VictoryChart>
 
 export default Plot
