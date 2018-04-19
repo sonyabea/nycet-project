@@ -26,25 +26,25 @@ const Plot = ({data}) =>
           style={{fontSize: 6}}
         />
       }
-      medianLabels={d => `Treatment Size: ${d.treatment_pop}\n Control Size: ${d.control_pop}`}
+      q3Labels={d => `Treatment Size: ${d.treatment_pop}\n Control Size: ${d.control_pop}`}
       events={[{
         target: "maxLabels",
         eventHandlers: {
           onMouseOver: () => {
             return {
-              target: "medianLabels",
+              target: "q3Labels",
               mutation: () => ({ active: true })
             };
           },
           onMouseOut: () => {
             return {
-              target: "medianLabels",
+              target: "q3Labels",
               mutation: () => ({ active: false })
             };
           }
         }
       }]}
-      medianLabelComponent={
+      q3LabelComponent={
         <VictoryTooltip style={{fontSize: 6}}
           dx={0} dy={0} orientation="right"
           pointerLength={0}/>
