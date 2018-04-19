@@ -23,10 +23,14 @@ const getHlQuery = (dist) => (
   filterBy: dist})
 
 const getEdQuery = (parentDist, election, selected) => (
-  {columns: [`e.pl_margin_${election.toString().toLowerCase()} as most_rec_pl_margin`, 'd.ad', 'e.countyed', 'p.map as winning_pol_lean'],
-   addtlQuery: ` as e JOIN electiondistricts as d on d.countyed = e.countyed JOIN maps_pollean p on e.wp_${election.toString().toLowerCase()} = p.party where d.${parentDist.toString().toLowerCase()} = ${selected}`})
-
-// as d where d.${parentDist.toLowerCase()} = ${selected}`})
+  {columns: [`e.pl_margin_${election.toString().toLowerCase()} as most_rec_pl_margin`,
+             'd.ad',
+             'e.countyed', 
+             'p.map as winning_pol_lean'],
+   addtlQuery: ` as e
+               JOIN electiondistricts as d ON d.countyed = e.countyed
+               JOIN maps_pollean p ON e.wp_${election.toString().toLowerCase()} = p.party
+               WHERE d.${parentDist.toString().toLowerCase()} = ${selected}`})
 
 
 export const queryDB = (dist, table, election, selected) => {
@@ -36,15 +40,18 @@ export const queryDB = (dist, table, election, selected) => {
         data: query })
 }
 
+//PROCESS DATA
 const filterToParents = (geoFile, dataPull) => {
+    //set ED numbers from e.g. "Bronx Ad 57 - Ed 004" to "district" prop
     dataPull.forEach((d) => d.district = parseInt(`${d.ad}${d.countyed.split(" ")[4]}`, 10))
     let validEds = dataPull.map((d) => d.district)
+
     return geoFile.features.filter((d) => (validEds.indexOf(d.properties.districtNumber) >= 0))
 }
 
 export const filterFiles = (geoFile, dataPull, mapRegionType, selected) => {
-
-  geoFile.features.forEach((d) => d.properties['districtNumber'] = d.properties[mapRegionType])
+  //normalize geoJson to use abstract "districtNumber" prop
+  geoFile.features.forEach((d) => d.properties.districtNumber = d.properties[mapRegionType])
 
   let filteredFeatures = (selected !== 0) ? filterToParents(geoFile, dataPull) : geoFile.features
 
@@ -52,10 +59,6 @@ export const filterFiles = (geoFile, dataPull, mapRegionType, selected) => {
   let regionIds = filteredFeatures.map((d) => (d.properties.districtNumber))
   let filteredData = dataPull.filter((d) => (regionIds.indexOf(
       parseInt(d.district, 10)) >= 0))
-  // filteredData.forEach((d) => {
-  //   d.most_rec_pl_margin = parseInt(d.most_rec_pl_margin,10)
-
-  // })
   
   return [{'type': geoFile['type'], 'features': filteredFeatures},
           filteredData]

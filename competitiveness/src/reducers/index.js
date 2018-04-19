@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import { mapDataReducer,
          mapDimensionsReducer,
-         isLoadingReducer,
          districtTypeReducer,
          parentDistrictTypeReducer,
          selectedDistrictReducer } from './reducers';
@@ -9,7 +8,6 @@ import { mapDataReducer,
 const NYCETAppReducers = combineReducers({
   mapData: mapDataReducer,
   mapDimensions: mapDimensionsReducer,
-  isLoading: isLoadingReducer,
   districtType: districtTypeReducer,
   parentDistrictType: parentDistrictTypeReducer,
   selectedDistrict: selectedDistrictReducer
