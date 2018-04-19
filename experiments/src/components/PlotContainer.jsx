@@ -19,7 +19,6 @@ class DemographicsPlot extends Component {
     super(props)
     this.state = {
       currentlySelected: [],
-      error: ''
     }
   }
 
@@ -63,7 +62,7 @@ class DemographicsPlot extends Component {
   }
 }
 
-const getSelectors = (type) => state => ({
+const getSelectors = type => state => ({
   plotData: getPlotData(type)(state),
   groupSizes: getElectionGroupSizes(type)(state)
 })
