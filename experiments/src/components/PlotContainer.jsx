@@ -50,7 +50,6 @@ class DemographicsPlot extends Component {
     let { currentlySelected, error } = this.state
     let demoSelectionOptions = plotData.map(d => ({key: d.x, text: d.x, value: d.x}))
     let filteredPlotData = plotData.filter(d => currentlySelected.includes(d.x))
-    debugger
     return (
       <PlotTemplate plotData={filteredPlotData} groupSizes={groupSizes}>
         <div style={{'marginTop': '10%'}}>
