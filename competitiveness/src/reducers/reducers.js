@@ -82,9 +82,9 @@ export function selectedElectionReducer(state='AD', action){
 export function highlightedEdDataReducer(state={
     //dunno if this is needed
     county: 'Kings',
-    acs: {},
-    census: {},
-    turnout: {},
+    acs: [{}],
+    census: [{}],
+    turnout: [{}],
     demoYear: '2016'}, action){
       switch (action.type) {
         case 'SELECT_COUNTY':

@@ -15,20 +15,20 @@ const Map = ({mapWidth, mapHeight, mapComponents, parentDist, drillDown, county}
                        closenessExtent[1]])
               .range(['red', 'white', 'blue'])
 
-  let renderShapes = () => (mapComponents.geoJson.features.map((d,i) => (
+  let renderedShapes = mapComponents.geoJson.features.map((d,i) => (
         <MapDistrict key={`district-${i}`}
           d={d}
           projection={ `${d3.geoPath().projection(projection)(d)}` }
           fill={ `${ color(mapComponents.geoData.get(d.properties.districtNumber))}`}
           onClick={() => drillDown(d.properties.districtNumber, parentDist, county)}
         />
-      )))
+      ))
 
     return (
       <div className='map-frame'>
         <svg width={mapWidth} height={mapHeight}>
           <g className='map-layer'>
-            { renderShapes() }
+            { renderedShapes }
           </g>
         </svg>
       </div>
