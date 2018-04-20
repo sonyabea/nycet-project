@@ -7,13 +7,21 @@ class PlotDesc extends Component {
   }
 
   render(){
-    const protoEvent = (target) => {
+    const changeColorAndShowTooltip = (target) => {
       return (
       {
         'target': target,
         'eventHandlers': {
-          onMouseOver: () => ({ target: `${target}Labels`, mutation: () => ({ active: true }) }),
-          onMouseOut: () => ({ target: `${target}Labels`, mutation: () => ({ active: false }) })
+          onMouseOver: () => {
+            return [
+              { target: `${target}Labels`, mutation: () => ({ active: true }) },
+              { target: target, mutation: () => ({ style: {fill: 'red'} }) }
+            ]},
+          onMouseOut: () => {
+            return [
+              { target: `${target}Labels`, mutation: () => ({ active: false }) },
+              { target: target, mutation: () => ({ style: {fill: 'grey'} }) }
+            ]}
         }
       })
     }
@@ -22,7 +30,7 @@ class PlotDesc extends Component {
 
     var atts = {
       data: [{ x: 1, min: 2, median: 5, max: 8, q1: 3, q3: 7 }],
-      events: targets.map(t => protoEvent(t))
+      events: targets.map(t => changeColorAndShowTooltip(t))
     }
 
     for (var t=0;t<targets.length;t++) {
@@ -37,7 +45,7 @@ class PlotDesc extends Component {
 
 
     return (
-      <div style={{height: '40%', textAlign: 'center'}}>
+      <div style={{height: '40%', textAlign: 'center', 'verticalAlign': 'middle', border: '5px solid grey'}}>
         <h5>How to Read the Box Plot</h5>
         <h6>Note: HOVER OVER ME!</h6>
         <div style={{margin:-10}}><VictoryBoxPlot {...atts}/></div>
