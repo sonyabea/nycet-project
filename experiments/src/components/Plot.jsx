@@ -1,5 +1,20 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { VictoryChart, VictoryBoxPlot, VictoryAxis, VictoryLabel, VictoryTooltip } from 'victory'
+
+class CustomTooltip extends Component {
+  static defaultEvents = VictoryTooltip.defaultEvents
+  render() {
+    return (
+      <g>
+        <VictoryTooltip
+          style={{fontSize: 6}}
+          orientation="right"
+          renderInPortal={false}
+        />
+      </g>
+    )
+  }
+}
 
 const withCommas = x => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
@@ -11,6 +26,8 @@ const GroupLabel = (props) =>
   />
 
 const Plot = ({ data, groupSizes: {treatment_pop, control_pop} }) =>
+{
+  return (
   <VictoryChart domainPadding={20}>
     <GroupLabel
       text={`Election Treatment Size: ${withCommas(treatment_pop)}`}
@@ -39,19 +56,21 @@ const Plot = ({ data, groupSizes: {treatment_pop, control_pop} }) =>
         }
       }]}
       q3LabelComponent={
-        <VictoryTooltip style={{fontSize: 6}}
-          dx={0} dy={0} orientation="right"
-          pointerLength={0}/>
+        <VictoryTooltip
+          style={{fontSize: 6}}
+          orientation="right"
+          pointerLength={0}
+        />
       }
     />
     <VictoryAxis tickFormat={t => ''}/>
     <VictoryAxis
       dependentAxis
-      label="hey"
+      label="Point Difference in Voter Turnout"
       style={{
         tickLabels: {fontSize: 6},
         axisLabel: {fontSize: 8}
       }}/>
   </VictoryChart>
-
+)}
 export default Plot
