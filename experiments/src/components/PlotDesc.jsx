@@ -37,9 +37,10 @@ class PlotDesc extends Component {
 
 
     return (
-      <div style={{height: '40%'}}>
+      <div style={{height: '40%', textAlign: 'center'}}>
+        <h5>How to Read the Box Plot</h5>
         <h6>Note: HOVER OVER ME!</h6>
-        <VictoryBoxPlot {...atts}/>
+        <div style={{margin:-10}}><VictoryBoxPlot {...atts}/></div>
 
       </div>
     )
