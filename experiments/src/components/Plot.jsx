@@ -1,9 +1,24 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { VictoryChart, VictoryBoxPlot, VictoryAxis, VictoryLabel, VictoryTooltip } from 'victory'
+
+class CustomTooltip extends Component {
+  static defaultEvents = VictoryTooltip.defaultEvents
+  render() {
+    return (
+      <g>
+        <VictoryTooltip
+          style={{fontSize: 6}}
+          orientation="right"
+          renderInPortal={false}
+        />
+      </g>
+    )
+  }
+}
 
 const withCommas = x => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
-const GroupLabel = (props) => 
+const GroupLabel = (props) =>
   <VictoryLabel
     { ...props }
     textAnchor="middle"
@@ -11,6 +26,8 @@ const GroupLabel = (props) =>
   />
 
 const Plot = ({ data, groupSizes: {treatment_pop, control_pop} }) =>
+{
+  return (
   <VictoryChart domainPadding={20}>
     <GroupLabel
       text={`Election Treatment Size: ${withCommas(treatment_pop)}`}
@@ -30,24 +47,30 @@ const Plot = ({ data, groupSizes: {treatment_pop, control_pop} }) =>
           style={{fontSize: 6}}
         />
       }
-      medianLabels={d => `Treatment Size: ${withCommas(d.treatment_pop)}\n Control Size: ${withCommas(d.control_pop)}`}
+      q3Labels={d => `Treatment Size: ${withCommas(d.treatment_pop)}\n Control Size: ${withCommas(d.control_pop)}`}
       events={[{
         target: "maxLabels",
         eventHandlers: {
-          onMouseOver: () => ({ target: "medianLabels", mutation: () => ({ active: true }) }),
-          onMouseOut: () => ({ target: "medianLabels", mutation: () => ({ active: false }) })
+          onMouseOver: () => ({ target: "q3Labels", mutation: () => ({ active: true }) }),
+          onMouseOut: () => ({ target: "q3Labels", mutation: () => ({ active: false }) })
         }
       }]}
-      medianLabelComponent={ <VictoryTooltip /> }
+      q3LabelComponent={
+        <VictoryTooltip
+          style={{fontSize: 6}}
+          orientation="right"
+          pointerLength={0}
+        />
+      }
     />
     <VictoryAxis tickFormat={t => ''}/>
-    <VictoryAxis 
+    <VictoryAxis
       dependentAxis
-      label="hey"
+      label="Point Difference in Voter Turnout"
       style={{
         tickLabels: {fontSize: 6},
         axisLabel: {fontSize: 8}
       }}/>
   </VictoryChart>
-
+)}
 export default Plot

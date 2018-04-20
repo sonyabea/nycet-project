@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Plot from './Plot'
+import PlotDesc from './PlotDesc'
 import DemoSelections from './DemoSelections'
 import { getPlotData, getElectionGroupSizes } from '../selectors'
 import _ from 'lodash'
@@ -8,6 +9,7 @@ import _ from 'lodash'
 const PlotTemplate = ({ groupSizes, plotData, children }) =>
   <div className='flex-container'>
     <div style={{width: '20%', textAlign: 'left', marginTop: '2%'}}>
+      <PlotDesc/>
       {children}
     </div>
     <Plot data={plotData} groupSizes={groupSizes}/>
