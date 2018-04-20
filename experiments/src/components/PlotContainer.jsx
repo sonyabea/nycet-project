@@ -46,7 +46,7 @@ class DemographicsPlot extends Component {
 
   render () {
     let { plotData, groupSizes } = this.props
-    let { currentlySelected, error } = this.state
+    let { currentlySelected } = this.state
     let demoSelectionOptions = plotData.map(d => ({key: d.x, text: d.x, value: d.x}))
     let filteredPlotData = plotData.filter(d => currentlySelected.includes(d.x))
     return (

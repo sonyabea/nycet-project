@@ -1,20 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { VictoryChart, VictoryBoxPlot, VictoryAxis, VictoryLabel, VictoryTooltip } from 'victory'
-
-class CustomTooltip extends Component {
-  static defaultEvents = VictoryTooltip.defaultEvents
-  render() {
-    return (
-      <g>
-        <VictoryTooltip
-          style={{fontSize: 6}}
-          orientation="right"
-          renderInPortal={false}
-        />
-      </g>
-    )
-  }
-}
 
 const withCommas = x => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
