@@ -49,7 +49,7 @@ const PlotDesc = () => {
       <div>
         <VictoryGroup height={500} padding={{top:80, bottom: 50}}>
           <VictoryLabel text="How to Read a Box Plot" dx={30} dy={30} style={{fontSize: 40}}/>
-          <VictoryBoxPlot {...atts}/>
+          <VictoryBoxPlot {...allAtts}/>
           <VictoryLabel text="Hover over me!" dx={120} dy={490} style={{fontSize:30}}/>
         </VictoryGroup>
       </div>
