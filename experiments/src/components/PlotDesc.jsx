@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { VictoryChart, VictoryBoxPlot, VictoryTooltip } from 'victory'
+import { VictoryChart, VictoryBoxPlot, VictoryTooltip, VictoryLabel, VictoryGroup } from 'victory'
 
 class PlotDesc extends Component {
   constructor(props) {
@@ -15,12 +15,12 @@ class PlotDesc extends Component {
           onMouseOver: () => {
             return [
               { target: `${target}Labels`, mutation: () => ({ active: true }) },
-              { target: target, mutation: () => ({ style: {fill: 'red'} }) }
+              { target: target, mutation: () => ({ style: {stroke: 'red', fill: 'grey'} }) }
             ]},
           onMouseOut: () => {
             return [
               { target: `${target}Labels`, mutation: () => ({ active: false }) },
-              { target: target, mutation: () => ({ style: {fill: 'grey'} }) }
+              { target: target, mutation: () => ({ style: {stroke: target.includes('q') ? 'white': 'black', fill: 'grey'} }) }
             ]}
         }
       })
@@ -30,36 +30,37 @@ class PlotDesc extends Component {
 
     var atts = {
       data: [{ x: 1, min: 2, median: 5, max: 8, q1: 3, q3: 7 }],
-      events: targets.map(t => changeColorAndShowTooltip(t))
+      events: targets.map(t => changeColorAndShowTooltip(t)),
+      boxWidth: 90,
     }
 
     for (var t=0;t<targets.length;t++) {
       let target = targets[t]
       atts[`${target}Labels`] = `hot take on ${target}`
-      atts[`${target}LabelComponent`] = <
-        VictoryTooltip style={{fontSize: 30}}
+      atts[`${target}LabelComponent`] =
+      <VictoryTooltip
+        style={{fontSize: 40}}
         orientation="right"
         pointerLength={0}
-        />
+      />
     }
 
 
     return (
-      <div style={{height: '40%', textAlign: 'center', 'verticalAlign': 'middle', border: '5px solid grey'}}>
-        <h5>How to Read the Box Plot</h5>
-        <h6>Note: HOVER OVER ME!</h6>
-        <div style={{margin:-10}}><VictoryBoxPlot {...atts}/></div>
+      <div style={{height: '35%', textAlign: 'center', 'verticalAlign': 'middle',
+        border: '1px dashed grey', borderRadius: '5px', padding: '5%'}}>
+        <div>
+          <VictoryGroup height={500} padding={{top:80, bottom: 50}}>
+            <VictoryLabel text="How to Read a Box Plot" dx={30} dy={30} style={{fontSize: 40}}/>
+            <VictoryBoxPlot {...atts}/>
+            <VictoryLabel text="Hover over me!" dx={120} dy={490} style={{fontSize:30}}/>
+          </VictoryGroup>
 
+        </div>
       </div>
     )
   }
 
-}
-
-PlotDesc.defaultProps = {
-  data: [
-    { x: 1, min: 2, median: 5, max: 8, q1: 3, q3: 7 }
-  ]
 }
 
 export default PlotDesc
