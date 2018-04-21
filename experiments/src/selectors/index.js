@@ -31,12 +31,10 @@ const getSelected = (type, column) => createSelector(
 
 export const getElectionGroupSizes = type => createSelector(
 	[ getAllData, getSelected(type, 'election') ],
-	(data, election) => _.filter(data, { ...election, dem2: 'all' })
-		.map(d => _.pick(d, ['control_pop', 'treatment_pop']))
-		.reduce((a, b) => ({
-			control_pop: a.control_pop + parseInt(b.control_pop, 10),
-			treatment_pop: a.treatment_pop + parseInt(b.treatment_pop, 10)
-		}), {control_pop: 0, treatment_pop: 0})
+	(data, election) => _.chain(data)
+		.find({ ...election, dem1_value: 'All Orgs' })
+		.pick(['control_pop', 'treatment_pop'])
+		.value()
 )
 
 const capitalize = string => string.charAt(0).toUpperCase() + string.substr(1)
