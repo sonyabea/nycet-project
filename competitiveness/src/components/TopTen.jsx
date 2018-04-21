@@ -1,6 +1,6 @@
 import { Table, Card } from 'semantic-ui-react';
 import { connect } from 'react-redux'; 
-import { loadData } from '../actions/index';
+// import { loadData } from '../actions/index';
 const React = require('react');
 
 const TopTenContainer = ({history, geoData, drillDown, districtType}) => {
