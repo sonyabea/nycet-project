@@ -2,36 +2,30 @@ import React from 'react'
 import { VictoryBoxPlot, VictoryTooltip, VictoryLabel, VictoryGroup } from 'victory'
 
 const PlotDesc = () => {
-  const changeColorAndShowTooltip = (target) => {
-    return (
-    {
-      'target': target,
-      'eventHandlers': {
-        onMouseOver: () => {
-          return [
-            { target: `${target}Labels`, mutation: () => ({ active: true }) },
-            { target: target, mutation: () => ({ style: {stroke: 'red', fill: 'grey'} }) }
-          ]},
-        onMouseOut: () => {
-          return [
-            { target: `${target}Labels`, mutation: () => ({ active: false }) },
-            { target: target, mutation: () => ({ style: {stroke: target.includes('q') ? 'white': 'black', fill: 'grey'} }) }
-          ]}
-      }
-    })
-  }
-
-  const addLabelAtt = (atts, target) => (
-    {...atts,
-      [`${target}Labels`]: `hot take on ${target}`,
-      [`${target}LabelComponent`]:
-        <VictoryTooltip
-          style={{fontSize: 40}}
-          orientation="right"
-          pointerLength={0}
-        />
+  const changeColorAndShowTooltip = (target) => ({
+    target,
+    eventHandlers: {
+      onMouseOver: () => [
+        { target: `${target}Labels`, mutation: () => ({ active: true }) },
+        { target: target, mutation: () => ({ style: {stroke: 'red', fill: 'grey'} }) }
+      ],
+      onMouseOut: () => [
+        { target: `${target}Labels`, mutation: () => ({ active: false }) },
+        { target: target, mutation: () => ({ style: {stroke: target.includes('q') ? 'white': 'black', fill: 'grey'} }) }
+      ]
     }
-  )
+  })
+
+  const addLabelAtt = (atts, target) => ({
+    ...atts,
+    [`${target}Labels`]: `hot take on ${target}`,
+    [`${target}LabelComponent`]:
+      <VictoryTooltip
+        style={{fontSize: 40}}
+        orientation="right"
+        pointerLength={0}
+      />
+  })
 
   const targets = ['max', 'q3', 'median', 'q1', 'min']
 
