@@ -62,7 +62,7 @@ const deriveDropdownOptions = (data, selected) => selected.reduce(
 		return {
 			data: _.filter(currentData, {[b.name]: b.selected}),
 			dropdownOptions: [
-				...dropdownOptions, 
+				...dropdownOptions,
 				{ ...b, selected: b.selected && format(b.selected), options: newDropdownOptions }
 			]
 		}

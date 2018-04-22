@@ -2,7 +2,7 @@ import React from 'react'
 import { Header, Button, Modal, Image } from 'semantic-ui-react'
 
 const CACEContainer = () =>
-  <Modal trigger={<Button basic>how is voter turnout calculated?</Button>}>
+  <Modal trigger={<Button basic>how is CACE calculated?</Button>}>
   <Modal.Content scrolling>
     <Modal.Description>
       <Header>Complier Adjusted Causal Effect (CACE)</Header>
