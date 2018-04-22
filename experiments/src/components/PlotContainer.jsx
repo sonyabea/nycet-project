@@ -51,7 +51,7 @@ class DemographicsPlot extends Component {
     let filteredPlotData = plotData.filter(d => currentlySelected.includes(d.x))
     return (
       <PlotTemplate plotData={filteredPlotData} groupSizes={groupSizes}>
-        <div style={{'marginTop': '10%'}}>
+        <div style={{'marginTop': '10%', 'paddingBottom': '0'}}>
           <DemoSelections
             options={demoSelectionOptions}
             onChange={this.handleChange.bind(this)}
