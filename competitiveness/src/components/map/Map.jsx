@@ -15,24 +15,19 @@ const Map = ({mapWidth, mapHeight, mapComponents, parentDist, drillDown, locatio
                        closenessExtent[1]])
               .range(['red', 'white', 'blue'])
 
-  let renderShapes = () => (mapComponents.geoJson.features.map((d,i) => (
+  let renderedShapes = mapComponents.geoJson.features.map((d,i) => (
         <MapDistrict key={`district-${i}`}
           d={d}
           projection={ `${d3.geoPath().projection(projection)(d)}` }
           fill={ `${ color(mapComponents.geoData.get(d.properties.districtNumber))}`}
-          // onClick={
-          //   () => {
-          //     debugger
-          //     drillDown(d.properties.districtNumber, parentDist)}
-          //   }
         />
-      )))
+      ))
 
     return (
       <div className='map-frame'>
         <svg width={mapWidth} height={mapHeight}>
           <g className='map-layer'>
-            { renderShapes() }
+            { renderedShapes }
           </g>
         </svg>
       </div>
@@ -42,12 +37,13 @@ const Map = ({mapWidth, mapHeight, mapComponents, parentDist, drillDown, locatio
 const mapStateToProps = (state) => ({
   mapWidth: state.mapDimensions[0],
   mapHeight: state.mapDimensions[1],
-  parentDist: state.districtType})
+  parentDist: state.districtType,
+  county: state.highlightedEdData.county})
 
 const mapDispatchToProps = (dispatch, ownProps) => (
-  {drillDown: (selected, parentDist) => (
+  {drillDown: (selected, parentDist, county) => (
       dispatch(
-        loadData({parentDistId: selected, parentDistType: parentDist })
+        loadData({parentDistId: selected, parentDistType: parentDist, county: county })
       )
     )
   }

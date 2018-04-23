@@ -16,9 +16,9 @@ const DistrictTypeSelectContainer = ({districtType, changeDistrict}) => (
 )
 
 const mapStateToDistrictProps = (state) => ({
-  districtType: state.districtType})
+  districtType: state.districtType })
 
-const RaceTypeSelectContainer = ({raceType}) => (
+const ElectionTypeSelectContainer = ({election}) => (
   <Dropdown options={
     [{text: 'Overall', value: ''},
      {text: 'President/Vice President', value: 'President_VP'},
@@ -27,14 +27,15 @@ const RaceTypeSelectContainer = ({raceType}) => (
      {text: 'State Senator', value: 'SD'},
      {text: 'State Assembly Member', value: 'AD'},
      ]}
-     defaultValue={raceType}
+     defaultValue={election}
       />
 )
 //{text: 'City Council Member', value: 'CD'} hmm?
 
-const mapStateToRaceProps = (state) => ({
-  raceType: state.RaceType })
+const mapStateToElectionProps = (state) => ({
+  election: state.selectedElection
+   })
 
 export const DistrictTypeSelect = connect(mapStateToDistrictProps, {changeDistrict: loadData})(DistrictTypeSelectContainer)
-export const RaceTypeSelect = connect(mapStateToRaceProps)(RaceTypeSelectContainer)
+export const ElectionTypeSelect = connect(mapStateToElectionProps)(ElectionTypeSelectContainer)
 

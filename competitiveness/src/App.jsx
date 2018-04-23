@@ -7,7 +7,6 @@ import './App.css';
 
 //can add more complexity here in the children eventually
 class AppContainer extends Component {
-
   static getDerivedStateFromProps(nextProps, prevState) {
     let parentDistType = (typeof(nextProps.match.params.parentDistType) === 'undefined') ? 'AD' : nextProps.match.params.parentDistType 
     let parentDistId = (typeof(nextProps.match.params.parentDistId) === 'undefined') ? 0 : nextProps.match.params.parentDistId
