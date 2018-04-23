@@ -4,7 +4,7 @@ import DataMap from './map/Map.jsx';
 //import MapTooltip from './components/MapTooltip.jsx';
 import TopTen from './TopTen.jsx';
 import CompHeader from './CompHeader.jsx'
-import EDHeader from './EDHeader.jsx';
+import TopDetails from './edDetails/TopDetails.jsx';
 import DemoSidebar from './edDetails/DemoSidebar.jsx';
 import { Grid, Container } from 'semantic-ui-react';
 
@@ -13,7 +13,7 @@ const Competitiveness= ({mapComponents, districtType}) => (
     <Container>
       <CompHeader />  
       <Grid>
-        { districtType === 'ED' ? <EDHeader /> : '' } 
+        { districtType === 'ED' ? <TopDetails /> : '' } 
         <Grid.Column width={10} style={{ minHeight: 600, width: "100%" }}>
           <MapContainer>
             <DataMap mapComponents={mapComponents}/>

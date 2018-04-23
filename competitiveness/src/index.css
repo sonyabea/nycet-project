@@ -67,3 +67,7 @@ table {
   table-layout: fixed;
   width: 100%;
 }
+
+.ui.tabular.menu .item {
+  padding: 5px !important;
+}

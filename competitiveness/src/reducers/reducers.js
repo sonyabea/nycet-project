@@ -71,8 +71,17 @@ export function selectedDistrictReducer(state=0, action){
 export function selectedElectionReducer(state='AD', action){
   switch (action.type) {
     case 'CHANGE_DISTRICT_TYPE':
-      let type = action.payload.selected
+      let type = action.payload.parent
       return (type !== 'ED') ? type : state
+    default:
+      return state
+  }
+}
+
+export function winningPartyReducer(state={}, action){
+  switch (action.type) {
+    case 'STORE_PARTY_DATA':
+      return action.payload
     default:
       return state
   }
@@ -82,19 +91,25 @@ export function selectedElectionReducer(state='AD', action){
 export function highlightedEdDataReducer(state={
     //dunno if this is needed
     county: 'Kings',
+    ed: 0,
     acs: [{}],
     census: [{}],
     turnout: [{}],
+    winsForParty: 0,
     demoType: 'acs'}, action){
       switch (action.type) {
         case 'SELECT_COUNTY':
-          return {...state, countyed: action.payload}
+          return {...state, county: action.payload}
+        case 'SELECT_ED':
+          return {...state, ed: action.payload}
         case 'LOAD_ACS':
           return {...state, acs: action.payload}
         case 'LOAD_CENSUS':
           return {...state, census: action.payload}
         case 'LOAD_TURNOUT':
           return {...state, turnout: action.payload}
+        case 'LOAD_WINS_FOR_PARTY':
+          return {...state, winsForParty: action.payload}
         case 'CHANGE_DEMO_TYPE':
           return {...state, demoType: action.payload}
         default:

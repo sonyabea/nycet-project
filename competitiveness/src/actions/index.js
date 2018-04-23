@@ -32,18 +32,23 @@ const loadHLData = (props) => dispatch =>  {
             dispatch(setCounty(county))
 
             let dataMap = d3.map()
+            let partyMap = d3.map()
             filteredData.forEach((d) => {
               d.most_rec_pl_margin = ((d.winning_pol_lean === 'right') ? -d.most_rec_pl_margin : +d.most_rec_pl_margin)
-              dataMap.set(d.district, d.most_rec_pl_margin)})
+              dataMap.set(d.district, d.most_rec_pl_margin)
+              partyMap.set(d.district, d.winning_party)
+              })
               dispatch(storeMapData(
                      {geoJson: filteredGeo, 
                       geoData: dataMap}, 'LOAD_MAP_DATA'))
+
+              dispatch(storePartyData(partyMap))
 
               //also auto-select top ED for detail view
               if (districtType === 'ED') {
                 let topED = dataMap.entries().sort((a, b) => (
                     Math.abs(a.value) - Math.abs(b.value)))[0]
-                dispatch(loadEDData(topED.key, county))
+                dispatch(loadEDData(topED.key, county, election))
               }
         })
      })
@@ -52,7 +57,8 @@ const loadHLData = (props) => dispatch =>  {
 //HIGHLIGHT ED ACTION CREATORS
 
 const loadEDData = (ed, county) => dispatch => {
-  
+
+  dispatch(setED(ed)) 
   let stringAd = ed.toString().split('').slice(0,2).join('')
   let stringEd = ed.toString().split('').slice(2,5).join('')
 
@@ -87,6 +93,11 @@ export const storeMapData = (mapObj, actionType) => (
    payload: mapObj}
 )
 
+export const storePartyData = (partyMap) => (
+  {type: 'STORE_PARTY_DATA',
+   payload: partyMap}
+)
+
 export const setMapDimensions = (width, height) => (
   {type: 'SET_MAP_DIMENSIONS',
    payload: [width, height]}
@@ -97,6 +108,10 @@ export const changeDistrict = (distType, parentDist, selected) => (
    payload: {main: distType, parent: parentDist, selected: selected}}
 )
 
+export const setED = (ed) => (
+  {type: 'SELECT_ED',
+   payload: ed}
+)
 export const setCounty = (county) => (
   {type: 'SELECT_COUNTY',
    payload: county}

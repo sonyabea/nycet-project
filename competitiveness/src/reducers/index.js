@@ -6,6 +6,7 @@ import { mapDataReducer,
          selectedDistrictReducer,
          //temp and hardcoded, will allow diane to do her magic
          selectedElectionReducer,
+         winningPartyReducer,
          highlightedEdDataReducer } from './reducers';
 
 
@@ -16,6 +17,7 @@ const NYCETAppReducers = combineReducers({
   parentDistrictType: parentDistrictTypeReducer,
   selectedDistrict: selectedDistrictReducer,
   selectedElection: selectedElectionReducer,
+  winningParty: winningPartyReducer,
   highlightedEdData: highlightedEdDataReducer
 });
 

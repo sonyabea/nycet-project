@@ -17,8 +17,8 @@ export const returnLoadParams = (dist) => (
 
 //DB QUERY
 const getHlQuery = (dist) => (
-  {columns: ['district',
-            'most_rec_pl_margin', 'winning_pol_lean'],
+  {columns: ['district', 'most_rec_pl_margin',
+             'winning_pol_lean', 'winning_party'],
   filterOn: 'office',
   filterBy: dist})
 
@@ -27,6 +27,7 @@ const getEdQuery = (parentDist, election, selected) => (
              'd.ad',
              'e.countyed',
              'd.county',
+             `e.wp_${election.toString().toLowerCase()} as winning_party`,
              'p.map as winning_pol_lean'],
    addtlQuery: [' as e',
                'JOIN electiondistricts as d ON d.countyed = e.countyed',
