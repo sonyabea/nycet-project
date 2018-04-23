@@ -30,6 +30,7 @@ const Plot = ({ data, groupSizes: {treatment_pop, control_pop} }) =>
       <VictoryBoxPlot
         data={data.map(d => ({ ...d, min: d.ci_low, max: d.ci_high }))}
         maxLabels={d => d.x.replace(' ', '\n')}
+
         maxLabelComponent={
           <VictoryLabel
             dx={-10} dy={-10}
@@ -55,11 +56,12 @@ const Plot = ({ data, groupSizes: {treatment_pop, control_pop} }) =>
       />
       <VictoryAxis tickFormat={t => ''}/>
       <VictoryAxis
+        tickFormat={(t) => `${t}%`}
         dependentAxis
         label="Difference in Voter Turnout (CACE)"
         style={{
-          tickLabels: {fontSize: 6},
-          axisLabel: {fontSize: 8}
+          tickLabels: {fontSize: 5},
+          axisLabel: {fontSize: 7}
         }}/>
     </VictoryChart>
     <div style={{width: '73%', float: 'right', marginTop: '-12%', marginRight: '13%'}}>
