@@ -1,5 +1,6 @@
 import React from 'react';
-import { Tab } from 'semantic-ui-react'
+import { Tab, Table } from 'semantic-ui-react'
+import Axis from './Axis'
 const d3 = require('d3')
 
 const DemoTab = ({tab, height, width}) => {
@@ -10,26 +11,46 @@ const DemoTab = ({tab, height, width}) => {
 
   let x = d3.scaleBand()
     .domain(tab.labels)
-    .rangeRound([0, width]);
+    .rangeRound([0, width])
+    .padding(0.1);
 
-  //lets not shit ourselves you'll make this a custom comp in like a day
+  let yAxis = d3.axisLeft(y).ticks(5, "%")
+
+  //lets not shit ourselves you'll make this a custom component in like a day
   let rects = tab.data.map((d, i) => (
     <rect
         x={x(tab.labels[i])}
-        y={y(d)}
+        y={`${y(d)}`}
         width={x.bandwidth()}
-        height={height-y(d)}
-    />))
+        height={`${height-y(d)}`}
+        className='bar'
+        key={`demo-rect-${i}`}
+      />))
+
+  let labels = tab.labels.map((l, i) => (
+    <Table.Cell style={{width: x.bandwidth() + (x.padding() * x.bandwidth())}}
+                key={`demo-label-${i}`}
+                className='bar-label'>
+         { l } 
+    </Table.Cell>
+    ))
 
   return (
     <Tab.Pane>
-
-      <svg width={ 300 } height={ 500 }>
-        <g className='barchart-layer'>
-          { rects }   
-        </g>
-      </svg> 
-  
+      <div>
+        <svg width={ width } height={ height }>
+          <g className='barchart-layer'>
+            <Axis axis={yAxis} />
+            { rects }   
+          </g>
+        </svg> 
+      </div>
+      <Table className='label-container'
+      style={{paddingLeft: x.bandwidth() * x.padding()}}>
+        <Table.Row>
+           { labels }
+        </Table.Row>
+     </Table>
     </Tab.Pane>
   )
 }

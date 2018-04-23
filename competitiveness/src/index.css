@@ -49,3 +49,21 @@ table {
   text-decoration: underline;
   border-bottom: 2px darkblue solid;
 }
+
+.bar {
+  fill: darkblue;
+}
+
+.bar-label {
+  font-size: 10px;
+  line-height: 10px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  vertical-align: top;
+}
+
+.label-container {
+  margin-top: 5px !important;
+  table-layout: fixed;
+  width: 100%;
+}

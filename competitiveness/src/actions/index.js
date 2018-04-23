@@ -24,7 +24,7 @@ const loadHLData = (props) => dispatch =>  {
          geoSource, table}= returnLoadParams(districtType) 
 
         //changes second parent dist type to election state eventaully 
-        queryDB(props.parentDistType, table, props.parentDistType, selected).then(dataPull => {
+        queryDB(props.parentDistType, table, election, selected).then(dataPull => {
         d3.queue()
           .defer(d3.json, geoSource) 
           .await((error, geoFile) => {

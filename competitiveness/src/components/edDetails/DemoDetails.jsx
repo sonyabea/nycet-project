@@ -2,18 +2,10 @@ import React, { Component } from 'react';
 import DemoTab from './DemoTab';
 import { connect } from 'react-redux'; 
 import { Tab } from 'semantic-ui-react'
-
-const TAB_MAPPING = {
-  acs: [{title: 'Race',
-         cols: ['white_only_pct', 'black_only_pct', 'asian_only_pct', 
-         'pacific_only_pct', 'native_american_only_pct', 'other_race_only_pct',
-         'two_or_more_races_pct'],
-         labels: ['White', 'Black', 'Asian', 'Pacific Islander',
-                          'Native American', 'Other Race', 'Two or More Races']}]
-}
+import TAB_MAPPING from '../../data/tabMapping';
 
 class DemoDetailsContainer extends Component{
-          // eventually, adapt from node 
+          // eventually, derive from node in compdidmount
           // height={this.node.clientHeight}
           // width={this.node.clientWidth} 
   render() {
@@ -22,7 +14,7 @@ class DemoDetailsContainer extends Component{
         render: () => <DemoTab 
           key={`demotab-${i}`} 
           tab={t}
-          height={ 500 }
+          height={ 250 }
           width={ 300 }
         /> }
   ))
@@ -44,7 +36,7 @@ const tabsFromData = (dataset) => {
   return tabs
 }
 
-//use ownProps to choose acs or census, eventually
+//use ownProps to choose acs, census, or turnout eventually
 //for now, hardcode acs for functionality coding
 const mapStateToProps = (state, ownProps) => {
   return {tabs: tabsFromData(state.highlightedEdData.acs[0])}
