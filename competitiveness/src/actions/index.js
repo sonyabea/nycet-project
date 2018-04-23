@@ -4,9 +4,7 @@ const d3 = require('d3');
 
 //ACTION CREATORS
 export const loadData = (props) => 
-  //use this thunk syntax, because d3.queue happens async
   dispatch => { 
-    //already at lowest map level? 
     if (props.parentDistType === 'ED') {
       dispatch(loadEDData(props.parentDistId, props.county))
     }
@@ -102,5 +100,10 @@ export const changeDistrict = (distType, parentDist, selected) => (
 export const setCounty = (county) => (
   {type: 'SELECT_COUNTY',
    payload: county}
+)
+
+export const changeDemoType = (type) => (
+  {type: 'CHANGE_DEMO_TYPE',
+   payload: type}
 )
 

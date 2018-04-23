@@ -5,7 +5,7 @@ import DataMap from './map/Map.jsx';
 import TopTen from './TopTen.jsx';
 import CompHeader from './CompHeader.jsx'
 import EDHeader from './EDHeader.jsx';
-import DemoDetails from './edDetails/DemoDetails.jsx';
+import DemoSidebar from './edDetails/DemoSidebar.jsx';
 import { Grid, Container } from 'semantic-ui-react';
 
 //params passed down from URL
@@ -20,7 +20,7 @@ const Competitiveness= ({mapComponents, districtType}) => (
           </MapContainer>
         </Grid.Column>
         <Grid.Column width={5}>
-          { districtType === 'ED' ? <DemoDetails /> : <TopTen geoData={mapComponents.geoData} /> } 
+          { districtType === 'ED' ? <DemoSidebar /> : <TopTen geoData={mapComponents.geoData} /> } 
         </Grid.Column>
       </Grid>
     </Container>

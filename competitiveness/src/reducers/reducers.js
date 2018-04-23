@@ -85,7 +85,7 @@ export function highlightedEdDataReducer(state={
     acs: [{}],
     census: [{}],
     turnout: [{}],
-    demoYear: '2016'}, action){
+    demoType: 'acs'}, action){
       switch (action.type) {
         case 'SELECT_COUNTY':
           return {...state, countyed: action.payload}
@@ -95,6 +95,8 @@ export function highlightedEdDataReducer(state={
           return {...state, census: action.payload}
         case 'LOAD_TURNOUT':
           return {...state, turnout: action.payload}
+        case 'CHANGE_DEMO_TYPE':
+          return {...state, demoType: action.payload}
         default:
           return state
       }

@@ -46,10 +46,12 @@ const DemoTab = ({tab, height, width}) => {
         </svg> 
       </div>
       <Table className='label-container'
-      style={{paddingLeft: x.bandwidth() * x.padding()}}>
-        <Table.Row>
-           { labels }
-        </Table.Row>
+        style={{paddingLeft: x.bandwidth() * x.padding()}}>
+        <Table.Body>
+          <Table.Row>
+             { labels }
+          </Table.Row>
+        </Table.Body>
      </Table>
     </Tab.Pane>
   )
