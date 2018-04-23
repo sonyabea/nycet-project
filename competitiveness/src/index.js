@@ -15,16 +15,14 @@ import registerServiceWorker from './registerServiceWorker'
 let store = createStore(NYCETAppReducers, applyMiddleware(thunkMiddleware))
 
 // debugging helper
-const announce = () => console.log(store.getState())
-setInterval(announce, 7000)
+// const announce = () => console.log(store.getState())
+// setInterval(announce, 7000)
 
-//eventually, put a top level "Competetiveness" container component and allocate
-//components per route -- e.g., detail pages etc.
 ReactDOM.render(
 <Provider store={store}>
   <BrowserRouter>
     <div>
-      <Route path='/:parentDistType?/:parentDistId?' component={App} />
+      <Route path='/:parentDistType?/:parentDistId?/:childDistType?/:childDistId?' component={App} />
     </div>
   </BrowserRouter>
 </Provider>,

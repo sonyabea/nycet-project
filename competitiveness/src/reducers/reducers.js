@@ -78,7 +78,7 @@ export function selectedElectionReducer(state='AD', action){
   }
 }
 
-export function winningPartyReducer(state={}, action){
+export function winningPartyReducer(state=d3.map(), action){
   switch (action.type) {
     case 'STORE_PARTY_DATA':
       return action.payload
@@ -109,7 +109,7 @@ export function highlightedEdDataReducer(state={
         case 'LOAD_TURNOUT':
           return {...state, turnout: action.payload}
         case 'LOAD_WINS_FOR_PARTY':
-          return {...state, winsForParty: action.payload}
+          return {...state, winsForParty: action.payload[0].winning_part_ct}
         case 'CHANGE_DEMO_TYPE':
           return {...state, demoType: action.payload}
         default:

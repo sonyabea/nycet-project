@@ -3,22 +3,18 @@ import { connect } from 'react-redux';
 // import { loadData } from '../actions/index';
 const React = require('react');
 
-const TopTenContainer = ({history, geoData, drillDown, districtType}) => {
+const TopTenContainer = ({geoData, drillDown, districtType, winningParty}) => {
   //let filteredDists = geoData.entries().filter((a) => (a.value !== 0));
   let sortedDists = geoData.entries().sort((a, b) => (
     Math.abs(a.value) - Math.abs(b.value)))
   
   //don't do this on ed level view?
   let topTen = sortedDists.slice(0,10)
-  topTen.forEach((dist) => (dist.party = (dist.value > 0) ? 'Democrat' : 'Republican'))
+  topTen.forEach((dist) => (dist.party = winningParty.get(dist.key)))
   let distRows = topTen.map((dist, i) => (
     //restore style later by removing Link and applying a real href to the table row
     //using browserHistory and push
-      <Table.Row key={`top-ten-${i}`}
-        onClick={() => {
-          history.push(`/${districtType}/${dist.key}`)
-          // drillDown(dist.key, districtType)
-        }}>
+      <Table.Row key={`top-ten-${i}`}>
         <Table.Cell>{dist.key}</Table.Cell>
         <Table.Cell>{`${Math.abs(dist.value)}%`}</Table.Cell>
         <Table.Cell>{dist.party}</Table.Cell>
@@ -43,8 +39,14 @@ const TopTenContainer = ({history, geoData, drillDown, districtType}) => {
   )
 }
 
-const mapStateToProps = (state, ownProps) => (
-  {...ownProps, districtType: state.districtType})
+const mapStateToProps = (state, ownProps) => {
+  let newState = {...ownProps,
+           districtType: state.districtType,
+           winningParty: state.winningParty}
+
+  console.log(newState)
+  return newState
+}
 
 // const mapDispatchToProps = (dispatch, ownProps) => (
 //   {drillDown: (selected, districtType) => (
