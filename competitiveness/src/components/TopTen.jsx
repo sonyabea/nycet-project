@@ -1,7 +1,6 @@
 import { Table, Card } from 'semantic-ui-react';
 import { connect } from 'react-redux'; 
-import { loadData } from '../actions/index';
-import { withRouter } from 'react-router-dom';
+// import { loadData } from '../actions/index';
 const React = require('react');
 
 const TopTenContainer = ({history, geoData, drillDown, districtType}) => {
@@ -15,14 +14,17 @@ const TopTenContainer = ({history, geoData, drillDown, districtType}) => {
   let distRows = topTen.map((dist, i) => (
     //restore style later by removing Link and applying a real href to the table row
     //using browserHistory and push
-      <Table.Row key={`top-ten-${i}`}  onClick={() => {
-        history.push(`/${districtType}/${dist.key}`); drillDown(dist.key, districtType)}} >
+      <Table.Row key={`top-ten-${i}`}
+        onClick={() => {
+          history.push(`/${districtType}/${dist.key}`)
+          // drillDown(dist.key, districtType)
+        }}>
         <Table.Cell>{dist.key}</Table.Cell>
         <Table.Cell>{`${Math.abs(dist.value)}%`}</Table.Cell>
         <Table.Cell>{dist.party}</Table.Cell>
       </Table.Row>
     ))
-      
+    
   return (
    <Card className='table-card' style={{ width: "100%", marginLeft: 15 }}>
     <Table selectable>
@@ -44,12 +46,9 @@ const TopTenContainer = ({history, geoData, drillDown, districtType}) => {
 const mapStateToProps = (state, ownProps) => (
   {...ownProps, districtType: state.districtType})
 
-const mapDispatchToProps = (dispatch, ownProps) => (
-  {drillDown: (selected, districtType) => (
-      dispatch(loadData({parentDistId: selected, parentDistType: districtType})))}
-)
+// const mapDispatchToProps = (dispatch, ownProps) => (
+//   {drillDown: (selected, districtType) => (
+//       dispatch(loadData({parentDistId: selected, parentDistType: districtType})))}
+// )
 
-const TopTen = connect(mapStateToProps, mapDispatchToProps)(TopTenContainer)
-
-
-export default withRouter(TopTen);
+export default connect(mapStateToProps)(TopTenContainer)
