@@ -1,7 +1,7 @@
 // import React from 'react'
 import { ExperimentsByOrg, DemographicStats } from './components/Experiments'
-import AboutContainer from './components/AboutContainer'
-import MethodologyContainer from './components/MethodologyContainer'
+import About from './components/About'
+import Methodology from './components/Methodology'
 
 // import { Redirect } from 'react-router-dom'
 
@@ -13,8 +13,8 @@ const routes = [
   // {'exact path': '/', 'render': redirectFromHome},
   {'path': '/experiments', 'component': ExperimentsByOrg, 'name': 'Experiments By Org'},
   {'path': '/demographics', 'component': DemographicStats, 'name': 'Demographic Stats'},
-  {'path': '/methodology', 'component': MethodologyContainer, 'name': 'Methodology'},
-  {'path': '/about', 'component': AboutContainer, 'name': 'About'},
+  {'path': '/methodology', 'component': Methodology, 'name': 'Methodology'},
+  {'path': '/about', 'component': About, 'name': 'About'},
 ]
 
 export default routes

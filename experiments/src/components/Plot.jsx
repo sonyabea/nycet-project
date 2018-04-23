@@ -15,8 +15,6 @@ const Disclaimer = () =>
   <Message style={{fontSize: 9}} size='mini'>These plots illustrate the difference in voter turnout for specific experiments conducted by NYCET member organizations. Due to small sample sizes and other data inconsistencies, these results are only a snapshot of the overall efficacy of GOTV campaigns.</Message>
 
 const Plot = ({ data, groupSizes: {treatment_pop, control_pop} }) =>
-{
-  return (
   <div style={{width: '100%'}}>
     <VictoryChart domainPadding={20}>
       <GroupLabel
@@ -68,5 +66,5 @@ const Plot = ({ data, groupSizes: {treatment_pop, control_pop} }) =>
       <Disclaimer></Disclaimer>
     </div>
   </div>
-)}
+
 export default Plot

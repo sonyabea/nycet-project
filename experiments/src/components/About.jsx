@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Header } from 'semantic-ui-react'
 
-const AboutContainer = () =>(
+const About = () =>(
   <Container textAlign='left'>
     <Header as='h3'>Project Goal</Header>
     <p>Our goal is to measure the impact of get-out-the-vote (GOTV) experiments run by New York Civic Engagement Table community groups, as well as to provide NYCET with insight that helps structure future voter engagement campaigns.</p>
@@ -15,4 +15,4 @@ const AboutContainer = () =>(
   </Container>
 )
 
-export default AboutContainer
+export default About
