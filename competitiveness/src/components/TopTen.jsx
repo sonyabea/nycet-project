@@ -39,14 +39,11 @@ const TopTenContainer = ({geoData, drillDown, districtType, winningParty}) => {
   )
 }
 
-const mapStateToProps = (state, ownProps) => {
-  let newState = {...ownProps,
-           districtType: state.districtType,
-           winningParty: state.winningParty}
-
-  console.log(newState)
-  return newState
-}
+const mapStateToProps = (state, ownProps) => (
+  {...ownProps,
+   districtType: state.districtType,
+   winningParty: state.winningParty}
+)
 
 // const mapDispatchToProps = (dispatch, ownProps) => (
 //   {drillDown: (selected, districtType) => (

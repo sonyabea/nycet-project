@@ -5,10 +5,14 @@ import { connect } from 'react-redux';
 import TAB_MAPPING from '../../data/tabMapping';
 
 const tabsFromData = (dataset, type) => {
+  if (typeof(dataset) === 'undefined') {
+    return []
+  }
   let mapping = TAB_MAPPING[type]
   let tabs = []
   mapping.forEach((tab) => {
-    tab.data = tab.cols.map((col) => (dataset[col]))
+    tab.data = tab.cols.map((col) => (
+      (typeof(dataset[col]) === 'undefined') ? 0 : dataset[col]))
     tabs.push(tab)
   })
   return tabs

@@ -71,7 +71,15 @@ const loadEDData = (ed, county) => dispatch => {
                       actionType: 'LOAD_CENSUS'},
                   {filterString: `${county.toString()}Ad ${stringAd} - Ed ${stringEd}`,
                       table: 'ed_agg_voter_file',
-                      actionType: 'LOAD_TURNOUT'}]
+                      actionType: 'LOAD_TURNOUT'},
+                  {filterString: `${county.toString()}Ad ${stringAd} - Ed ${stringEd}`,
+                      table: 'ed_agg_voter_file',
+                      actionType: 'LOAD_TURNOUT'},
+                  {filterString: `${county.toString()}Ad ${stringAd} - Ed ${stringEd}`,
+                      table: 'ed_metrics',
+                      actionType: 'LOAD_WINS_FOR_PARTY'}
+
+]
 
   allParams.forEach((params) => {
     let query = {filterOn: 'countyed', filterBy: params.filterString}
