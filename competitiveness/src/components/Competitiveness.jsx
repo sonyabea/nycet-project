@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import MapContainer from './map/MapContainer.jsx';
 import DataMap from './map/Map.jsx';
 //import MapTooltip from './components/MapTooltip.jsx';
@@ -9,7 +10,7 @@ import DemoSidebar from './edDetails/DemoSidebar.jsx';
 import { Grid, Container } from 'semantic-ui-react';
 
 //params passed down from URL
-const Competitiveness= ({mapComponents, districtType}) => (
+const Competitiveness = ({mapComponents, districtType}) => (
     <Container>
       <CompHeader />  
       <Grid>
@@ -26,4 +27,9 @@ const Competitiveness= ({mapComponents, districtType}) => (
     </Container>
   )
 
-export default Competitiveness;
+export default connect(
+  state => ({
+    mapComponents: state.mapData,
+    districtType: state.districtType
+  })
+)(Competitiveness)

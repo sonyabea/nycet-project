@@ -2,14 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux'; 
 import { Link } from 'react-router-dom';
 
-const MapDistrictContainer = ({d, projection, fill, routerLink, onClick}) => (
+const MapDistrictContainer = ({d, projection, fill, routerLink}) => (
   <Link to={{pathname: routerLink}}>
     <path
       data={d}
       d={projection}
       fill={fill}
       className='district'
-      onClick={onClick}
     />
   </Link>
 

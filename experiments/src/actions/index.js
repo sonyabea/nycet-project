@@ -10,7 +10,7 @@ export const CHANGE_DEMO_GROUP_SELECTIONS = 'CHANGE_DEMO_GROUP_SELECTIONS'
 
 const getInitialSelection = data => filter => _.chain(data)
   .filter(filter)
-  .sortBy(d => (1 / d.control_pop))
+  .sortBy(d => (1 / d.total_pop))
   .value()[0]
 
 export const loadData = () => dispatch => {

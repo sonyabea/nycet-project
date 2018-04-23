@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Plot from './Plot'
+import PlotDesc from './PlotDesc'
 import DemoSelections from './DemoSelections'
-import GroupSizes from './GroupSizes'
 import { getPlotData, getElectionGroupSizes } from '../selectors'
 import _ from 'lodash'
 
 const PlotTemplate = ({ groupSizes, plotData, children }) =>
   <div className='flex-container'>
-    <div style={{width: '20%', textAlign: 'left', fontSize: '12px', marginTop: '4%'}}>
-      <GroupSizes { ...groupSizes } />
+    <div style={{width: '20%', textAlign: 'left', marginTop: '2%'}}>
+      <PlotDesc/>
       {children}
     </div>
-    <Plot data={plotData}/>
+    <Plot data={plotData} groupSizes={groupSizes}/>
   </div>
 
 class DemographicsPlot extends Component {
@@ -21,7 +21,6 @@ class DemographicsPlot extends Component {
     super(props)
     this.state = {
       currentlySelected: [],
-      error: ''
     }
   }
 
@@ -47,14 +46,13 @@ class DemographicsPlot extends Component {
 
   render () {
     let { plotData, groupSizes } = this.props
-    let { currentlySelected, error } = this.state
+    let { currentlySelected } = this.state
     let demoSelectionOptions = plotData.map(d => ({key: d.x, text: d.x, value: d.x}))
     let filteredPlotData = plotData.filter(d => currentlySelected.includes(d.x))
     return (
       <PlotTemplate plotData={filteredPlotData} groupSizes={groupSizes}>
-        <div style={{'marginTop': '10%'}}>
+        <div style={{'marginTop': '10%', 'paddingBottom': '0'}}>
           <DemoSelections
-            error={error}
             options={demoSelectionOptions}
             onChange={this.handleChange.bind(this)}
             value={currentlySelected}
@@ -65,7 +63,7 @@ class DemographicsPlot extends Component {
   }
 }
 
-const getSelectors = (type) => state => ({
+const getSelectors = type => state => ({
   plotData: getPlotData(type)(state),
   groupSizes: getElectionGroupSizes(type)(state)
 })
