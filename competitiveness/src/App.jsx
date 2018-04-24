@@ -3,21 +3,11 @@ import { connect } from 'react-redux';
 import Competitiveness from './components/Competitiveness'
 import {loadData} from './actions/index'
 import { withRouter } from 'react-router-dom';
-import NYCETAppReducers from './reducers/index';
-import thunkMiddleware from 'redux-thunk';
-import { createStore, applyMiddleware } from 'redux';
 import './App.css';
 
-//can add more complexity here in the children eventually
 class AppContainer extends Component {
-  constructor(props){
-    super(props)
-    let store = createStore(NYCETAppReducers, applyMiddleware(thunkMiddleware))
-    // debugging helper
-    const announce = () => console.log(store.getState())
-    setInterval(announce, 7000)
-  }
 
+  //do some checks so we're not calling backend 5 times a load
   static getDerivedStateFromProps(nextProps, prevState) {
     let parentDistType = (typeof(nextProps.match.params.parentDistType) === 'undefined') ? 'AD' : nextProps.match.params.parentDistType 
     let parentDistId = (typeof(nextProps.match.params.parentDistId) === 'undefined') ? 0 : nextProps.match.params.parentDistId
