@@ -24,12 +24,16 @@ const tabsFromData = (dataset, type) => {
 const DemoSidebarContainer = ({demoTabs, turnoutTabs}) => (
   <div>
     <CensusToggle /> 
-    <ResizeContainer resizeFunction={setSidebarDimensions}>
-      <DemoDetails tabs={demoTabs} />
-    </ResizeContainer>
-    <ResizeContainer resizeFunction={setSidebarDimensions}>
-      <DemoDetails tabs={turnoutTabs} />
-    </ResizeContainer>
+    <div>
+      <ResizeContainer resizeFunction={setSidebarDimensions}>
+        <DemoDetails tabs={demoTabs} />
+      </ResizeContainer>
+    </div>
+    <div>
+      <ResizeContainer resizeFunction={setSidebarDimensions}>
+        <DemoDetails tabs={turnoutTabs} />
+      </ResizeContainer>
+    </div>
   </div>
 )
 

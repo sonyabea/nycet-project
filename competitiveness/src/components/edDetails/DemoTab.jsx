@@ -39,7 +39,7 @@ const DemoTab = ({tab, plotHeight, plotWidth}) => {
     ))
 
   return (
-    <Tab.Pane>
+    <Tab.Pane style={{borderTop: "1px solid #d4d4d5"}}>
       <div>
         <svg width={ width } height={ height }>
           <g className='barchart-layer'>
