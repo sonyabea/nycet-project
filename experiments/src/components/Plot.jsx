@@ -1,6 +1,6 @@
 import React from 'react'
 import { Message } from 'semantic-ui-react'
-import { VictoryChart, VictoryBoxPlot, VictoryAxis, VictoryLabel, VictoryTooltip } from 'victory'
+import { VictoryChart, VictoryBoxPlot, VictoryAxis, VictoryLabel, VictoryTooltip, VictoryVoronoiContainer } from 'victory'
 
 const withCommas = x => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
@@ -16,7 +16,24 @@ const Disclaimer = () =>
 
 const Plot = ({ data, groupSizes: {treatment_pop, control_pop} }) =>
   <div style={{width: '100%'}}>
-    <VictoryChart domainPadding={20}>
+    <VictoryChart
+      domainPadding={20}
+      // containerComponent={
+      //   <VictoryVoronoiContainer
+      //     labelComponent={
+      //       <VictoryTooltip
+      //         style={{fontSize: 6}}
+      //         orientation="right"
+      //         pointerLength={0}
+      //       />
+      //     }
+      //     labels={d => {
+      //       debugger
+      //       return 'meow'
+      //     }}
+      //   />
+      // }
+    >
       <GroupLabel
         text={`Election Treatment Size: ${withCommas(treatment_pop)}`}
         x={150} y={30}
@@ -28,7 +45,6 @@ const Plot = ({ data, groupSizes: {treatment_pop, control_pop} }) =>
       <VictoryBoxPlot
         data={data.map(d => ({ ...d, min: d.ci_low, max: d.ci_high }))}
         maxLabels={d => d.x.replace(' ', '\n')}
-
         maxLabelComponent={
           <VictoryLabel
             dx={-10} dy={-10}
