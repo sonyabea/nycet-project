@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import MapContainer from './map/MapContainer';
 import DataMap from './map/Map.jsx';
-//import MapTooltip from './components/MapTooltip.jsx';
+import MapTooltip from './map/MapTooltip.jsx';
 import TopTen from './TopTen.jsx';
 import CompHeader from './CompHeader.jsx'
 import TopDetails from './edDetails/TopDetails.jsx';
@@ -12,6 +12,7 @@ import { Grid, Container } from 'semantic-ui-react';
 //params passed down from URL
 const Competitiveness = ({mapComponents, districtType}) => (
     <Container>
+      <MapTooltip />
       <CompHeader />  
       <Grid>
         { districtType === 'ED' ? <TopDetails /> : '' } 

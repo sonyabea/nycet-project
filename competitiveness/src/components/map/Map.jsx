@@ -3,7 +3,8 @@ import MapDistrict from './MapDistrict';
 const React = require('react');
 const d3 = require('d3');
 
-const Map = ({mapWidth, mapHeight, mapComponents, parentDist, drillDown, location, colorScale}) => {
+const Map = ({mapWidth, mapHeight, mapComponents,
+             parentDist, drillDown, location, colorScale}) => {
 
   let projection = d3.geoIdentity()
                  .reflectY(true)
@@ -23,6 +24,7 @@ const Map = ({mapWidth, mapHeight, mapComponents, parentDist, drillDown, locatio
           d={d}
           projection={ `${d3.geoPath().projection(projection)(d)}` }
           fill={ `${ color(mapComponents.geoData.get(d.properties.districtNumber))}`}
+          margin={mapComponents.geoData.get(d.properties.districtNumber)}
         />
       ))
 

@@ -135,3 +135,11 @@ export const changeDemoType = (type) => (
    payload: type}
 )
 
+//consider putting in a timer here to deal with that lingering tooltip prob
+export const showTooltip = (mouseEvent, districtNumber) => {
+  return {type: 'MOUSE_IN_DISTRICT',
+   payload: {showTooltip: true,
+             tooltipX: mouseEvent.clientX,
+             tooltipY: mouseEvent.clientY,
+             districtNumber: districtNumber}}
+}

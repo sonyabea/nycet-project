@@ -126,16 +126,15 @@ export function highlightedEdDataReducer(state={
       }
 }
 
-
-// export function tooltipReducer(state={
-//                     showTooltip: false,
-//                     tooltipX: 0,
-//                     tooltipY: 0,
-//                     text: []}, action){
-//   switch (action.type) {
-//     case 'MOUSE_IN':
-//       return action.payload
-//     default:
-//       return state
-//   }
-// }
+export function tooltipReducer(state={
+                    showTooltip: false,
+                    tooltipX: 0,
+                    tooltipY: 0,
+                    districtNumber: 0}, action){
+  switch (action.type) {
+    case 'MOUSE_IN_DISTRICT':
+      return action.payload
+    default:
+      return state
+  }
+}

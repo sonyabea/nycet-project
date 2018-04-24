@@ -86,7 +86,17 @@ table {
 .ui.menu .item:before {
   width: none;
 }
+
 a.item {
   border: 1px solid #d4d4d5;
   padding: 10px !important;
+}
+
+.tooltip {
+  background-color: #fcf3ed;
+  line-height: 15px;
+  border-radius: 3px;
+  font-size: 12px;
+  padding: 3px;
+  border: 1px solid darkgrey;
 }
