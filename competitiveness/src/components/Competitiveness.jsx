@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import MapContainer from './map/MapContainer.jsx';
+import MapContainer from './map/MapContainer';
 import DataMap from './map/Map.jsx';
 //import MapTooltip from './components/MapTooltip.jsx';
 import TopTen from './TopTen.jsx';

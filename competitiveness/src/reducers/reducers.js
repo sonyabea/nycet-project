@@ -12,9 +12,18 @@ export function mapDataReducer(state={
 }
 
 //currently hardcoded for a 10-row table, don't @ me
-export function mapDimensionsReducer(state={mapDimensions: [0,471]}, action) {
+export function mapDimensionsReducer(state=[0,471], action) {
   switch (action.type) {
     case 'SET_MAP_DIMENSIONS':
+      return action.payload
+    default:
+      return state
+  }
+}
+
+export function sidebarDimensionsReducer(state=[200,200], action) {
+  switch (action.type) {
+    case 'SET_SIDEBAR_DIMENSIONS':
       return action.payload
     default:
       return state
@@ -78,7 +87,7 @@ export function selectedElectionReducer(state='AD', action){
   }
 }
 
-export function winningPartyReducer(state={}, action){
+export function winningPartyReducer(state=d3.map(), action){
   switch (action.type) {
     case 'STORE_PARTY_DATA':
       return action.payload
@@ -109,7 +118,7 @@ export function highlightedEdDataReducer(state={
         case 'LOAD_TURNOUT':
           return {...state, turnout: action.payload}
         case 'LOAD_WINS_FOR_PARTY':
-          return {...state, winsForParty: action.payload}
+          return {...state, winsForParty: action.payload[0].winning_part_ct}
         case 'CHANGE_DEMO_TYPE':
           return {...state, demoType: action.payload}
         default:

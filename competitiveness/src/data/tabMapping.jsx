@@ -1,10 +1,8 @@
 const TAB_MAPPING = {
   acs: [{title: 'Households',
-         cols: ['all_households', 'all_family_households',
-                'married_with_children_pct', 'male_household_children_pct',
+         cols: ['married_with_children_pct', 'male_household_children_pct',
                 'female_household_children_pct'],
-         labels: ['All Households', 'All Households with Family',
-                  'Married w/ children', 'No Wife Present w/children',
+         labels: ['Married w/ children', 'No Wife Present w/children',
                   'No Husband Present w/children']
         },
         {title: 'Education',
@@ -133,12 +131,12 @@ const TAB_MAPPING = {
                'Male Turnout 2013', 'Female Turnout 2013', 'Male Turnout 2012']
               },
               {title: 'Youth',
-               cols: ['female_turnout_12_pct', 'youth_turnout_16_pct',
-                      'youth_turnout_15_pct', 'youth_turnout_14_pct',
-                      'youth_turnout_13_pct', 'youth_turnout_12_pct'],
-               labels: ['Female Turnout 2012', 'Youth Turnout 2016',
-                        'Youth Turnout 2015', 'Youth Turnout 2014',
-                        'Youth Turnout 2013', 'Youth Turnout 2012']
+               cols: ['youth_turnout_16_pct', 'youth_turnout_15_pct',
+                      'youth_turnout_14_pct', 'youth_turnout_13_pct',
+                      'youth_turnout_12_pct'],
+               labels: ['Youth Turnout 2016', 'Youth Turnout 2015',
+                        'Youth Turnout 2014', 'Youth Turnout 2013',
+                        'Youth Turnout 2012']
               }]
 }
 

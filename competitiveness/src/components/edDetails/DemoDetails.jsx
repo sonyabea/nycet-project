@@ -1,26 +1,35 @@
 import React from 'react';
 import DemoTab from './DemoTab';
-import { Tab, Card } from 'semantic-ui-react'
+import { Tab } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
-// eventually, inherit height, width
-// from parent sidebar comp
-const DemoDetails = ({tabs}) => {
+const DemoDetailsContainer = ({tabs, height, width}) => {
 
+    //eventually do margin from inside plot thx
     let formattedPanes = tabs.map((t, i) => (
       { menuItem: t.title,
         render: () => <DemoTab 
           key={`demotab-${i}`} 
           tab={t}
-          height={ 250 }
-          width={ 300 }
+          plotHeight={ height - 30}
+          plotWidth={ width - 30}
         /> }
   ))
 
     return (
-      <Card>
-        <Tab panes={formattedPanes}/>
-      </Card>
+      <div>
+        <Tab menu={{className: 'wrapped',
+          attached: true}} 
+             panes={formattedPanes} />
+      </div>
     )
 }
+
+const mapStateToProps = (state) => (
+  {width: state.sidebarDimensions[0],
+   height: state.sidebarDimensions[1]}
+)
+
+const DemoDetails = connect(mapStateToProps)(DemoDetailsContainer)
 
 export default DemoDetails;

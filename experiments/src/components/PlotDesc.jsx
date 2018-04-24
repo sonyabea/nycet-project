@@ -18,16 +18,21 @@ const PlotDesc = () => {
 
   const addLabelAtt = (atts, target) => ({
     ...atts,
-    [`${target}Labels`]: d => `hot take on ${target}`,
+    [`${target}Labels`]: d => blurbs[target],
     [`${target}LabelComponent`]:
       <VictoryTooltip
-        style={{fontSize: 40}}
+        style={{fontSize: 35}}
         orientation="right"
         pointerLength={0}
       />
   })
 
   const targets = ['max', 'q3', 'median', 'q1', 'min']
+  const blurbs = {'max':'Upper Confidence Bound\n97.5% of values fall below this band',
+                  'q3':'Quartile Group 3\n50% of values lie below and\n25% lie above this group',
+                  'median':'Median\nMid-point where 50% of values fall\nbelow and 50% fall above this line',
+                  'q1':'Quartile Group 2\n25% of values lie below and\n50% lie above this group',
+                  'min':'Lower Confidence Bound\n2.5% of values fall below this band'}
 
   let atts = {
     data: [{ x: 1, min: 2, median: 5, max: 8, q1: 3, q3: 7 }],
