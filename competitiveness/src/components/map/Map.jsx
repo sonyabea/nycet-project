@@ -1,19 +1,23 @@
-import { connect } from 'react-redux'; 
+import { connect } from 'react-redux';
 import { loadData } from '../../actions/index';
 import MapDistrict from './MapDistrict';
 const React = require('react');
 const d3 = require('d3');
- 
-const Map = ({mapWidth, mapHeight, mapComponents, parentDist, drillDown, location}) => {
+
+const Map = ({mapWidth, mapHeight, mapComponents, parentDist, drillDown, location, colorScale}) => {
+
   let projection = d3.geoIdentity()
                  .reflectY(true)
                  .fitSize([mapWidth,mapHeight], mapComponents.geoJson)
 
   let closenessExtent = d3.extent(mapComponents.geoData.values())
+
+  let colorScaleVals = colorScale === 'grey' ? ['green', 'white', 'green'] : ['red', 'white', 'blue']
+
   let color = d3.scaleLinear()
               .domain([closenessExtent[0], 0,
                        closenessExtent[1]])
-              .range(['red', 'white', 'blue'])
+              .range(colorScaleVals)
 
   let renderedShapes = mapComponents.geoJson.features.map((d,i) => (
         <MapDistrict key={`district-${i}`}
@@ -51,4 +55,4 @@ const mapDispatchToProps = (dispatch, ownProps) => (
 
 const DataMap = connect(mapStateToProps, mapDispatchToProps)(Map)
 
-export default DataMap  
+export default DataMap
