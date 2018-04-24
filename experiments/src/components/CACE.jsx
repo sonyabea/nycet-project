@@ -1,5 +1,5 @@
 import React from 'react'
-import { Header, Button, Modal, Image } from 'semantic-ui-react'
+import { Header, Button, Modal } from 'semantic-ui-react'
 
 const CACE = () =>
   <Modal trigger={<Button basic>how is CACE calculated?</Button>}>
