@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { loadData } from '../../actions/index';
 import MapDistrict from './MapDistrict';
 const React = require('react');
 const d3 = require('d3');
@@ -44,15 +43,6 @@ const mapStateToProps = (state) => ({
   parentDist: state.districtType,
   county: state.highlightedEdData.county})
 
-const mapDispatchToProps = (dispatch, ownProps) => (
-  {drillDown: (selected, parentDist, county) => (
-      dispatch(
-        loadData({parentDistId: selected, parentDistType: parentDist, county: county })
-      )
-    )
-  }
-)
-
-const DataMap = connect(mapStateToProps, mapDispatchToProps)(Map)
+const DataMap = connect(mapStateToProps, null)(Map)
 
 export default DataMap
