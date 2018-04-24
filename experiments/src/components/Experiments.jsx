@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { ExperimentsDropdownContainer, DemographicsDropdownContainer } from './DropdownContainer'
 import { ExperimentsPlotContainer, DemographicsPlotContainer } from './PlotContainer'
 import CACE from './CACE'
-import { getLoading } from '../selectors'
 
 const Experiments = ({dropdownContainer, plotContainer, loading}) => loading ? null :
   <div className='flex-container vertical' style={{width: '80%', margin: 'auto'}}>
@@ -16,7 +15,7 @@ const Experiments = ({dropdownContainer, plotContainer, loading}) => loading ? n
   </div>
 
 const ExperimentsContainer = connect(
-  state => ({ loading: getLoading(state) })
+  state => ({ loading: state.data.loading })
 )(Experiments)
 
 export const ExperimentsByOrg = () => 
