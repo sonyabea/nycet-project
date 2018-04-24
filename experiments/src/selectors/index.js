@@ -11,17 +11,34 @@ export const getColumnNames = type => state => getColumns(type)(state).map(c => 
 
 export const getData = type => type === 'demographics' ? getAllData : createSelector(
 	[ getAllData ],
-	data =>	_.filter(data, {'dem1': 'org', 'dem2': 'all'})
-)
+	data =>	data.filter(d => 
+		d.dem1 === 'org' &&
+		d.dem2 === 'all' &&
+		d.dem1_value !== 'All Orgs'
+	))
 
-export const getPlotData = type => createSelector(
+const getInitialPlotData = type => createSelector(
 	[ getData(type), getAllSelected(type) ],
-	// if one of the values are missing,
 	(data, allSelected) =>  _.filter(data, allSelected)
 		.map(d => d.dem1_value && d.dem2_value ?
 			{ ...d, x: (d.dem1_value + ' / ' + d.dem2_value) } :
 			{ ...d, x: d.dem1_value || d.dem2_value }
 		)
+)
+
+const getAllOrgs = createSelector(
+	[getAllData, getAllSelected('experiments')],
+	(data, selected) => {
+		let allOrgs = _.filter(data, _.omit(selected, 'dem1_value'))
+		return allOrgs
+			.filter(d => d.dem1_value === 'All Orgs')
+			.map( d => ({ ...d, x: d.dem1_value }))
+	}
+)
+
+export const getPlotData = type => type === 'demographics' ? getInitialPlotData('demographics') : createSelector(
+	[ getInitialPlotData('experiments'), getAllOrgs ],
+	(data, allOrgs) => [ ...data, ...allOrgs ]
 )
 
 const getSelected = (type, column) => createSelector(
