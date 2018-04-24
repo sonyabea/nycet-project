@@ -7,7 +7,7 @@ const PlotDesc = () => {
     eventHandlers: {
       onMouseOver: () => [
         { target: `${target}Labels`, mutation: () => ({ active: true }) },
-        { target: target, mutation: () => ({ style: {stroke: 'red', fill: 'grey'} }) }
+        { target: target, mutation: () => ({ style: {stroke: 'red', fill: 'grey', strokeWidth: 3} }) }
       ],
       onMouseOut: () => [
         { target: `${target}Labels`, mutation: () => ({ active: false }) },
@@ -18,7 +18,7 @@ const PlotDesc = () => {
 
   const addLabelAtt = (atts, target) => ({
     ...atts,
-    [`${target}Labels`]: `hot take on ${target}`,
+    [`${target}Labels`]: d => `hot take on ${target}`,
     [`${target}LabelComponent`]:
       <VictoryTooltip
         style={{fontSize: 40}}
@@ -29,13 +29,13 @@ const PlotDesc = () => {
 
   const targets = ['max', 'q3', 'median', 'q1', 'min']
 
-  var atts = {
+  let atts = {
     data: [{ x: 1, min: 2, median: 5, max: 8, q1: 3, q3: 7 }],
     events: targets.map(changeColorAndShowTooltip),
-    boxWidth: 90,
+    boxWidth: 90
   }
 
-  var allAtts = targets.reduce(addLabelAtt, atts)
+  let allAtts = targets.reduce(addLabelAtt, atts)
 
   return (
     <div style={{height: '35%', textAlign: 'center', 'verticalAlign': 'middle',

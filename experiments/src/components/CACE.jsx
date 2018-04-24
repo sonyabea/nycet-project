@@ -1,7 +1,7 @@
 import React from 'react'
-import { Header, Button, Modal, Image } from 'semantic-ui-react'
+import { Header, Button, Modal } from 'semantic-ui-react'
 
-const CACEContainer = () =>
+const CACE = () =>
   <Modal trigger={<Button basic>how is CACE calculated?</Button>}>
   <Modal.Content scrolling>
     <Modal.Description>
@@ -13,4 +13,4 @@ const CACEContainer = () =>
   </Modal.Content>
   </Modal>
 
-export default CACEContainer
+export default CACE

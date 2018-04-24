@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Header } from 'semantic-ui-react'
 
-const MethodologyContainer = () =>(
+const Methodology = () =>(
   <Container textAlign='left'>
     <Header as='h3'>Complier Adjusted Causal Effect (CACE)</Header>
     <p>We chose the Complier Adjusted Causal Effect (CACE) as our main measure of NYCET’s voter engagement campaigns. In the context of an election experiment, the CACE is the difference between the voting rate of the treatment group (V<sub>t</sub>) and the voting rate of the control group (V<sub>c</sub>), divided by the contact rate of the treatment group (C<sub>r</sub>): CACE = (V<sub>t</sub> - V<sub>c</sub>)/C<sub>r</sub>.</p>
@@ -13,4 +13,4 @@ const MethodologyContainer = () =>(
   </Container>
 )
 
-export default MethodologyContainer
+export default Methodology
