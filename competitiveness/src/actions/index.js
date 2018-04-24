@@ -111,6 +111,11 @@ export const setMapDimensions = (width, height) => (
    payload: [width, height]}
 )
 
+export const setSidebarDimensions = (width, height) => (
+  {type: 'SET_SIDEBAR_DIMENSIONS',
+   payload: [width, height]}
+)
+
 export const changeDistrict = (distType, parentDist, selected) => (
   {type: 'CHANGE_DISTRICT_TYPE',
    payload: {main: distType, parent: parentDist, selected: selected}}

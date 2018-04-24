@@ -12,9 +12,18 @@ export function mapDataReducer(state={
 }
 
 //currently hardcoded for a 10-row table, don't @ me
-export function mapDimensionsReducer(state={mapDimensions: [0,471]}, action) {
+export function mapDimensionsReducer(state=[0,471], action) {
   switch (action.type) {
     case 'SET_MAP_DIMENSIONS':
+      return action.payload
+    default:
+      return state
+  }
+}
+
+export function sidebarDimensionsReducer(state=[200,200], action) {
+  switch (action.type) {
+    case 'SET_SIDEBAR_DIMENSIONS':
       return action.payload
     default:
       return state

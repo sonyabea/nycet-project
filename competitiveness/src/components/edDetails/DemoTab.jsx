@@ -3,8 +3,11 @@ import { Tab, Table } from 'semantic-ui-react'
 import Axis from './Axis'
 const d3 = require('d3')
 
-const DemoTab = ({tab, height, width}) => {
-
+const DemoTab = ({tab, plotHeight, plotWidth}) => {
+  // console.log(plotHeight)
+  // console.log(plotWidth)
+  let height = (typeof(plotHeight) === 'undefined') ? 200 : plotHeight;
+  let width = (typeof(plotWidth) === 'undefined') ? 200 : plotWidth;
   let y = d3.scaleLinear()
     .domain([0, d3.max(tab.data)])
     .rangeRound([height, 0]);
