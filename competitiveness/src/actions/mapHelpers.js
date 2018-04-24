@@ -23,21 +23,22 @@ const getHlQuery = (dist) => (
   filterBy: dist})
 
 const getEdQuery = (parentDist, election, selected) => (
-  {columns: [`e.pl_margin_${election.toString().toLowerCase()} as most_rec_pl_margin`,
-             'd.ad',
-             'e.countyed',
-             'd.county',
-             `e.wp_${election.toString().toLowerCase()} as winning_party`,
-             'p.map as winning_pol_lean'],
-   addtlQuery: [' as e',
-               'JOIN electiondistricts as d ON d.countyed = e.countyed',
-               `JOIN maps_pollean p ON e.wp_${election.toString().toLowerCase()} = p.party`,
-               `WHERE d.${parentDist.toString().toLowerCase()} = ${selected}`].join(' ')})
+{columns: [`e.pl_margin_${election.toString().toLowerCase()} as most_rec_pl_margin`,
+           'd.ad',
+           'e.countyed',
+           'd.county',
+           `e.wp_${election.toString().toLowerCase()} as winning_party`,
+           'p.map as winning_pol_lean'],
+ addtlQuery: [' as e',
+             'JOIN electiondistricts as d ON d.countyed = e.countyed',
+             `JOIN maps_pollean p ON e.wp_${election.toString().toLowerCase()} = p.party`,
+             `WHERE d.${parentDist.toString().toLowerCase()} = ${selected}`].join(' ')})
 
 
 export const queryDB = (dist, table, election, selected) => {
   let query = (selected === 0) ? getHlQuery(dist) : getEdQuery(dist, election, selected)
-  return axios({method: 'post',   
+  console.log(query)
+  return axios({method: 'post',
         url: `http://localhost:8080/table/${table}/`,
         data: query })
 }
@@ -60,7 +61,7 @@ export const filterFiles = (geoFile, dataPull, mapRegionType, selected) => {
   let regionIds = filteredFeatures.map((d) => (d.properties.districtNumber))
   let filteredData = dataPull.filter((d) => (regionIds.indexOf(
       parseInt(d.district, 10)) >= 0))
-  
+
   return [{'type': geoFile['type'], 'features': filteredFeatures},
           filteredData]
   }
