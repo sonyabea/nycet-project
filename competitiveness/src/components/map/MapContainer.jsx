@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import GreyscaleToggle from './GreyscaleToggle'
+import GrayscaleToggle from './GrayscaleToggle'
 import { setMapDimensions } from '../../actions/index'
 import { connect } from 'react-redux';
 
@@ -31,14 +31,15 @@ class MapContainerComponent extends Component{
     window.addEventListener('resize', this.getDimensions)
   }
 
-  changeColorScale(val){
-    this.setState({'colorScale': val})
+  changeColorScale(grayScale){
+    let scale = grayScale ? 'gray' : 'rgb'
+    this.setState({'colorScale': scale})
   }
 
   render() {
     return (
       <div ref={node => this.node = node} className='map-container'>
-        <GreyscaleToggle changeColorScale={this.changeColorScale.bind(this)} />
+        <GrayscaleToggle changeColorScale={this.changeColorScale.bind(this)} />
         {React.cloneElement(this.props.children, { colorScale: this.state.colorScale})}
       </div>
     )

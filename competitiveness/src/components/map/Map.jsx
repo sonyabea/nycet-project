@@ -12,7 +12,7 @@ const Map = ({mapWidth, mapHeight, mapComponents, parentDist, drillDown, locatio
 
   let closenessExtent = d3.extent(mapComponents.geoData.values())
 
-  let colorScaleVals = colorScale === 'grey' ? ['green', 'white', 'green'] : ['red', 'white', 'blue']
+  let colorScaleVals = colorScale === 'gray' ? ['green', 'white', 'green'] : ['red', 'white', 'blue']
 
   let color = d3.scaleLinear()
               .domain([closenessExtent[0], 0,
