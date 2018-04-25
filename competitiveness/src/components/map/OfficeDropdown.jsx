@@ -6,7 +6,7 @@ const OfficeDropdown = ({name, selected, onChange}) => {
   let options = offices.map(office => ({text: office.replace('_', ' '), value: office}) )
 
   return (
-    <div style={{'float': 'left'}}>
+    <div>
       <Header as='h4'>
         <Header.Content>
           <span>Select an office:</span>

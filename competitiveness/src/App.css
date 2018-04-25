@@ -30,4 +30,6 @@
 #map-top{
   padding-right: 10%;
   padding-left: 10%;
+  display: flex;
+  justify-content: space-between;
 }

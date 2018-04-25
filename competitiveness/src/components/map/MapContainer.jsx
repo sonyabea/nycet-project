@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import GrayscaleToggle from './GrayscaleToggle'
-import { OfficeDropdownContainer } from './DropdownContainer.jsx'
 import { setMapDimensions } from '../../actions/index'
 import ResizeContainer from '../Container.jsx'
 
@@ -21,13 +20,21 @@ class MapContainer extends Component{
     return (
       <ResizeContainer resizeFunction={setMapDimensions}>
         <div id='map-top'>
+
           <GrayscaleToggle changeColorScale={ this.changeColorScale.bind(this) }/>
-          <OfficeDropdownContainer style={{'float': 'left'}}/>
+          {this.props.children[0]}
+
         </div>
-        {React.cloneElement(this.props.children, { colorScale: this.state.colorScale })}
+        {React.cloneElement(this.props.children[1], { colorScale: this.state.colorScale })}
       </ResizeContainer>
     )
    }
+}
+
+function EDMapContainer(){
+  return (
+    MapContainer()
+  )
 }
 
 export default MapContainer;
