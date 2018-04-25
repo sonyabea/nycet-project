@@ -6,6 +6,12 @@ body {
   stroke: black;
 }
 
+.highlighted-district {
+  stroke: #f4b342;
+  stroke-width: 3px;
+  mask: url(#mask-stripe)
+}
+
 .size-container {
   height: 100%;
   padding: 15px 0;
@@ -28,8 +34,6 @@ h1 {
 /* } */
 
 /* .glow { */
-/*   stroke: #f4b342; */
-/*   stroke-width: 2px; */
 /* } */
 
 .ui.card.table-card {
@@ -99,4 +103,13 @@ a.item {
   font-size: 12px;
   padding: 3px;
   border: 1px solid darkgrey;
+}
+
+.top-details-container {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.top-details {
+  border: 1px solid black;
 }
