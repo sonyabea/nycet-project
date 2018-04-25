@@ -26,12 +26,12 @@ const DemoSidebarContainer = ({demoTabs, turnoutTabs}) => (
     <CensusToggle /> 
     <div>
       <ResizeContainer resizeFunction={setSidebarDimensions}>
-        <DemoDetails tabs={demoTabs} />
+        <DemoDetails tabs={demoTabs} type='demo' />
       </ResizeContainer>
     </div>
     <div>
       <ResizeContainer resizeFunction={setSidebarDimensions}>
-        <DemoDetails tabs={turnoutTabs} />
+        <DemoDetails tabs={turnoutTabs} type='turnout' />
       </ResizeContainer>
     </div>
   </div>

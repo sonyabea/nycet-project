@@ -113,3 +113,9 @@ a.item {
 .top-details {
   border: 1px solid black;
 }
+
+.turnout-line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
