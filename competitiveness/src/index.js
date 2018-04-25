@@ -15,8 +15,8 @@ import registerServiceWorker from './registerServiceWorker'
 let store = createStore(NYCETAppReducers, applyMiddleware(thunkMiddleware))
 
 // debugging helper
-// const announce = () => console.log(store.getState())
-// setInterval(announce, 7000)
+const announce = () => console.log(store.getState())
+setInterval(announce, 7000)
 
 ReactDOM.render(
 <Provider store={store}>
