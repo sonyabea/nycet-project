@@ -5,8 +5,11 @@ const d3 = require('d3')
 
 const TurnoutTab = ({tab, plotHeight, plotWidth}) => {
 
-  let height = (typeof(plotHeight) === 'undefined') ? 200 : plotHeight;
-  let width = (typeof(plotWidth) === 'undefined') ? 200 : plotWidth;
+  let windowHeight = (typeof(plotHeight) === 'undefined') ? 200 : plotHeight;
+  let windowWidth = (typeof(plotWidth) === 'undefined') ? 200 : plotWidth;
+  let margin = {top: 20, right: 50, bottom: 20, left: 35}
+  let width = windowWidth - margin.left - margin.right
+  let height = windowHeight - margin.top - margin.bottom
   
   //hardcode years for now
   let dateStrings = ["201211", "201311", "201411", "201511", "201611"]
@@ -26,11 +29,10 @@ const TurnoutTab = ({tab, plotHeight, plotWidth}) => {
   })
 
   let x = d3.scaleTime().range([0, width]),
-      y = d3.scaleLinear().range([height, 0]),
+      y = d3.scaleLinear().domain([0, 1]).range([height, 0]),
       z = d3.scaleOrdinal(d3.schemeCategory10);
 
   x.domain(d3.extent(dates))
-  y.domain(d3.extent(tab.data))
   z.domain(Object.keys(datasets))
 
   let line = d3.line()
@@ -38,6 +40,7 @@ const TurnoutTab = ({tab, plotHeight, plotWidth}) => {
       .y(function(d) { return y(d.data); });
   
   let yAxis = d3.axisLeft(y).ticks(5, "%")
+  let xAxis = d3.axisBottom(x).ticks(5, "%Y")
 
   let lines = Object.keys(datasets).map((d, i) => {
     let finalDatum = {date: dates[dates.length - 1],
@@ -64,12 +67,17 @@ const TurnoutTab = ({tab, plotHeight, plotWidth}) => {
 
   return (
     <Tab.Pane style={{borderTop: "1px solid #d4d4d5"}}>
-      <svg width={ width } height={ height }>
-        <Axis axis={yAxis} />
-        <g className='linechart-layer'>
-          { lines }
-        </g>
-      </svg>
+      <div width={windowWidth} height={windowHeight}>
+        <svg width={ windowWidth } height={ windowHeight }>
+            <g className='linechart-layer'
+               transform={`translate(${margin.left},${margin.top})`}
+            >
+          <Axis axis={yAxis} />
+          <Axis axis={xAxis} translate={`translate(0, ${height})`}/>
+            { lines }
+          </g>
+        </svg>
+      </div>
     </Tab.Pane>
   )
 }

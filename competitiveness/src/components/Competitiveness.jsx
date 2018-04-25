@@ -11,7 +11,7 @@ import { Grid, Container } from 'semantic-ui-react';
 
 //params passed down from URL
 const Competitiveness = ({mapComponents, districtType}) => (
-    <Container>
+    <Container fluid={true}>
       <MapTooltip />
       <CompHeader />  
       <Grid>

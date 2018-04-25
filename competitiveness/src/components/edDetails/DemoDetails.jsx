@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 
 const DemoDetailsContainer = ({tabs, height, width, type}) => {
 
-    //eventually do margin from inside plot thx
     let formattedPanes; 
     if (type === 'demo') {
       formattedPanes = tabs.map((t, i) => (
@@ -14,8 +13,8 @@ const DemoDetailsContainer = ({tabs, height, width, type}) => {
           render: () => <DemoTab 
             key={`demotab-${i}`} 
             tab={t}
-            plotHeight={ height - 30}
-            plotWidth={ width - 30}
+            plotHeight={ height }
+            plotWidth={ width }
           /> }
        ))
     }
@@ -25,8 +24,8 @@ const DemoDetailsContainer = ({tabs, height, width, type}) => {
           render: () => <TurnoutTab 
             key={`demotab-${i}`} 
             tab={t}
-            plotHeight={ height - 30}
-            plotWidth={ width - 30}
+            plotHeight={ height }
+            plotWidth={ width }
           /> }
  ))
 }

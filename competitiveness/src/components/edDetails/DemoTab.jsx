@@ -4,11 +4,16 @@ import Axis from './Axis'
 const d3 = require('d3')
 
 const DemoTab = ({tab, plotHeight, plotWidth}) => {
-  let height = (typeof(plotHeight) === 'undefined') ? 200 : plotHeight;
-  let width = (typeof(plotWidth) === 'undefined') ? 200 : plotWidth;
+  let windowHeight = (typeof(plotHeight) === 'undefined') ? 200 : plotHeight;
+  let windowWidth = (typeof(plotWidth) === 'undefined') ? 200 : plotWidth;
+  let margin = {top: 20, right: 20, bottom: 20, left: 35}
+  let width = windowWidth - margin.left - margin.right
+  let height = windowHeight - margin.top - margin.bottom
+
   let y = d3.scaleLinear()
-    .domain([0, d3.max(tab.data)])
+    .domain([0, 1])
     .rangeRound([height, 0]);
+
 
   let x = d3.scaleBand()
     .domain(tab.labels)
@@ -40,14 +45,16 @@ const DemoTab = ({tab, plotHeight, plotWidth}) => {
     <Tab.Pane style={{borderTop: "1px solid #d4d4d5"}}>
       <div>
         <svg width={ width } height={ height }>
-          <g className='barchart-layer'>
+          <g className='barchart-layer'
+             transform={`translate(${margin.left} ,${margin.top})`}
+          >
             <Axis axis={yAxis} />
             { rects }   
           </g>
         </svg> 
       </div>
       <Table className='label-container'
-        style={{paddingLeft: x.bandwidth() * x.padding()}}>
+        style={{paddingLeft: margin.left + x.bandwidth() * x.padding()}}>
         <Table.Body>
           <Table.Row>
              { labels }
