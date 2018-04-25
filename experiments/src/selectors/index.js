@@ -59,16 +59,15 @@ const getOrderedSelected = type => createSelector(
 // filter data over first column, get second column (sorted by sum of control_pop), store
 // repeat
 const deriveDropdownOptions = (data, selected) => selected.reduce(
-	(a, b) => {
-		let { data: currentData, dropdownOptions } = a
-		let dropdownTexts = _.chain(currentData)
+	({ data: currentData, dropdownOptions }, b) => {
+		let newDropdownOptions = _.chain(currentData)
 			.groupBy(b.name)
-			.mapValues(v => _.sumBy(v, 'total_pop'))
+			.mapValues(v => _.sumBy(v, 'total_pop')) // find total population of each option
 			.toPairs()
 			.sortBy(x => 1 / (x[1] + 1)) // sort by descending, account for any possible zeros in denominator
 			.flatMap(x => x[0])
+			.map(d => ({key: d, text: format(d), value: d})) // format for semanticUI
 			.value()
-		let newDropdownOptions = dropdownTexts.map(d => ({key: d, text: format(d), value: d}))
 		return {
 			data: _.filter(currentData, {[b.name]: b.selected}),
 			dropdownOptions: [
