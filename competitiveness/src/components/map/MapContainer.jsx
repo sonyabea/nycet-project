@@ -7,9 +7,10 @@ class MapContainer extends Component{
   constructor(props){
     super(props)
     this.state = {
-      'colorScale': 'grey'
+      'colorScale': 'gray'
     }
   }
+
   changeColorScale(grayScale){
     let scale = grayScale ? 'gray' : 'rgb'
     this.setState({'colorScale': scale})
@@ -17,10 +18,15 @@ class MapContainer extends Component{
 
   render() {
     return (
-        <ResizeContainer resizeFunction={ setMapDimensions }>
-          <GrayscaleToggle changeColorScale={this.changeColorScale.bind(this)} />
-          {React.cloneElement(this.props.children, { colorScale: this.state.colorScale})}
-        </ResizeContainer>
+      <ResizeContainer resizeFunction={setMapDimensions}>
+        <div id='map-top'>
+
+          <GrayscaleToggle changeColorScale={ this.changeColorScale.bind(this) }/>
+          {this.props.children[0]}
+
+        </div>
+        {React.cloneElement(this.props.children[1], { colorScale: this.state.colorScale })}
+      </ResizeContainer>
     )
    }
 }

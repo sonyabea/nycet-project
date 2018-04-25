@@ -26,3 +26,10 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+#map-top{
+  padding-right: 10%;
+  padding-left: 10%;
+  display: flex;
+  justify-content: space-between;
+}
