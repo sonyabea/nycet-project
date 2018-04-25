@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dropdown, Header } from 'semantic-ui-react'
+import { Dropdown } from 'semantic-ui-react'
 
 const addPadding = {
   'paddingRight': '10px'

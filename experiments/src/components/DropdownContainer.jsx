@@ -13,11 +13,10 @@ class DropdownContainer extends Component {
     let index = columnNames.indexOf(category) + 1
     let [ previousColumns, relevantColumns ] = [ columnNames.slice(0, index), columnNames.slice(index) ]
     let initialObject = { data: _.filter(data, _.pick(selected, previousColumns)), selected }
-    return relevantColumns.reduce((a, column) => {
-      let { data, selected } = a
-      let value = _.chain(data).filter(_.pick(selected, column)).isEmpty().value() ?
-        _.maxBy(data, 'control_pop')[column] : selected[column]
-      let newSelected = { [column]: value }
+    return relevantColumns.reduce(({ data, selected }, column) => {
+      let newValue = _.chain(data).filter(_.pick(selected, column)).isEmpty().value() ?
+        _.maxBy(data, 'total_pop')[column] : selected[column]
+      let newSelected = { [column]: newValue }
       return { data: _.filter(data, newSelected), selected: { ...selected, ...newSelected } }
     }, initialObject).selected
   }
