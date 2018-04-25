@@ -3,6 +3,20 @@ import { Message } from 'semantic-ui-react'
 import { VictoryChart, VictoryBoxPlot, VictoryAxis, VictoryLabel, VictoryTooltip, VictoryVoronoiContainer } from 'victory'
 
 const withCommas = x => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+const confidenceText = x => {
+  if ((x.ci_low < 0) && (x.ci_high > 0)){
+    return `${Math.abs(x.ci_low)}% less and ${x.ci_high}% more`;
+  } else if ((x.ci_low > 0) && (x.ci_high > 0)){
+    return `${x.ci_low}% and ${x.ci_high}% more`;
+  } else if ((x.ci_low < 0) && (x.ci_high < 0)){
+    return `${Math.abs(x.ci_high)}% and ${Math.abs(x.ci_low)}% less`;
+  } else {
+    return ''
+  }
+}
+
+const formattedDescription = x =>
+  `Treatment Size: ${withCommas(x.treatment_pop)}\nControl Size: ${withCommas(x.control_pop)}\r\nSuccessfully contacted voters were\nbetween ${confidenceText(x)}\nlikely to vote with 95% confidence.`
 
 const GroupLabel = (props) =>
   <VictoryLabel
@@ -35,7 +49,7 @@ const Plot = ({ data, groupSizes: {treatment_pop, control_pop}, ...props }) =>
             style={{fontSize: 6}}
           />
         }
-        q3Labels={d => `Treatment Size: ${withCommas(d.treatment_pop)}\n Control Size: ${withCommas(d.control_pop)}`}
+        q3Labels={d => formattedDescription(d)}
         events={['maxLabels', 'max', 'q3', 'median', 'q1', 'min'].map(c => ({
           target: c,
           eventHandlers: {
