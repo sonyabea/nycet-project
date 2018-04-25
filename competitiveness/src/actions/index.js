@@ -73,11 +73,8 @@ const loadEDData = (ed, county) => dispatch => {
                       table: 'ed_agg_voter_file',
                       actionType: 'LOAD_TURNOUT'},
                   {filterString: `${county.toString()}Ad ${stringAd} - Ed ${stringEd}`,
-                      table: 'ed_agg_voter_file',
-                      actionType: 'LOAD_TURNOUT'},
-                  {filterString: `${county.toString()}Ad ${stringAd} - Ed ${stringEd}`,
                       table: 'ed_metrics',
-                      actionType: 'LOAD_WINS_FOR_PARTY'}
+                      actionType: 'LOAD_ED_METRICS'}
 
 ]
 
