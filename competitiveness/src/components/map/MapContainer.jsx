@@ -31,10 +31,4 @@ class MapContainer extends Component{
    }
 }
 
-function EDMapContainer(){
-  return (
-    MapContainer()
-  )
-}
-
 export default MapContainer;
