@@ -1,22 +1,30 @@
 import { Dropdown } from 'semantic-ui-react';
 import { connect } from 'react-redux'; 
 import { loadData } from '../actions/index';
+import { withRouter } from 'react-router-dom';
 const React = require('react');
 
-const DistrictTypeSelectContainer = ({districtType, changeDistrict}) => (
+const DistrictTypeSelectContainer = withRouter(({districtType, changeDistrict, history}) => (
   <Dropdown options={
     [{text: 'State Assembly District', value: 'AD'},
      {text: 'State Senate District', value: 'SD'},
      {text: 'Congressional District', value: 'CD'},
      ]}
      defaultValue={districtType}
-     onChange={(e, d) => changeDistrict({parentDistType: d.value, parentDistId: 0})}
+     onChange={(e, d) => changeDistrict(e, d, history)}
      className='district-select'
       />
-)
+))
 
 const mapStateToDistrictProps = (state) => ({
   districtType: state.districtType })
+
+const mapDispatchToDistrictProps = (dispatch) => ({
+  changeDistrict: (e, d, h) => {
+      h.push(`/${d.value}`);
+      dispatch(
+        loadData({parentDistType: d.value, parentDistId: 0}))
+    }})
 
 const ElectionTypeSelectContainer = ({election}) => (
   <Dropdown options={
@@ -36,6 +44,6 @@ const mapStateToElectionProps = (state) => ({
   election: state.selectedElection
    })
 
-export const DistrictTypeSelect = connect(mapStateToDistrictProps, {changeDistrict: loadData})(DistrictTypeSelectContainer)
+export const DistrictTypeSelect = connect(mapStateToDistrictProps, mapDispatchToDistrictProps)(DistrictTypeSelectContainer)
 export const ElectionTypeSelect = connect(mapStateToElectionProps)(ElectionTypeSelectContainer)
 
