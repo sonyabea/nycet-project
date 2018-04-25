@@ -6,13 +6,13 @@ import DemoSelections from './DemoSelections'
 import { getPlotData, getElectionGroupSizes } from '../selectors'
 import _ from 'lodash'
 
-const PlotTemplate = ({ groupSizes, plotData, children }) =>
+const PlotTemplate = ({ groupSizes, plotData, children, domainPadding=150 }) =>
   <div className='flex-container'>
     <div style={{width: '20%', textAlign: 'left', marginTop: '2%'}}>
       <PlotDesc/>
       {children}
     </div>
-    <Plot data={plotData} groupSizes={groupSizes}/>
+    <Plot data={plotData} groupSizes={groupSizes} domainPadding={domainPadding} />
   </div>
 
 class DemographicsPlot extends Component {
@@ -50,7 +50,7 @@ class DemographicsPlot extends Component {
     let demoSelectionOptions = plotData.map(d => ({key: d.x, text: d.x, value: d.x}))
     let filteredPlotData = plotData.filter(d => currentlySelected.includes(d.x))
     return (
-      <PlotTemplate plotData={filteredPlotData} groupSizes={groupSizes}>
+      <PlotTemplate plotData={filteredPlotData} groupSizes={groupSizes} domainPadding={20}>
         <div style={{'marginTop': '10%', 'paddingBottom': '0'}}>
           <DemoSelections
             options={demoSelectionOptions}

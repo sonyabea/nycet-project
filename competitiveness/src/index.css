@@ -6,8 +6,9 @@ body {
   stroke: black;
 }
 
-.map-container {
+.size-container {
   height: 100%;
+  padding: 15px 0;
 }
 
 .container-header{
@@ -70,4 +71,32 @@ table {
 
 .ui.tabular.menu .item {
   padding: 5px !important;
+}
+
+.wrapped {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.ui.attached.menu {
+  border: none !important;
+}
+
+.ui.menu .item:before {
+  width: none;
+}
+
+a.item {
+  border: 1px solid #d4d4d5;
+  padding: 10px !important;
+}
+
+.tooltip {
+  background-color: #fcf3ed;
+  line-height: 15px;
+  border-radius: 3px;
+  font-size: 12px;
+  padding: 3px;
+  border: 1px solid darkgrey;
 }

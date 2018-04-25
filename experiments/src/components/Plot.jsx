@@ -8,32 +8,15 @@ const GroupLabel = (props) =>
   <VictoryLabel
     { ...props }
     textAnchor="middle"
-    style={{fontSize: 8, fontWeight: 300}}
+    style={{fontSize: 8, fontWeight: 400}}
   />
 
 const Disclaimer = () =>
   <Message style={{fontSize: 9}} size='mini'>These plots illustrate the difference in voter turnout for specific experiments conducted by NYCET member organizations. Due to small sample sizes and other data inconsistencies, these results are only a snapshot of the overall efficacy of GOTV campaigns.</Message>
 
-const Plot = ({ data, groupSizes: {treatment_pop, control_pop} }) =>
+const Plot = ({ data, groupSizes: {treatment_pop, control_pop}, ...props }) =>
   <div style={{width: '100%'}}>
-    <VictoryChart
-      domainPadding={20}
-      // containerComponent={
-      //   <VictoryVoronoiContainer
-      //     labelComponent={
-      //       <VictoryTooltip
-      //         style={{fontSize: 6}}
-      //         orientation="right"
-      //         pointerLength={0}
-      //       />
-      //     }
-      //     labels={d => {
-      //       debugger
-      //       return 'meow'
-      //     }}
-      //   />
-      // }
-    >
+    <VictoryChart {...props}>
       <GroupLabel
         text={`Election Treatment Size: ${withCommas(treatment_pop)}`}
         x={150} y={30}
@@ -53,13 +36,13 @@ const Plot = ({ data, groupSizes: {treatment_pop, control_pop} }) =>
           />
         }
         q3Labels={d => `Treatment Size: ${withCommas(d.treatment_pop)}\n Control Size: ${withCommas(d.control_pop)}`}
-        events={[{
-          target: "maxLabels",
+        events={['maxLabels', 'max', 'q3', 'median', 'q1', 'min'].map(c => ({
+          target: c,
           eventHandlers: {
             onMouseOver: () => ({ target: "q3Labels", mutation: () => ({ active: true }) }),
             onMouseOut: () => ({ target: "q3Labels", mutation: () => ({ active: false }) })
           }
-        }]}
+        }))}
         q3LabelComponent={
           <VictoryTooltip
             style={{fontSize: 6}}

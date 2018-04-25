@@ -1,14 +1,21 @@
 import React from 'react';
 import DemoDetails from './DemoDetails';
 import CensusToggle from './CensusToggle';
+import ResizeContainer from '../Container';
+import { setSidebarDimensions } from '../../actions/index';
 import { connect } from 'react-redux';
+
 import TAB_MAPPING from '../../data/tabMapping';
 
 const tabsFromData = (dataset, type) => {
+  if (typeof(dataset) === 'undefined') {
+    return []
+  }
   let mapping = TAB_MAPPING[type]
   let tabs = []
   mapping.forEach((tab) => {
-    tab.data = tab.cols.map((col) => (dataset[col]))
+    tab.data = tab.cols.map((col) => (
+      (typeof(dataset[col]) === 'undefined') ? 0 : dataset[col]))
     tabs.push(tab)
   })
   return tabs
@@ -17,8 +24,16 @@ const tabsFromData = (dataset, type) => {
 const DemoSidebarContainer = ({demoTabs, turnoutTabs}) => (
   <div>
     <CensusToggle /> 
-    <DemoDetails tabs={demoTabs} style={{width: '100%'}} />
-    <DemoDetails tabs={turnoutTabs} style={{width: '100%'}} />
+    <div>
+      <ResizeContainer resizeFunction={setSidebarDimensions}>
+        <DemoDetails tabs={demoTabs} />
+      </ResizeContainer>
+    </div>
+    <div>
+      <ResizeContainer resizeFunction={setSidebarDimensions}>
+        <DemoDetails tabs={turnoutTabs} />
+      </ResizeContainer>
+    </div>
   </div>
 )
 

@@ -71,7 +71,15 @@ const loadEDData = (ed, county) => dispatch => {
                       actionType: 'LOAD_CENSUS'},
                   {filterString: `${county.toString()}Ad ${stringAd} - Ed ${stringEd}`,
                       table: 'ed_agg_voter_file',
-                      actionType: 'LOAD_TURNOUT'}]
+                      actionType: 'LOAD_TURNOUT'},
+                  {filterString: `${county.toString()}Ad ${stringAd} - Ed ${stringEd}`,
+                      table: 'ed_agg_voter_file',
+                      actionType: 'LOAD_TURNOUT'},
+                  {filterString: `${county.toString()}Ad ${stringAd} - Ed ${stringEd}`,
+                      table: 'ed_metrics',
+                      actionType: 'LOAD_WINS_FOR_PARTY'}
+
+]
 
   allParams.forEach((params) => {
     let query = {filterOn: 'countyed', filterBy: params.filterString}
@@ -103,6 +111,11 @@ export const setMapDimensions = (width, height) => (
    payload: [width, height]}
 )
 
+export const setSidebarDimensions = (width, height) => (
+  {type: 'SET_SIDEBAR_DIMENSIONS',
+   payload: [width, height]}
+)
+
 export const changeDistrict = (distType, parentDist, selected) => (
   {type: 'CHANGE_DISTRICT_TYPE',
    payload: {main: distType, parent: parentDist, selected: selected}}
@@ -122,3 +135,20 @@ export const changeDemoType = (type) => (
    payload: type}
 )
 
+//consider putting in a timer here to deal with that lingering tooltip prob
+export const showTooltip = (mouseEvent, districtNumber) => {
+  return {type: 'MOUSE_IN_DISTRICT',
+   payload: {showTooltip: true,
+             tooltipX: mouseEvent.clientX,
+             tooltipY: mouseEvent.clientY,
+             districtNumber: districtNumber}}
+}
+
+export const hideTooltip = () => (
+  {type: 'MOUSE_OUT_MAP'}
+)
+
+export const activateGlow = (distNumber) => (
+  {type: 'ACTIVATE_GLOW_ONLY',
+   payload: distNumber}
+)
