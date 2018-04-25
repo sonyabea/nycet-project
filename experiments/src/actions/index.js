@@ -19,13 +19,13 @@ export const loadData = () => dispatch => {
       dispatch({ type: LOAD_DATA, data: res.data })
       let initiate = getInitialSelection(res.data)
       dispatch({ type: LOAD_INITIAL_EXPERIMENTS_SELECTION, selection: initiate({dem1: 'org', dem1_value: 'NYCET', dem2: 'all'}) })
-      dispatch({ type: LOAD_INITIAL_DEMOGRAPHICS_SELECTION, selection: initiate({dem1: 'race'}) })
+      dispatch({ type: LOAD_INITIAL_DEMOGRAPHICS_SELECTION, selection: initiate({election: 'PresPrimary', dem1: 'race'}) })
       dispatch({ type: SET_LOADING, loading: false })
     }
   )
 }
 
-const changeFilter = (type, payload) => { 
+const changeFilter = (type, payload) => {
   return { type, payload }
 }
 const dispatchFilter = type => (payload) => dispatch => dispatch(changeFilter(type, payload))
