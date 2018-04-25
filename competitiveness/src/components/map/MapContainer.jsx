@@ -17,10 +17,10 @@ class MapContainer extends Component{
 
   render() {
     return (
-      <ResizeContainer resizeFunction={ setMapDimensions }>
-        <GrayscaleToggle changeColorScale={this.changeColorScale.bind(this)} />
-        {React.cloneElement(this.props.children, { colorScale: this.state.colorScale})}
-      </ResizeContainer>
+        <ResizeContainer resizeFunction={ setMapDimensions }>
+          <GrayscaleToggle changeColorScale={this.changeColorScale.bind(this)} />
+          {React.cloneElement(this.props.children, { colorScale: this.state.colorScale})}
+        </ResizeContainer>
     )
    }
 }

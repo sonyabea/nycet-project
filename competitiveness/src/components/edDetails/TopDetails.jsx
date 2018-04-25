@@ -26,7 +26,7 @@ const TopDetailsContainer = ({ed, election, margin, winningParty, winsForParty})
 const mapStateToProps = (state) => (
   {election: state.selectedElection,
    ed: state.highlightedEdData.ed,
-   margin: state.mapData.geoData.get(state.highlightedEdData.ed),
+   margin: Math.abs(state.mapData.geoData.get(state.highlightedEdData.ed)),
    winningParty: state.winningParty.get(state.highlightedEdData.ed),
    winsForParty: state.highlightedEdData.winsForParty 
   }
