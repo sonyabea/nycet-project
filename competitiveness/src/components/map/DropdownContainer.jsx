@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import _ from 'lodash'
 import OfficeDropdown from './OfficeDropdown'
 import { loadData } from '../../actions/index.js'
 

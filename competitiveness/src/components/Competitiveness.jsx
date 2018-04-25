@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import MapContainer from './map/MapContainer';
 import DataMap from './map/Map.jsx';
 import { OfficeDropdownContainer } from './map/DropdownContainer.jsx'
-//import MapTooltip from './components/MapTooltip.jsx';
+import MapTooltip from './map/MapTooltip.jsx';
 import TopTen from './TopTen.jsx';
 import CompHeader from './CompHeader.jsx'
 import TopDetails from './edDetails/TopDetails.jsx';
