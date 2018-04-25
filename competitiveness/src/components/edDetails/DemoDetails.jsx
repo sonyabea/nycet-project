@@ -1,20 +1,34 @@
 import React from 'react';
 import DemoTab from './DemoTab';
+import TurnoutTab from './TurnoutTab';
 import { Tab } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
-const DemoDetailsContainer = ({tabs, height, width}) => {
+const DemoDetailsContainer = ({tabs, height, width, type}) => {
 
-    //eventually do margin from inside plot thx
-    let formattedPanes = tabs.map((t, i) => (
-      { menuItem: t.title,
-        render: () => <DemoTab 
-          key={`demotab-${i}`} 
-          tab={t}
-          plotHeight={ height - 30}
-          plotWidth={ width - 30}
-        /> }
-  ))
+    let formattedPanes; 
+    if (type === 'demo') {
+      formattedPanes = tabs.map((t, i) => (
+        { menuItem: t.title,
+          render: () => <DemoTab 
+            key={`demotab-${i}`} 
+            tab={t}
+            plotHeight={ height }
+            plotWidth={ width }
+          /> }
+       ))
+    }
+    else {
+      formattedPanes = tabs.map((t, i) => (
+        { menuItem: t.title,
+          render: () => <TurnoutTab 
+            key={`demotab-${i}`} 
+            tab={t}
+            plotHeight={ height }
+            plotWidth={ width }
+          /> }
+ ))
+}
 
     return (
       <div>
