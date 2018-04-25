@@ -7,7 +7,7 @@ const TurnoutTab = ({tab, plotHeight, plotWidth}) => {
 
   let windowHeight = (typeof(plotHeight) === 'undefined') ? 200 : plotHeight;
   let windowWidth = (typeof(plotWidth) === 'undefined') ? 200 : plotWidth;
-  let margin = {top: 20, right: 50, bottom: 20, left: 35}
+  let margin = {top: 20, right: 70, bottom: 20, left: 35}
   let width = windowWidth - margin.left - margin.right
   let height = windowHeight - margin.top - margin.bottom
   
@@ -43,9 +43,9 @@ const TurnoutTab = ({tab, plotHeight, plotWidth}) => {
   let xAxis = d3.axisBottom(x).ticks(5, "%Y")
 
   let lines = Object.keys(datasets).map((d, i) => {
-    let finalDatum = {date: dates[dates.length - 1],
-                      data: datasets[d][datasets[d].length - 1]}
+    let finalDatum = datasets[d][datasets[d].length - 1]
 
+    console.log(finalDatum)
     return (
     <g key={`turnout-line-${i}`}>
       <path 
@@ -59,7 +59,7 @@ const TurnoutTab = ({tab, plotHeight, plotWidth}) => {
         dy="0.35em"
         style={{font: '10px sans-serif'}}
       >
-        d
+        { d } 
       </text>
     </g>
     )
