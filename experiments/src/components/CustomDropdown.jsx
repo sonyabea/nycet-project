@@ -7,18 +7,14 @@ const addPadding = {
 
 const CustomDropdown = ({name, display, options, selected, onChange}) =>
   <div style={addPadding}>
-    <Header as='h4'>
-      <Header.Content>
-        <span style={addPadding}>{display}:</span>
-        <Dropdown
-          selection compact
-          type={name}
-          options={options}
-          text={selected}
-          onChange={onChange}
-        />
-      </Header.Content>
-    </Header>
+    <span style={addPadding}>{display}:</span>
+    <Dropdown
+      selection compact
+      type={name}
+      options={options}
+      text={selected}
+      onChange={onChange}
+    />
   </div>
 
 export default CustomDropdown
