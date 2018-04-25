@@ -20,8 +20,10 @@ class MapContainer extends Component{
   render() {
     return (
       <ResizeContainer resizeFunction={setMapDimensions}>
-        <GrayscaleToggle changeColorScale={ this.changeColorScale.bind(this) } />
-        <OfficeDropdownContainer />
+        <div id='map-top'>
+          <GrayscaleToggle changeColorScale={ this.changeColorScale.bind(this) }/>
+          <OfficeDropdownContainer style={{'float': 'left'}}/>
+        </div>
         {React.cloneElement(this.props.children, { colorScale: this.state.colorScale })}
       </ResizeContainer>
     )

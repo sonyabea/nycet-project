@@ -13,7 +13,7 @@ class DropdownContainer extends Component {
   }
 
   render() {
-    return <div><OfficeDropdown onChange={this.handleChange.bind(this)}/></div>
+    return <OfficeDropdown onChange={this.handleChange.bind(this)}/>
   }
 }
 
