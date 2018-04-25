@@ -143,3 +143,12 @@ export const showTooltip = (mouseEvent, districtNumber) => {
              tooltipY: mouseEvent.clientY,
              districtNumber: districtNumber}}
 }
+
+export const hideTooltip = () => (
+  {type: 'MOUSE_OUT_MAP'}
+)
+
+export const activateGlow = (distNumber) => (
+  {type: 'ACTIVATE_GLOW_ONLY',
+   payload: distNumber}
+)

@@ -28,7 +28,7 @@ const determineLink = (state, districtNumber) => {
 const mapStateToProps = (state, ownProps) => (
   {...ownProps,
    routerLink: determineLink(state, ownProps.d.properties.districtNumber),
-   mouseDistrict: ownProps.d.properties.districtNumber === state.tooltip.districtNumber})
+   isMoused: ownProps.d.properties.districtNumber === state.tooltip.districtNumber})
 
 const MapDistrict = connect(mapStateToProps, { showTooltip: showTooltip })(MapDistrictContainer)
 

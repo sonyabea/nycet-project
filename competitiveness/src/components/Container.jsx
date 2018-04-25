@@ -15,7 +15,8 @@ class ContainerComponent extends Component{
   }
   //this is busted; when you get a chance, figure out a way to be responsive here
   getDimensions(){
-    let shouldResize = this.node.clientWidth !== this.props.width
+    let shouldResize = this.node.clientWidth !== this.props.width || 
+                       this.node.clientHeight !== this.props.height
     if (shouldResize) {
       this.props.resize(this.node.clientWidth, this.node.clientHeight)
     }

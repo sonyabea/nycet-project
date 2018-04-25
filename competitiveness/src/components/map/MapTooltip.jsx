@@ -8,7 +8,7 @@ const MapTooltipContainer = ({showTooltip, tooltipX, tooltipY, district, margin,
     'top': tooltipY,
     'left': tooltipX,
     'position': 'fixed',
-    'z-index': '1000'}
+    'zIndex': '1000'}
 
   return (<div style={divStyle} className='tooltip'>
     District: {`${district}`}<br/>
@@ -22,7 +22,7 @@ const mapStateToProps = (state) => {
            tooltipX: state.tooltip.tooltipX,
            tooltipY: state.tooltip.tooltipY,
            district: state.tooltip.districtNumber,
-           margin: state.mapData.geoData.get(state.tooltip.districtNumber),
+           margin: Math.abs(state.mapData.geoData.get(state.tooltip.districtNumber)),
            party: state.winningParty.get(state.tooltip.districtNumber)}
 }
 
