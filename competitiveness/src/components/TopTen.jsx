@@ -25,7 +25,7 @@ const TopTenContainer = ({geoData, drillDown, districtType, winningParty,
     ))
     
   return (
-   <Card className='table-card' style={{ width: "100%", marginLeft: 15 }}>
+   <Card className='table-card' style={{ marginLeft: 15 }}>
     <Table selectable>
       <Table.Header>
         <Table.Row>
