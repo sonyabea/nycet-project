@@ -13,7 +13,8 @@ import { Grid, Container } from 'semantic-ui-react';
 //params passed down from URL
 const Competitiveness = ({mapComponents, districtType}) => (
     <Container>
-      <CompHeader />
+      <MapTooltip />
+      <CompHeader />  
       <Grid>
         { districtType === 'ED' ? <TopDetails /> : '' }
         <Grid.Column width={10} style={{ minHeight: 600, width: "100%" }}>

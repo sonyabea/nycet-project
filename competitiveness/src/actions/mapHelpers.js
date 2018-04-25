@@ -45,8 +45,11 @@ export const queryDB = (dist, table, election, selected) => {
 
 //PROCESS DATA
 const filterToParents = (geoFile, dataPull) => {
+    //we should regex this in the future??
+    let isNYC = dataPull[0].countyed.split(" ")[0] === 'New'
+    let edNumIdx = (isNYC) ? 5 : 4
     //set ED numbers from e.g. "Bronx Ad 57 - Ed 004" to "district" prop
-    dataPull.forEach((d) => d.district = parseInt(`${d.ad}${d.countyed.split(" ")[4]}`, 10))
+    dataPull.forEach((d) => d.district = parseInt(`${d.ad}${d.countyed.split(" ")[edNumIdx]}`, 10))
     let validEds = dataPull.map((d) => d.district)
     return geoFile.features.filter((d) => (validEds.indexOf(d.properties.districtNumber) >= 0))
 }

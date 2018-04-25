@@ -20,9 +20,9 @@ export const changeFilter = (state, action) => (
 	}
 )
 
-export const loadInitialSelection = (state, action, columns) => {
+export const loadInitialSelection = (state, action) => {
 	return { 
 		...state,
-		selected: _.pick(action.selection, columns)
+		selected: _.pick(action.selection, _.map(state.columns, 'name'))
 	}
 }

@@ -104,7 +104,7 @@ export function highlightedEdDataReducer(state={
     acs: [{}],
     census: [{}],
     turnout: [{}],
-    winsForParty: 0,
+    edMetrics: [{}],
     demoType: 'acs'}, action){
       switch (action.type) {
         case 'SELECT_COUNTY':
@@ -117,8 +117,8 @@ export function highlightedEdDataReducer(state={
           return {...state, census: action.payload}
         case 'LOAD_TURNOUT':
           return {...state, turnout: action.payload}
-        case 'LOAD_WINS_FOR_PARTY':
-          return {...state, winsForParty: action.payload[0].winning_part_ct}
+        case 'LOAD_ED_METRICS':
+          return {...state, edMetrics: action.payload}
         case 'CHANGE_DEMO_TYPE':
           return {...state, demoType: action.payload}
         default:
@@ -126,16 +126,23 @@ export function highlightedEdDataReducer(state={
       }
 }
 
-
-// export function tooltipReducer(state={
-//                     showTooltip: false,
-//                     tooltipX: 0,
-//                     tooltipY: 0,
-//                     text: []}, action){
-//   switch (action.type) {
-//     case 'MOUSE_IN':
-//       return action.payload
-//     default:
-//       return state
-//   }
-// }
+export function tooltipReducer(state={
+                    showTooltip: false,
+                    tooltipX: 0,
+                    tooltipY: 0,
+                    districtNumber: 0}, action){
+  switch (action.type) {
+    case 'MOUSE_IN_DISTRICT':
+      return action.payload
+    case 'MOUSE_OUT_MAP':
+      return { showTooltip: false,
+               tooltipX: 0,
+               tooltipY: 0,
+               districtNumber: 0}
+    case 'ACTIVATE_GLOW_ONLY':
+      return { ...state,
+               districtNumber: action.payload}
+    default:
+      return state
+  }
+}

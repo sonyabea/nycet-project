@@ -1,9 +1,12 @@
 import { Table, Card } from 'semantic-ui-react';
 import { connect } from 'react-redux'; 
+import { activateGlow } from '../actions/index';
+
 // import { loadData } from '../actions/index';
 const React = require('react');
 
-const TopTenContainer = ({geoData, drillDown, districtType, winningParty}) => {
+const TopTenContainer = ({geoData, drillDown, districtType, winningParty,
+                          activateGlow}) => {
   //let filteredDists = geoData.entries().filter((a) => (a.value !== 0));
   let sortedDists = geoData.entries().sort((a, b) => (
     Math.abs(a.value) - Math.abs(b.value)))
@@ -14,7 +17,7 @@ const TopTenContainer = ({geoData, drillDown, districtType, winningParty}) => {
   let distRows = topTen.map((dist, i) => (
     //restore style later by removing Link and applying a real href to the table row
     //using browserHistory and push
-      <Table.Row key={`top-ten-${i}`}>
+      <Table.Row key={`top-ten-${i}`} onMouseEnter={() => activateGlow(parseInt(dist.key, 10))}>
         <Table.Cell>{dist.key}</Table.Cell>
         <Table.Cell>{`${Math.abs(dist.value)}%`}</Table.Cell>
         <Table.Cell>{dist.party}</Table.Cell>
@@ -45,9 +48,13 @@ const mapStateToProps = (state, ownProps) => (
    winningParty: state.winningParty}
 )
 
+const mapDispatchToProps = (dispatch, ownProps) => (
+  {activateGlow: (distNumber) => dispatch(activateGlow(distNumber))}
+)
+
 // const mapDispatchToProps = (dispatch, ownProps) => (
 //   {drillDown: (selected, districtType) => (
 //       dispatch(loadData({parentDistId: selected, parentDistType: districtType})))}
 // )
 
-export default connect(mapStateToProps)(TopTenContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(TopTenContainer)
