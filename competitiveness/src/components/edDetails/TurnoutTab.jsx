@@ -15,8 +15,6 @@ const TurnoutTab = ({tab, plotHeight, plotWidth}) => {
   let dateStrings = ["201211", "201311", "201411", "201511", "201611"]
   let parseTime = d3.timeParse("%Y%m");
   let dates = dateStrings.map((d) => parseTime(d))
-  console.log(dates)
-
 
   let cats = new Set(tab.cols.map((d) => d.split("_")[0]))
   let datasets = {}
@@ -44,8 +42,6 @@ const TurnoutTab = ({tab, plotHeight, plotWidth}) => {
 
   let lines = Object.keys(datasets).map((d, i) => {
     let finalDatum = datasets[d][datasets[d].length - 1]
-
-    console.log(finalDatum)
     return (
     <g key={`turnout-line-${i}`}>
       <path 
