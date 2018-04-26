@@ -10,6 +10,7 @@ export const loadHLData = (parentDistrictType, parentDistrictId, selectedElectio
     let districtType = (selected === 0) ? parentDistrictType : 'ED'
     dispatch(changeDistrict(districtType, parentDistrictType, selected))
     let election = (typeof(selectedElection) === 'undefined') ? parentDistrictType : selectedElection
+    dispatch(changeElection(election))
     let {mapRegionType,
          geoSource, table}= returnLoadParams(districtType) 
 
@@ -125,6 +126,11 @@ export const setED = (ed) => (
 export const setCounty = (county) => (
   {type: 'SELECT_COUNTY',
    payload: county}
+)
+
+export const changeElection = (election) => (
+  {type: 'CHANGE_ELECTION',
+   payload: election}
 )
 
 export const changeDemoType = (type) => (

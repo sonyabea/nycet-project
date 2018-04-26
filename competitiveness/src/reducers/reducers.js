@@ -79,9 +79,8 @@ export function selectedDistrictReducer(state=0, action){
 
 export function selectedElectionReducer(state='AD', action){
   switch (action.type) {
-    case 'CHANGE_DISTRICT_TYPE':
-      let type = action.payload.parent
-      return (type !== 'ED') ? type : state
+    case 'CHANGE_ELECTION':
+      return action.payload
     default:
       return state
   }
