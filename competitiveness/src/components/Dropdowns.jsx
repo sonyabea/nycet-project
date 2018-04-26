@@ -1,29 +1,24 @@
 import { Dropdown } from 'semantic-ui-react';
 import { connect } from 'react-redux'; 
-import { withRouter } from 'react-router-dom';
+import { loadData } from '../actions/index';
 const React = require('react');
 
-const DistrictTypeSelectContainer = withRouter(({districtType, changeDistrict, history}) => (
+const DistrictTypeSelectContainer = ({districtType, changeDistrict}) => (
   <Dropdown options={
     [{text: 'State Assembly District', value: 'AD'},
      {text: 'State Senate District', value: 'SD'},
      {text: 'Congressional District', value: 'CD'},
      ]}
      defaultValue={districtType}
-     onChange={(e, d) => changeDistrict(e, d, history)}
+     onChange={(e, d) => changeDistrict({parentDistType: d.value, parentDistId: 0})}
      className='district-select'
       />
-))
+)
 
 const mapStateToDistrictProps = (state) => ({
   districtType: state.districtType })
 
-const mapDispatchToDistrictProps = (dispatch) => ({
-  changeDistrict: (e, d, h) => (
-      h.push(`/${d.value}`))
-  })
-
-const ElectionTypeSelectContainer = withRouter(({election, changeElection, history}) => (
+const ElectionTypeSelectContainer = ({election}) => (
   <Dropdown options={
     [{text: 'Overall', value: ''},
      {text: 'President/Vice President', value: 'President_VP'},
@@ -32,20 +27,15 @@ const ElectionTypeSelectContainer = withRouter(({election, changeElection, histo
      {text: 'State Senator', value: 'SD'},
      {text: 'State Assembly Member', value: 'AD'},
      ]}
-     onChange={(e, d) => changeElection(e, d, history)}
      defaultValue={election}
       />
-))
+)
 //{text: 'City Council Member', value: 'CD'} hmm?
 
 const mapStateToElectionProps = (state) => ({
-    election: state.selectedElection
-})
+  election: state.selectedElection
+   })
 
-const mapDispatchToElectionProps = (dispatch) => (
-  {changeElection: (e,d,h) => (h.push(`?election=${d.value}`))
-  })
-
-export const DistrictTypeSelect = connect(mapStateToDistrictProps, mapDispatchToDistrictProps)(DistrictTypeSelectContainer)
-export const ElectionTypeSelect = connect(mapStateToElectionProps, mapDispatchToElectionProps)(ElectionTypeSelectContainer)
+export const DistrictTypeSelect = connect(mapStateToDistrictProps, {changeDistrict: loadData})(DistrictTypeSelectContainer)
+export const ElectionTypeSelect = connect(mapStateToElectionProps)(ElectionTypeSelectContainer)
 
