@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import OfficeDropdown from './OfficeDropdown'
-import { loadData } from '../../actions/index.js'
+import { withRouter } from 'react-router-dom';
 
 class DropdownContainer extends Component {
   handleChange (event, element) {
     let election = element.value.toLowerCase()
-    let distType = this.props.parentDistrictType
-    let distId = this.props.parentDistrictID
-    this.props.loadData({parentDistType: distType, parentDistId: distId, election: election})
+    this.props.history.push(`?election=${election}`)
   }
 
   render() {
@@ -16,9 +13,4 @@ class DropdownContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => (
-  {parentDistrictID: state.selectedDistrict,
-   parentDistrictType: state.parentDistrictType
-  })
-
-export const OfficeDropdownContainer = connect(mapStateToProps, { loadData: loadData })(DropdownContainer)
+export const OfficeDropdownContainer = withRouter((DropdownContainer))

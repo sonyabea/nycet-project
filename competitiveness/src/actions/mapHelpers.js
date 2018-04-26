@@ -37,7 +37,6 @@ const getEdQuery = (parentDist, election, selected) => (
 
 export const queryDB = (dist, table, election, selected) => {
   let query = (selected === 0) ? getHlQuery(dist) : getEdQuery(dist, election, selected)
-  console.log(query)
   return axios({method: 'post',
         url: `http://localhost:8080/table/${table}/`,
         data: query })
