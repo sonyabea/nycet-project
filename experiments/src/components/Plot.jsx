@@ -14,9 +14,9 @@ const GroupLabel = (props) =>
 const Disclaimer = () =>
   <Message style={{fontSize: 9}} size='mini'>These plots illustrate the difference in voter turnout for specific experiments conducted by NYCET member organizations. Due to small sample sizes and other data inconsistencies, these results are only a snapshot of the overall efficacy of GOTV campaigns.</Message>
 
-const Plot = ({ data, groupSizes: {treatment_pop, control_pop}, ...props }) =>
+const Plot = ({ data, groupSizes: {treatment_pop, control_pop} }) =>
   <div style={{width: '100%'}}>
-    <VictoryChart {...props}>
+    <VictoryChart domainPadding={(-35 * data.length) + 230}>
       <GroupLabel
         text={`Election Treatment Size: ${withCommas(treatment_pop)}`}
         x={150} y={30}
