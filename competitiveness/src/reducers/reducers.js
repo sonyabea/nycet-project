@@ -39,11 +39,11 @@ export function districtTypeReducer(state='AD', action) {
   }
 }
 
-export function isLoadingReducer(state=true, action){
+export function isLoadingReducer(state=false, action){
   switch (action.type) {
-    case 'LOAD_DATA':
+    case 'IS_LOADING':
       return true
-    case 'LOAD_MAP_DATA':
+    case 'FINISHED_LOADING':
       return false
     default:
       return state

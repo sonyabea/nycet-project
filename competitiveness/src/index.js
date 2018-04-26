@@ -28,7 +28,7 @@ ReactDOM.render(
 <Provider store={store}>
   <BrowserRouter>
     <div>
-      <Route path='/:parentDistType?/:parentDistId?/:childDistType?/:childDistId?' component={App} />
+      <Route path='/:parentDistType?/:parentDistId?' component={App} />
     </div>
   </BrowserRouter>
 </Provider>,
