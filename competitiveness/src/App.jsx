@@ -15,23 +15,21 @@ class AppContainer extends Component {
       return null;
     }
     else {
-      console.log(nextProps)
       let parentDistType = (typeof(nextProps.match.params.parentDistType) === 'undefined') ? 'AD' : nextProps.match.params.parentDistType 
       let parentDistId = (typeof(nextProps.match.params.parentDistId) === 'undefined') ? 0 : nextProps.match.params.parentDistId
       let params = queryString.parse(nextProps.location.search)
       let election = params.election
       let childDistrict = params.ED
-      nextProps.loadHLData(parentDistType, parentDistId, election, childDistrict)
-      return null;
+      if ((typeof(childDistrict) !== 'undefined') && (nextProps.county)) {
+        nextProps.loadEDData(childDistrict, nextProps.county)
+        return null;
+      }
+      else {
+        nextProps.loadHLData(parentDistType, parentDistId, election, childDistrict)
+        return null;
+      }
     }
-    // }
-    // else if (typeof(childDistrict) !== 'undefined') {
-    //   nextProps.loadEDData(childDistrict, nextProps.county)
-    //   return null
-    // }
-    // else {
-    // return null
-}
+  }
 
   render() {
     return (

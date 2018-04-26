@@ -98,7 +98,7 @@ export function winningPartyReducer(state=d3.map(), action){
 //try keeping all data here. if becomes cumbersome, filter to year.
 export function highlightedEdDataReducer(state={
     //dunno if this is needed
-    county: 'Kings',
+    county: null,
     ed: 0,
     acs: [{}],
     census: [{}],
