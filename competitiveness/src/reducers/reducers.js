@@ -39,11 +39,11 @@ export function districtTypeReducer(state='AD', action) {
   }
 }
 
-export function isLoadingReducer(state=false, action){
+export function isLoadingReducer(state=true, action){
   switch (action.type) {
-    case 'IS_LOADING':
+    case 'LOAD_DATA':
       return true
-    case 'FINISHED_LOADING':
+    case 'LOAD_MAP_DATA':
       return false
     default:
       return state
@@ -79,8 +79,9 @@ export function selectedDistrictReducer(state=0, action){
 
 export function selectedElectionReducer(state='AD', action){
   switch (action.type) {
-    case 'CHANGE_ELECTION':
-      return action.payload
+    case 'CHANGE_DISTRICT_TYPE':
+      let type = action.payload.parent
+      return (type !== 'ED') ? type : state
     default:
       return state
   }
@@ -98,7 +99,7 @@ export function winningPartyReducer(state=d3.map(), action){
 //try keeping all data here. if becomes cumbersome, filter to year.
 export function highlightedEdDataReducer(state={
     //dunno if this is needed
-    county: null,
+    county: 'Kings',
     ed: 0,
     acs: [{}],
     census: [{}],

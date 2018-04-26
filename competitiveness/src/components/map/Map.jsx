@@ -12,7 +12,7 @@ const Map = ({mapWidth, mapHeight, mapComponents,
                  .reflectY(true)
                  .fitSize([mapWidth,mapHeight], mapComponents.geoJson)
 
-  let closenessExtent = [-100, 100]
+  let closenessExtent = d3.extent(mapComponents.geoData.values())
 
   let colorScaleVals = colorScale === 'gray' ? ['green', 'white', 'green'] : ['red', 'white', 'blue']
 

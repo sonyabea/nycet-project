@@ -3,26 +3,31 @@ import axios from 'axios'
 const d3 = require('d3');
 
 //ACTION CREATORS
+export const loadData = (props) => 
+  dispatch => { 
+    if (props.parentDistType === 'ED') {
+      dispatch(loadEDData(props.parentDistId, props.county))
+    }
+    else {
+      dispatch(loadHLData(props))
+    }
+}
 
-export const loadHLData = (parentDistrictType, parentDistrictId, selectedElection, childDistrict) => dispatch =>  {
-    dispatch({type: 'IS_LOADING'})
-    let selected  = parentDistrictId
-    let districtType = (selected === 0) ? parentDistrictType : 'ED'
-    dispatch(changeDistrict(districtType, parentDistrictType, selected))
-    let election = (typeof(selectedElection) === 'undefined') ? parentDistrictType : selectedElection
-    dispatch(changeElection(election))
+const loadHLData = (props) => dispatch =>  {
+    let selected = props.parentDistId
+    let districtType = (selected === 0) ? props.parentDistType : 'ED'
+    dispatch(changeDistrict(districtType, props.parentDistType, selected))
+    let election = (typeof(props.election) === 'undefined') ? props.parentDistType : props.election
     let {mapRegionType,
          geoSource, table}= returnLoadParams(districtType) 
 
         //changes second parent dist type to election state eventaully 
-    queryDB(parentDistrictType, table, election, selected).then(dataPull => {
+        queryDB(props.parentDistType, table, election, selected).then(dataPull => {
         d3.queue()
           .defer(d3.json, geoSource) 
           .await((error, geoFile) => {
             let [filteredGeo,
                  filteredData] = filterFiles(geoFile, dataPull.data, mapRegionType, selected);
-          
-            //errors get thrown here! make it better.
             let county = filteredData[0].county
             dispatch(setCounty(county))
 
@@ -38,25 +43,21 @@ export const loadHLData = (parentDistrictType, parentDistrictId, selectedElectio
                       geoData: dataMap}, 'LOAD_MAP_DATA'))
 
               dispatch(storePartyData(partyMap))
+
               //also auto-select top ED for detail view
               if (districtType === 'ED') {
-                let selectedEd = childDistrict;
-                if (typeof(selectedEd) === 'undefined') {
-                    selectedEd = dataMap.entries().sort((a, b) => (
-                    Math.abs(a.value) - Math.abs(b.value)))[0].key
-                }
-                dispatch(loadEDData(selectedEd, county))
+                let topED = dataMap.entries().sort((a, b) => (
+                    Math.abs(a.value) - Math.abs(b.value)))[0]
+                dispatch(loadEDData(topED.key, county, election))
               }
-             else {dispatch({type: 'FINISHED_LOADING'})}
         })
      })
   }
 
 //HIGHLIGHT ED ACTION CREATORS
 
-export const loadEDData = (ed, county) => dispatch => {
+const loadEDData = (ed, county) => dispatch => {
 
-  dispatch({type: 'IS_LOADING'})
   dispatch(setED(ed)) 
   let stringAd = ed.toString().split('').slice(0,2).join('')
   let stringEd = ed.toString().split('').slice(2,5).join('')
@@ -83,8 +84,6 @@ export const loadEDData = (ed, county) => dispatch => {
            url: `http://localhost:8080/table/${params.table}`,
            data: query}).then((res) => (
               dispatch(dispatchHighlightData(res.data, params.actionType))))})
-  
-  dispatch({type: 'FINISH_LOADING'})
 
 }
 
@@ -126,11 +125,6 @@ export const setED = (ed) => (
 export const setCounty = (county) => (
   {type: 'SELECT_COUNTY',
    payload: county}
-)
-
-export const changeElection = (election) => (
-  {type: 'CHANGE_ELECTION',
-   payload: election}
 )
 
 export const changeDemoType = (type) => (
