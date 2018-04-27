@@ -12,11 +12,12 @@ const TurnoutTab = ({tab, plotHeight, plotWidth}) => {
   let height = windowHeight - margin.top - margin.bottom
   
   //hardcode years for now
-  let dateStrings = ["201211", "201311", "201411", "201511", "201611"]
-  let parseTime = d3.timeParse("%Y%m");
+  let cats = new Set(tab.cols.map((d) => d.split("_")[0]))
+
+  let dateStrings = ["2012", "2013", "2014", "2015", "2016"]
+  let parseTime = d3.timeParse("%Y");
   let dates = dateStrings.map((d) => parseTime(d))
 
-  let cats = new Set(tab.cols.map((d) => d.split("_")[0]))
   let datasets = {}
   cats.forEach((cat) => {
     //ugh so inefficient

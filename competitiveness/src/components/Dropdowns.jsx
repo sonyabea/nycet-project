@@ -15,37 +15,13 @@ const DistrictTypeSelectContainer = withRouter(({districtType, changeDistrict, h
       />
 ))
 
-const mapStateToDistrictProps = (state) => ({
+const mapStateToProps = (state) => ({
   districtType: state.districtType })
 
-const mapDispatchToDistrictProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch) => ({
   changeDistrict: (e, d, h) => (
       h.push(`/${d.value}`))
   })
 
-const ElectionTypeSelectContainer = withRouter(({election, changeElection, history}) => (
-  <Dropdown options={
-    [{text: 'Overall', value: ''},
-     {text: 'President/Vice President', value: 'President_VP'},
-     {text: 'US Representative', value: 'CD'},
-     {text: 'US Senator', value: 'US_Senator'},
-     {text: 'State Senator', value: 'SD'},
-     {text: 'State Assembly Member', value: 'AD'},
-     ]}
-     onChange={(e, d) => changeElection(e, d, history)}
-     defaultValue={election}
-      />
-))
-//{text: 'City Council Member', value: 'CD'} hmm?
-
-const mapStateToElectionProps = (state) => ({
-    election: state.selectedElection
-})
-
-const mapDispatchToElectionProps = (dispatch) => (
-  {changeElection: (e,d,h) => (h.push(`?election=${d.value}`))
-  })
-
-export const DistrictTypeSelect = connect(mapStateToDistrictProps, mapDispatchToDistrictProps)(DistrictTypeSelectContainer)
-export const ElectionTypeSelect = connect(mapStateToElectionProps, mapDispatchToElectionProps)(ElectionTypeSelectContainer)
+export const DistrictTypeSelect = connect(mapStateToProps, mapDispatchToProps)(DistrictTypeSelectContainer)
 
