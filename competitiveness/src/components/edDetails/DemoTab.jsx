@@ -6,7 +6,7 @@ const d3 = require('d3')
 const DemoTab = ({tab, plotHeight, plotWidth}) => {
   let windowHeight = (typeof(plotHeight) === 'undefined') ? 200 : plotHeight;
   let windowWidth = (typeof(plotWidth) === 'undefined') ? 200 : plotWidth;
-  let margin = {top: 20, right: 20, bottom: 20, left: 35}
+  let margin = {top: 20, right: 20, bottom: 5, left: 35}
   let width = windowWidth - margin.left - margin.right
   let height = windowHeight - margin.top - margin.bottom
 
@@ -44,7 +44,7 @@ const DemoTab = ({tab, plotHeight, plotWidth}) => {
   return (
     <Tab.Pane style={{borderTop: "1px solid #d4d4d5"}}>
       <div>
-        <svg width={ width } height={ height }>
+        <svg width={ windowWidth } height={ windowHeight }>
           <g className='barchart-layer'
              transform={`translate(${margin.left} ,${margin.top})`}
           >
@@ -55,7 +55,7 @@ const DemoTab = ({tab, plotHeight, plotWidth}) => {
       </div>
       <Table className='label-container'
         style={{paddingLeft: margin.left + x.bandwidth() * x.padding()}}>
-        <Table.Body>
+        <Table.Body style={{verticalAlign: "top"}}>
           <Table.Row>
              { labels }
           </Table.Row>

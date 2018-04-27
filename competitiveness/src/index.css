@@ -68,7 +68,7 @@ table {
 }
 
 .label-container {
-  margin-top: 5px !important;
+  margin-top: 0px !important;
   table-layout: fixed;
   width: 100%;
 }
