@@ -111,13 +111,17 @@ export function highlightedEdDataReducer(state={
         case 'SELECT_ED':
           return {...state, ed: action.payload}
         case 'LOAD_ACS':
-          return {...state, acs: action.payload}
+          let ACSdataReturn = (action.payload.length === 0) ? [{}] : action.payload
+          return {...state, acs: ACSdataReturn}
         case 'LOAD_CENSUS':
-          return {...state, census: action.payload}
+          let censusDataReturn = (action.payload.length === 0) ? [{}] : action.payload
+          return {...state, census: censusDataReturn}
         case 'LOAD_TURNOUT':
-          return {...state, turnout: action.payload}
+          let turnoutDataReturn = (action.payload.length === 0) ? [{}] : action.payload
+          return {...state, turnout: turnoutDataReturn}
         case 'LOAD_ED_METRICS':
-          return {...state, edMetrics: action.payload}
+          let edmDataReturn = (action.payload.length === 0) ? [{}] : action.payload
+          return {...state, edMetrics: edmDataReturn}
         case 'CHANGE_DEMO_TYPE':
           return {...state, demoType: action.payload}
         default:

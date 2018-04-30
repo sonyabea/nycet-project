@@ -47,8 +47,7 @@ export const loadHLData = (parentDistrictType, parentDistrictId, selectedElectio
                 }
                 dispatch(loadEDData(selectedEd, county))
               }
-             else {dispatch({type: 'FINISHED_LOADING'})}
-        })
+             else {dispatch({type: 'FINISHED_LOADING'})} })
      })
   }
 
@@ -84,7 +83,7 @@ export const loadEDData = (ed, county) => dispatch => {
            data: query}).then((res) => (
               dispatch(dispatchHighlightData(res.data, params.actionType))))})
   
-  dispatch({type: 'FINISH_LOADING'})
+  dispatch({type: 'FINISHED_LOADING'})
 
 }
 
