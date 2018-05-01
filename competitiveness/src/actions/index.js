@@ -60,7 +60,7 @@ export const loadEDData = (ed, election) => dispatch => {
   dispatch(setED(ed)) 
   let edStr = `Ad ${ed.toString().split('').slice(0,2).join('')} - Ed ${ed.toString().split('').slice(2,5).join('')}`
   var demos = Object.keys(MAPPING)
-  let allCols = ['district.countyed', `ed.dbdo_${election}`, 'acs.total']
+  let allCols = [`ed.dbdo_${election}`, 'acs.total', 'acs.registered_pct']
   demos.forEach((demo) => {
     let tabCats = MAPPING[demo]
     tabCats.forEach((tab) => {
@@ -79,16 +79,23 @@ export const loadEDData = (ed, election) => dispatch => {
 
     axios({method: 'post',
            url: 'http://localhost:8080/table/electiondistricts',
-           data: queryParams}).then((res) => (
+           data: queryParams}).then((res) => {
+      let data = res.data[0]
+      dispatch({type: 'LOAD_ED_METRICS',
+                payload: {dbdo: data[`dbdo_${election.toLowerCase()}`],
+                          totalPop: data.total,
+                          pctRegistered: data.registered_pct}})
+
       demos.forEach((demo) => {
         let payload = {}
         let demoCols = [].concat.apply([], MAPPING[demo].map((tab) => tab.cols))
-        demoCols.forEach((col) => payload[col] = res.data[0][col])
+        demoCols.forEach((col) => payload[col] = data[col])
+        //something breaks around here
         dispatch({type: `LOAD_${demo.toUpperCase()}`, payload: payload})
-      })
-    ))
+      });
+        dispatch({type: 'FINISHED_LOADING'})
+    })
 
-  dispatch({type: 'FINISHED_LOADING'})
 
 }
 
