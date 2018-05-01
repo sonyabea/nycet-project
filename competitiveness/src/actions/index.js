@@ -1,6 +1,8 @@
 import { filterFiles, returnLoadParams, queryDB } from './mapHelpers'
 import axios from 'axios'
+import tabMapping from '../data/tabMapping'
 const d3 = require('d3');
+const MAPPING = tabMapping
 
 //ACTION CREATORS
 
@@ -45,7 +47,7 @@ export const loadHLData = (parentDistrictType, parentDistrictId, selectedElectio
                     selectedEd = dataMap.entries().sort((a, b) => (
                     Math.abs(a.value) - Math.abs(b.value)))[0].key
                 }
-                dispatch(loadEDData(selectedEd, county))
+                dispatch(loadEDData(selectedEd, election))
               }
              else {dispatch({type: 'FINISHED_LOADING'})} })
      })
@@ -53,45 +55,44 @@ export const loadHLData = (parentDistrictType, parentDistrictId, selectedElectio
 
 //HIGHLIGHT ED ACTION CREATORS
 
-export const loadEDData = (ed, county) => dispatch => {
-
+export const loadEDData = (ed, election) => dispatch => {
   dispatch({type: 'IS_LOADING'})
   dispatch(setED(ed)) 
-  let stringAd = ed.toString().split('').slice(0,2).join('')
-  let stringEd = ed.toString().split('').slice(2,5).join('')
+  let edStr = `Ad ${ed.toString().split('').slice(0,2).join('')} - Ed ${ed.toString().split('').slice(2,5).join('')}`
+  var demos = Object.keys(MAPPING)
+  let allCols = ['district.countyed', `ed.dbdo_${election}`, 'acs.total']
+  demos.forEach((demo) => {
+    let tabCats = MAPPING[demo]
+    tabCats.forEach((tab) => {
+      tab.cols.forEach((col) => 
+        allCols.push(`${demo}.${col}`))
+    })
+  })
 
-  //hardcode all keys for now until db is sorted, when we can just join
-  let allParams =[{filterString: `${county.toString()}AD 0${stringAd} - ED ${stringEd}`,
-                   table: 'acs_ed_demographics',
-                   actionType: 'LOAD_ACS'},
-                  {filterString: `${county.toString().toUpperCase()}AD 0${stringAd} - ED ${stringEd}`,
-                      table: 'census_ed_demographics',
-                      actionType: 'LOAD_CENSUS'},
-                  {filterString: `${county.toString()}Ad ${stringAd} - Ed ${stringEd}`,
-                      table: 'ed_agg_voter_file',
-                      actionType: 'LOAD_TURNOUT'},
-                  {filterString: `${county.toString()}Ad ${stringAd} - Ed ${stringEd}`,
-                      table: 'ed_metrics',
-                      actionType: 'LOAD_ED_METRICS'}
+  let queryParams = {columns: allCols,
+                     table: 'electiondistricts',
+                     addtlQuery: [' district join ed_agg_voter_file turnout on district.countyed = turnout.countyed',
+                                  'join census_ed_demographics census on district.countyed = census.countyed',
+                                  'join acs_ed_demographics acs on district.countyed = acs.countyed',
+                                  'join ed_metrics ed on district.countyed = ed.countyed',
+                                  `where district.ed = '${edStr}'`].join(' ')}
 
-]
-
-  allParams.forEach((params) => {
-    let query = {filterOn: 'countyed', filterBy: params.filterString}
     axios({method: 'post',
-           url: `http://localhost:8080/table/${params.table}`,
-           data: query}).then((res) => (
-              dispatch(dispatchHighlightData(res.data, params.actionType))))})
-  
+           url: 'http://localhost:8080/table/electiondistricts',
+           data: queryParams}).then((res) => (
+      demos.forEach((demo) => {
+        let payload = {}
+        let demoCols = [].concat.apply([], MAPPING[demo].map((tab) => tab.cols))
+        demoCols.forEach((col) => payload[col] = res.data[0][col])
+        dispatch({type: `LOAD_${demo.toUpperCase()}`, payload: payload})
+      })
+    ))
+
   dispatch({type: 'FINISHED_LOADING'})
 
 }
 
 //PURE ACTIONS
-
-const dispatchHighlightData = (data, action) => (
-  {type: action,
-   payload: data})
 
 export const storeMapData = (mapObj, actionType) => ( 
   {type: actionType,

@@ -22,7 +22,7 @@ class AppContainer extends Component {
     let childDistrict = params.ED
 
     if (!nextProps.isLoading) {
-      if (!prevState) {
+      if (typeof(prevState.parentDistrictType) === 'undefined') {
         nextProps.loadHLData(parentDistrictType, selectedDistrict, election, childDistrict)
       }
       else if ((parentDistrictType !== prevState.parentDistrictType) ||
@@ -30,8 +30,8 @@ class AppContainer extends Component {
                (election !== prevState.election)) {
         nextProps.loadHLData(parentDistrictType, selectedDistrict, election, childDistrict)
       }
-      else if ((childDistrict !== prevState.childDistrict) && (nextProps.county)) {
-        nextProps.loadEDData(childDistrict, nextProps.county)
+      else if ((childDistrict !== prevState.childDistrict) && (nextProps.election)) {
+        nextProps.loadEDData(childDistrict, nextProps.election)
       }
   }
       return {parentDistrictType: parentDistrictType,

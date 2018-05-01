@@ -22,7 +22,6 @@ const DemoTab = ({tab, plotHeight, plotWidth}) => {
 
   let yAxis = d3.axisLeft(y).ticks(5, "%")
 
-  //lets not shit ourselves you'll make this a custom component in like a day
   let rects = tab.data.map((d, i) => (
     <rect
         x={x(tab.labels[i])}

@@ -25,7 +25,7 @@ const mapStateToProps = (state) => (
   {election: state.selectedElection,
    margin: Math.abs(state.mapData.geoData.get(state.highlightedEdData.ed)),
    winningParty: state.winningParty.get(state.highlightedEdData.ed),
-   mrTurnout: `${(state.highlightedEdData.turnout[0].turnout_16 * 100).toFixed(2)}%`
+   mrTurnout: `${(state.highlightedEdData.turnout.turnout_16 * 100).toFixed(2)}%`
   })
 
 const TopDetails = connect(mapStateToProps)(TopDetailsContainer)
