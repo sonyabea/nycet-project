@@ -5,13 +5,23 @@ import { Grid } from 'semantic-ui-react'
 const toPercent = (val) => (
   (`${((val > 1) ? 100 : val * 100).toFixed(2)}%`)) 
 
+const humanReadable = (el) => {
+  let formattedEl = el.split('_').map(
+      (w) => (w.split('').length < 3) ? w.toUpperCase() : w.replace('_', ' ')).join('/')
+  return (
+    <span style={{textTransform: 'capitalize'}}>
+      {formattedEl}
+    </span>
+    )
+  }
+
 // election should be dropdown with curr elec selected
 const TopDetailsContainer = ({election, margin, winningParty, 
                               mrTurnout, winningCandidate, totalPop,
                               dbdo, pctRegistered}) => (
     <Grid.Row className='top-details'>
       <Grid.Column width={3}>
-        Last {election} election results: {winningCandidate} ({winningParty}) - {margin}% margin
+        Last {humanReadable(election)} election results: {winningCandidate} ({winningParty}) -- {margin}% margin
       </Grid.Column>
       <Grid.Column width={3}>
         Last election turnout: {mrTurnout}
@@ -20,7 +30,7 @@ const TopDetailsContainer = ({election, margin, winningParty,
         Total population: {totalPop}
       </Grid.Column>
       <Grid.Column width={3}>
-        Down-ballot dropoff for {election} election: {dbdo}
+        Down-ballot dropoff for {humanReadable(election)} election: {dbdo}
       </Grid.Column>
       <Grid.Column width={3}>
         Registered: {pctRegistered}
