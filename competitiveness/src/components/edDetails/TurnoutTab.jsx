@@ -1,22 +1,22 @@
 import React from 'react';
 import { Tab } from 'semantic-ui-react'
 import Axis from './Axis'
+import TurnoutLine from './TurnoutLine'
 const d3 = require('d3')
 
-const TurnoutTab = ({tab, plotHeight, plotWidth}) => {
+const TurnoutTab = ({tab, plotHeight, plotWidth, overall}) => {
 
   let windowHeight = (typeof(plotHeight) === 'undefined') ? 200 : plotHeight;
   let windowWidth = (typeof(plotWidth) === 'undefined') ? 200 : plotWidth;
   let margin = {top: 20, right: 70, bottom: 20, left: 35}
   let width = windowWidth - margin.left - margin.right
   let height = windowHeight - margin.top - margin.bottom
-  
-  //hardcode years for now
+
   let cats = new Set(tab.cols.map((d) => d.split("_")[0]))
 
-  let dateStrings = ["2012", "2013", "2014", "2015", "2016"]
+  let years = overall.cols.map((col) => col.split('_')[1])
   let parseTime = d3.timeParse("%Y");
-  let dates = dateStrings.map((d) => parseTime(d))
+  let dates = years.map((y) => parseTime(`20${y}`))
 
   let datasets = {}
   cats.forEach((cat) => {
@@ -26,6 +26,10 @@ const TurnoutTab = ({tab, plotHeight, plotWidth}) => {
       col.split("_")[0] === cat) ? data.push(tab.data[i]) : null)
     datasets[cat] = data.map((d, i) => ({date: dates[i], data: d}))
   })
+
+  let overallData = overall.data.map((d, i) => (
+    {data: d, date: dates[i]}
+  ))
 
   let x = d3.scaleTime().range([0, width]),
       y = d3.scaleLinear().domain([0, 1]).range([height, 0]),
@@ -41,26 +45,27 @@ const TurnoutTab = ({tab, plotHeight, plotWidth}) => {
   let yAxis = d3.axisLeft(y).ticks(5, "%")
   let xAxis = d3.axisBottom(x).ticks(5, "%Y")
 
-  let lines = Object.keys(datasets).map((d, i) => {
-    let finalDatum = datasets[d][datasets[d].length - 1]
-    return (
-    <g key={`turnout-line-${i}`}>
-      <path 
-        className='turnout-line'
-        d={line(datasets[d])}
-        style={{stroke: z(d)}}
-      />
-      <text
-        transform={`translate(${x(finalDatum.date)}, ${y(finalDatum.data)})`}
-        x={3}
-        dy="0.35em"
-        style={{font: '10px sans-serif'}}
-      >
-        { d } 
-      </text>
-    </g>
-    )
-  })
+  let lines = Object.keys(datasets).map((d, i) => (
+    <TurnoutLine label={d} 
+                 line={line(datasets[d])}
+                 color={z(d)}
+                 labelTranslate={[x(datasets[d][0].date),
+                                  y(datasets[d][0].data)]}
+                 key={`turnout-line-${i}`}
+                 dashed={false}
+                                />
+               )
+  )
+
+  let overallLine = <TurnoutLine label='Overall'
+                                 line={line(overallData)}
+                                 color={z('overall')}
+                                 labelTranslate={[x(overallData[0].date),
+                                 y(overallData[0].data)]}
+                                 dashed={true}
+                                 className='overall-line'
+                               />
+
 
   return (
     <Tab.Pane style={{borderTop: "1px solid #d4d4d5"}}>
@@ -71,6 +76,7 @@ const TurnoutTab = ({tab, plotHeight, plotWidth}) => {
             >
           <Axis axis={yAxis} />
           <Axis axis={xAxis} translate={`translate(0, ${height})`}/>
+            { overallLine }
             { lines }
           </g>
         </svg>

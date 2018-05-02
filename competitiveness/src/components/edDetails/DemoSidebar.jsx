@@ -15,7 +15,7 @@ const tabsFromData = (dataset, type) => {
   let tabs = []
   mapping.forEach((tab) => {
     tab.data = tab.cols.map((col) => (
-      (typeof(dataset[col]) === 'undefined') ? 0 : dataset[col]))
+      (typeof(dataset[col]) === 'undefined') ? null : dataset[col]))
     tabs.push(tab)
   })
   return tabs
