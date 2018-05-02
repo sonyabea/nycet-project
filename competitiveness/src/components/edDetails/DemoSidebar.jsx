@@ -38,8 +38,8 @@ const DemoSidebarContainer = ({demoTabs, turnoutTabs}) => (
 )
 
 const mapStateToProps = (state) => (
-  {demoTabs: tabsFromData(state.highlightedEdData[state.highlightedEdData.demoType][0],state.highlightedEdData.demoType),
-   turnoutTabs: tabsFromData(state.highlightedEdData.turnout[0], 'turnout')}
+  {demoTabs: tabsFromData(state.highlightedEdData[state.highlightedEdData.demoType],state.highlightedEdData.demoType),
+   turnoutTabs: tabsFromData(state.highlightedEdData.turnout, 'turnout')}
 )
 
 const DemoSidebar = connect(mapStateToProps)(DemoSidebarContainer)

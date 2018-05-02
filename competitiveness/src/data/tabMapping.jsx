@@ -1,4 +1,4 @@
-const TAB_MAPPING = {
+const tabMapping = {
   acs: [{title: 'Race',
          cols: ['white_only_pct', 'black_only_pct', 'asian_only_pct', 
          'pacific_only_pct', 'native_american_only_pct', 'other_race_only_pct',
@@ -47,8 +47,8 @@ const TAB_MAPPING = {
   census: [
            {title: 'Race/Ethnicity',
             cols: ['white_only_pct', 'black_only_pct', 'asian_pct',
-                   'pacific_only_pct', 'total_hispanic_pct', 
-                   'native_american_only_pct', 'other_race_pct', 'two_races_pct'],
+                   'pacific_islander_pct', 'total_hispanic_pct', 
+                   'native_american_pct', 'other_race_pct', 'two_races_pct'],
             labels: ['White', 'Black', 'Asian', 'Pacific Islander', 'Hispanic',
                      'Native American', 'Other Race', 'Two or More Races']
            },
@@ -65,11 +65,11 @@ const TAB_MAPPING = {
                      'Single Parent - Female'],
            }],
   turnout: [{title: 'Overall',
-             cols: ['turnout_16', 'turnout_15',
+             cols: ['turnout_17', 'turnout_16', 'turnout_15',
                     'turnout_14', 'turnout_13', 'turnout_12'],
-             labels: ['Total Turnout 2016', 'Total Turnout 2015',
-                      'Total Turnout 2014', 'Total Turnout 2013',
-                      'Total Turnout 2012']
+             labels: ['Total Turnout 2017', 'Total Turnout 2016',
+                      'Total Turnout 2015', 'Total Turnout 2014',
+                      'Total Turnout 2013', 'Total Turnout 2012']
             },
             {title: 'Party',
             cols: ['dem_turnout_16_pct', 'dem_turnout_15_pct', 'dem_turnout_14_pct',
@@ -87,12 +87,12 @@ const TAB_MAPPING = {
                      'Unaffiliated Turnout 2012']
              },
              {title: 'Race', 
-              cols: ['hisp_turnout_16_pct', 'asian_turnout_16_pct', 'black_turnout_16_pct',
-              'white_turnout_16_pct', 'hisp_turnout_15_pct', 'asian_turnout_15_pct',
-              'black_turnout_15_pct', 'white_turnout_15_pct', 'hisp_turnout_14_pct',
+              cols: ['hispanic_turnout_16_pct', 'asian_turnout_16_pct', 'black_turnout_16_pct',
+              'white_turnout_16_pct', 'hispanic_turnout_15_pct', 'asian_turnout_15_pct',
+              'black_turnout_15_pct', 'white_turnout_15_pct', 'hispanic_turnout_14_pct',
               'asian_turnout_14_pct', 'black_turnout_14_pct', 'white_turnout_14_pct',
-              'hisp_turnout_13_pct', 'asian_turnout_13_pct', 'black_turnout_13_pct',
-              'white_turnout_13_pct', 'hisp_turnout_12_pct', 'asian_turnout_12_pct',
+              'hispanic_turnout_13_pct', 'asian_turnout_13_pct', 'black_turnout_13_pct',
+              'white_turnout_13_pct', 'hispanic_turnout_12_pct', 'asian_turnout_12_pct',
               'black_turnout_12_pct', 'white_turnout_12_pct'],
               labels: ['Hispanic Turnout 2016', 'Asian Turnout 2016', 'Black Turnout 2016',
               'White Turnout 2016', 'Hispanic Turnout 2015', 'Asian Turnout 2015',
@@ -121,4 +121,4 @@ const TAB_MAPPING = {
               }]
 }
 
-export default TAB_MAPPING;
+export default tabMapping;
