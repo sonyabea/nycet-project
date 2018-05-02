@@ -95,7 +95,15 @@ export function winningPartyReducer(state=d3.map(), action){
   }
 }
 
-//try keeping all data here. if becomes cumbersome, filter to year.
+export function winningCandidateReducer(state=d3.map(), action){
+  switch (action.type) {
+    case 'STORE_CANDIDATE_DATA':
+      return action.payload
+    default:
+      return state
+  }
+}
+
 export function highlightedEdDataReducer(state={
     //dunno if this is needed
     county: null,

@@ -65,11 +65,11 @@ const tabMapping = {
                      'Single Parent - Female'],
            }],
   turnout: [{title: 'Overall',
-             cols: ['turnout_16', 'turnout_15',
+             cols: ['turnout_17', 'turnout_16', 'turnout_15',
                     'turnout_14', 'turnout_13', 'turnout_12'],
-             labels: ['Total Turnout 2016', 'Total Turnout 2015',
-                      'Total Turnout 2014', 'Total Turnout 2013',
-                      'Total Turnout 2012']
+             labels: ['Total Turnout 2017', 'Total Turnout 2016',
+                      'Total Turnout 2015', 'Total Turnout 2014',
+                      'Total Turnout 2013', 'Total Turnout 2012']
             },
             {title: 'Party',
             cols: ['dem_turnout_16_pct', 'dem_turnout_15_pct', 'dem_turnout_14_pct',

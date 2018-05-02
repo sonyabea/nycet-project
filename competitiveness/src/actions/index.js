@@ -1,99 +1,84 @@
-import { filterFiles, returnLoadParams, queryDB } from './mapHelpers'
-import axios from 'axios'
+import { filterAndProcess, formatToMap, determineSelectedEd } from './mapHelpers'
+import { getGeoSource, queryDB, makeEdPayload } from './queryHelpers'
 import tabMapping from '../data/tabMapping'
+import axios from 'axios'
 const d3 = require('d3');
 const MAPPING = tabMapping
 
-//ACTION CREATORS
-
 export const loadHLData = (parentDistrictType, parentDistrictId, selectedElection, childDistrict) => dispatch =>  {
-    dispatch({type: 'IS_LOADING'})
+    //determine/declare vars
     let selected  = parentDistrictId
     let districtType = (selected === 0) ? parentDistrictType : 'ED'
-    dispatch(changeDistrict(districtType, parentDistrictType, selected))
     let election = (typeof(selectedElection) === 'undefined') ? parentDistrictType : selectedElection
-    dispatch(changeElection(election))
-    let {mapRegionType,
-         geoSource, table}= returnLoadParams(districtType) 
 
-        //changes second parent dist type to election state eventaully 
-    queryDB(parentDistrictType, table, election, selected).then(dataPull => {
+    //dispatch vars
+    dispatch({type: 'IS_LOADING'})
+    dispatch(changeDistrict(districtType, parentDistrictType, selected))
+    dispatch(changeElection(election))
+
+    queryDB(parentDistrictType, election, selected).then(dataPull => {
         d3.queue()
-          .defer(d3.json, geoSource) 
+          .defer(d3.json, getGeoSource(districtType)) 
           .await((error, geoFile) => {
             let [filteredGeo,
-                 filteredData] = filterFiles(geoFile, dataPull.data, mapRegionType, selected);
-          
-            //errors get thrown here! make it better.
-            let county = filteredData[0].county
-            dispatch(setCounty(county))
+                 filteredData] = filterAndProcess(geoFile, dataPull.data, districtType, selected);
+            
+            let dataMap = formatToMap(filteredData, 'most_rec_pl_margin')
 
-            let dataMap = d3.map()
-            let partyMap = d3.map()
-            filteredData.forEach((d) => {
-              d.most_rec_pl_margin = ((d.winning_pol_lean === 'right') ? -d.most_rec_pl_margin : +d.most_rec_pl_margin)
-              dataMap.set(d.district, d.most_rec_pl_margin)
-              partyMap.set(d.district, d.winning_party)
-              })
-              dispatch(storeMapData(
-                     {geoJson: filteredGeo, 
-                      geoData: dataMap}, 'LOAD_MAP_DATA'))
+              //dispatch processed data
+              dispatch(storeMapData({geoJson: filteredGeo, geoData: dataMap},
+                                    'LOAD_MAP_DATA'))
 
-              dispatch(storePartyData(partyMap))
+              dispatch(setCounty(filteredData[0].county))
+              dispatch(storePartyData(formatToMap(filteredData, 'winning_party')))
+              dispatch(storeCandidateData(formatToMap(filteredData, 'winning_candidate')))
+              //
               //also auto-select top ED for detail view
               if (districtType === 'ED') {
-                let selectedEd = childDistrict;
-                if (typeof(selectedEd) === 'undefined') {
-                    selectedEd = dataMap.entries().sort((a, b) => (
-                    Math.abs(a.value) - Math.abs(b.value)))[0].key
-                }
+                let selectedEd = (typeof childDistrict === 'undefined') ? determineSelectedEd(dataMap) : childDistrict
                 dispatch(loadEDData(selectedEd, election))
               }
              else {dispatch({type: 'FINISHED_LOADING'})} })
      })
   }
 
-//HIGHLIGHT ED ACTION CREATORS
 
 export const loadEDData = (ed, election) => dispatch => {
   dispatch({type: 'IS_LOADING'})
   dispatch(setED(ed)) 
-  let edStr = `Ad ${ed.toString().split('').slice(0,2).join('')} - Ed ${ed.toString().split('').slice(2,5).join('')}`
+  let edStr = ['Ad', `${ed.toString().split('').slice(0,2).join('')}`, '-',
+               'Ed', `${ed.toString().split('').slice(2,5).join('')}`].join(' ')
   var demos = Object.keys(MAPPING)
-  let allCols = [`ed.dbdo_${election}`, 'acs.total', 'acs.registered_pct']
+  let edCols = [`ed.dbdo_${election}`, 'acs.total',
+                'acs.registered_pct', `ed.wc_${election}`]
+  let allDemoCols = []
   demos.forEach((demo) => {
     let tabCats = MAPPING[demo]
     tabCats.forEach((tab) => {
       tab.cols.forEach((col) => 
-        allCols.push(`${demo}.${col}`))
+        allDemoCols.push(`${demo}.${col}`))
     })
   })
 
-  let queryParams = {columns: allCols,
+  let queryParams = {columns: [].concat.apply([], [edCols, allDemoCols]),
                      table: 'electiondistricts',
-                     addtlQuery: [' district join ed_agg_voter_file turnout on district.countyed = turnout.countyed',
-                                  'join census_ed_demographics census on district.countyed = census.countyed',
-                                  'join acs_ed_demographics acs on district.countyed = acs.countyed',
-                                  'join ed_metrics ed on district.countyed = ed.countyed',
+                     addtlQuery: [' district left join ed_agg_voter_file turnout on district.countyed = turnout.countyed',
+                                  'left join census_ed_demographics census on district.countyed = census.countyed',
+                                  'left join acs_ed_demographics acs on district.countyed = acs.countyed',
+                                  'left join ed_metrics ed on district.countyed = ed.countyed',
                                   `where district.ed = '${edStr}'`].join(' ')}
 
     axios({method: 'post',
            url: 'http://localhost:8080/table/electiondistricts',
            data: queryParams}).then((res) => {
-      let data = res.data[0]
-      dispatch({type: 'LOAD_ED_METRICS',
-                payload: {dbdo: data[`dbdo_${election.toLowerCase()}`],
-                          totalPop: data.total,
-                          pctRegistered: data.registered_pct}})
-
-      demos.forEach((demo) => {
-        let payload = {}
-        let demoCols = [].concat.apply([], MAPPING[demo].map((tab) => tab.cols))
-        demoCols.forEach((col) => payload[col] = data[col])
-        //something breaks around here
-        dispatch({type: `LOAD_${demo.toUpperCase()}`, payload: payload})
-      });
-        dispatch({type: 'FINISHED_LOADING'})
+            let data = res.data[0]
+            demos.forEach((demo) => (
+              dispatch(makeEdPayload([].concat.apply([], MAPPING[demo].map((tab) => tab.cols)),
+                                     demo, data))
+              ))
+            dispatch(makeEdPayload([`dbdo_${election}`, 'total', 'registered_pct',
+                                    `wc_${election}`], 'ED_METRICS', data))
+            dispatch({type: 'FINISHED_LOADING'})
     })
 
 
@@ -109,6 +94,11 @@ export const storeMapData = (mapObj, actionType) => (
 export const storePartyData = (partyMap) => (
   {type: 'STORE_PARTY_DATA',
    payload: partyMap}
+)
+
+export const storeCandidateData = (candidateMap) => (
+  {type: 'STORE_CANDIDATE_DATA',
+   payload: candidateMap}
 )
 
 export const setMapDimensions = (width, height) => (

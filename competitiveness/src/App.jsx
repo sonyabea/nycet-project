@@ -44,7 +44,7 @@ class AppContainer extends Component {
   render() {
     return (
       <div className='App'>
-        {(this.state.isLoading) ? "Loading!" : <Competitiveness />}
+        <Competitiveness />
       </div>
       )
   }

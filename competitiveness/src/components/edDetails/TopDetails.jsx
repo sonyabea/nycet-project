@@ -6,14 +6,15 @@ const toPercent = (val) => (
   (`${((val > 1) ? 100 : val * 100).toFixed(2)}%`)) 
 
 // election should be dropdown with curr elec selected
-const TopDetailsContainer = ({election, margin, winningParty, mrTurnout,
-                               totalPop, dbdo, pctRegistered}) => (
+const TopDetailsContainer = ({election, margin, winningParty, 
+                              mrTurnout, winningCandidate, totalPop,
+                              dbdo, pctRegistered}) => (
     <Grid.Row className='top-details'>
       <Grid.Column width={3}>
-        Last {election} election results: {winningParty} - {margin}% margin
+        Last {election} election results: {winningCandidate} ({winningParty}) - {margin}% margin
       </Grid.Column>
       <Grid.Column width={3}>
-        Last {election} election turnout: {mrTurnout}
+        Last election turnout: {mrTurnout}
       </Grid.Column>
       <Grid.Column width={3}>
         Total population: {totalPop}
@@ -31,10 +32,11 @@ const mapStateToProps = (state) => (
   {election: state.selectedElection,
    margin: Math.abs(state.mapData.geoData.get(state.highlightedEdData.ed)),
    winningParty: state.winningParty.get(state.highlightedEdData.ed),
-   mrTurnout: toPercent(state.highlightedEdData.turnout.turnout_16),
-   totalPop: state.highlightedEdData.edMetrics.totalPop,
-   dbdo: toPercent(state.highlightedEdData.edMetrics.dbdo),
-   pctRegistered: toPercent(state.highlightedEdData.edMetrics.pctRegistered)
+   winningCandidate: state.winningCandidate.get(state.highlightedEdData.ed),
+   mrTurnout: toPercent(state.highlightedEdData.turnout.turnout_17),
+   totalPop: state.highlightedEdData.edMetrics.total,
+   dbdo: toPercent(state.highlightedEdData.edMetrics[`dbdo_${state.selectedElection}`]),
+   pctRegistered: toPercent(state.highlightedEdData.edMetrics.registered_pct)
   })
 
 const TopDetails = connect(mapStateToProps)(TopDetailsContainer)

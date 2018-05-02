@@ -7,6 +7,7 @@ import { mapDataReducer,
          selectedDistrictReducer,
          selectedElectionReducer,
          winningPartyReducer,
+         winningCandidateReducer,
          highlightedEdDataReducer,
          tooltipReducer,
          isLoadingReducer
@@ -22,6 +23,7 @@ const NYCETAppReducers = combineReducers({
   selectedDistrict: selectedDistrictReducer,
   selectedElection: selectedElectionReducer,
   winningParty: winningPartyReducer,
+  winningCandidate: winningCandidateReducer,
   highlightedEdData: highlightedEdDataReducer,
   tooltip: tooltipReducer,
   isLoading: isLoadingReducer
