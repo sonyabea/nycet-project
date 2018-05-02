@@ -76,8 +76,8 @@ export const loadEDData = (ed, election) => dispatch => {
               dispatch(makeEdPayload([].concat.apply([], MAPPING[demo].map((tab) => tab.cols)),
                                      demo, data))
               ))
-            dispatch(makeEdPayload([`dbdo_${election}`, 'total', 'registered_pct',
-                                    `wc_${election}`], 'ED_METRICS', data))
+            dispatch(makeEdPayload([`dbdo_${election.toLowerCase()}`, 'total', 'registered_pct',
+                                    `wc_${election.toLowerCase()}`], 'ED_METRICS', data))
             dispatch({type: 'FINISHED_LOADING'})
     })
 

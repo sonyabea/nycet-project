@@ -45,7 +45,7 @@ const mapStateToProps = (state) => (
    winningCandidate: state.winningCandidate.get(state.highlightedEdData.ed),
    mrTurnout: toPercent(state.highlightedEdData.turnout.turnout_17),
    totalPop: state.highlightedEdData.edMetrics.total,
-   dbdo: toPercent(state.highlightedEdData.edMetrics[`dbdo_${state.selectedElection}`]),
+   dbdo: toPercent(state.highlightedEdData.edMetrics[`dbdo_${state.selectedElection.toLowerCase()}`]),
    pctRegistered: toPercent(state.highlightedEdData.edMetrics.registered_pct)
   })
 
