@@ -67,6 +67,10 @@ table {
   text-align: center !important;
 }
 
+.grayed {
+  color: lightgray;
+}
+
 .label-container {
   margin-top: 0px !important;
   table-layout: fixed;

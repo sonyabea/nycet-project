@@ -19,13 +19,16 @@ const DemoDetailsContainer = ({tabs, height, width, type}) => {
        ))
     }
     else {
-      formattedPanes = tabs.map((t, i) => (
+      let filteredTabs = tabs.filter((tab) => tab.title !== 'Overall')
+      let overall = tabs.filter((tab) => tab.title === 'Overall')[0]
+      formattedPanes = filteredTabs.map((t, i) => (
         { menuItem: t.title,
           render: () => <TurnoutTab 
             key={`demotab-${i}`} 
             tab={t}
             plotHeight={ height }
             plotWidth={ width }
+            overall={ overall }
           /> }
  ))
 }

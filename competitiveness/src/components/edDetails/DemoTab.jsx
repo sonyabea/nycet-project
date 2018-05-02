@@ -22,20 +22,25 @@ const DemoTab = ({tab, plotHeight, plotWidth}) => {
 
   let yAxis = d3.axisLeft(y).ticks(5, "%")
 
-  let rects = tab.data.map((d, i) => (
-    <rect
-        x={x(tab.labels[i])}
-        y={`${y(d)}`}
-        width={x.bandwidth()}
-        height={`${height-y(d)}`}
-        className='bar'
-        key={`demo-rect-${i}`}
-      />))
+  let rects = tab.data.map((d, i) => {
+    if (d !== null && d >= 0) {
+      return (<rect
+          x={x(tab.labels[i])}
+          y={`${y(d)}`}
+          width={x.bandwidth()}
+          height={`${height-y(d)}`}
+          className='bar'
+          key={`demo-rect-${i}`}
+        />)
+    } else {
+      return (<rect key={`demo-rect-${i}`} />)
+    }
+  })
 
   let labels = tab.labels.map((l, i) => (
     <Table.Cell style={{width: x.bandwidth() + (x.padding() * x.bandwidth())}}
                 key={`demo-label-${i}`}
-                className='bar-label'>
+                className={(tab.data[i] !== null && tab.data[i] >= 0) ? 'bar-label' : 'bar-label grayed'}>
          { l } 
     </Table.Cell>
     ))
