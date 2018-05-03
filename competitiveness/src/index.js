@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
@@ -28,7 +27,7 @@ ReactDOM.render(
 <Provider store={store}>
   <BrowserRouter>
     <div>
-      <Route path='/:parentDistType?/:parentDistId?/:childDistType?/:childDistId?' component={App} />
+      <Route path='/:parentDistrictType?/:selectedDistrict?' component={App} />
     </div>
   </BrowserRouter>
 </Provider>,

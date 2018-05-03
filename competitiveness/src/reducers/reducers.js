@@ -39,11 +39,11 @@ export function districtTypeReducer(state='AD', action) {
   }
 }
 
-export function isLoadingReducer(state=true, action){
+export function isLoadingReducer(state=false, action){
   switch (action.type) {
-    case 'LOAD_DATA':
+    case 'IS_LOADING':
       return true
-    case 'LOAD_MAP_DATA':
+    case 'FINISHED_LOADING':
       return false
     default:
       return state
@@ -79,9 +79,8 @@ export function selectedDistrictReducer(state=0, action){
 
 export function selectedElectionReducer(state='AD', action){
   switch (action.type) {
-    case 'CHANGE_DISTRICT_TYPE':
-      let type = action.payload.parent
-      return (type !== 'ED') ? type : state
+    case 'CHANGE_ELECTION':
+      return action.payload
     default:
       return state
   }
@@ -96,10 +95,18 @@ export function winningPartyReducer(state=d3.map(), action){
   }
 }
 
-//try keeping all data here. if becomes cumbersome, filter to year.
+export function winningCandidateReducer(state=d3.map(), action){
+  switch (action.type) {
+    case 'STORE_CANDIDATE_DATA':
+      return action.payload
+    default:
+      return state
+  }
+}
+
 export function highlightedEdDataReducer(state={
     //dunno if this is needed
-    county: 'Kings',
+    county: null,
     ed: 0,
     acs: [{}],
     census: [{}],
@@ -112,13 +119,17 @@ export function highlightedEdDataReducer(state={
         case 'SELECT_ED':
           return {...state, ed: action.payload}
         case 'LOAD_ACS':
-          return {...state, acs: action.payload}
+          let ACSdataReturn = (action.payload.length === 0) ? {} : action.payload
+          return {...state, acs: ACSdataReturn}
         case 'LOAD_CENSUS':
-          return {...state, census: action.payload}
+          let censusDataReturn = (action.payload.length === 0) ? {} : action.payload
+          return {...state, census: censusDataReturn}
         case 'LOAD_TURNOUT':
-          return {...state, turnout: action.payload}
+          let turnoutDataReturn = (action.payload.length === 0) ? {} : action.payload
+          return {...state, turnout: turnoutDataReturn}
         case 'LOAD_ED_METRICS':
-          return {...state, edMetrics: action.payload}
+          let edmDataReturn = (action.payload.length === 0) ? {} : action.payload
+          return {...state, edMetrics: edmDataReturn}
         case 'CHANGE_DEMO_TYPE':
           return {...state, demoType: action.payload}
         default:
