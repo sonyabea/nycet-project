@@ -43,45 +43,76 @@ export const loadHLData = (parentDistrictType, parentDistrictId, selectedElectio
   }
 
 
+// export const loadEDData = (ed, election) => dispatch => {
+//   dispatch({type: 'IS_LOADING'})
+//   dispatch(setED(ed)) 
+//   let edStr = ['Ad', `${ed.toString().split('').slice(0,2).join('')}`, '-',
+//                'Ed', `${ed.toString().split('').slice(2,5).join('')}`].join(' ')
+//   var demos = Object.keys(MAPPING)
+//   let edCols = [`ed.dbdo_${election}`, 'acs.total',
+//                 'acs.registered_pct', `ed.wc_${election}`]
+//   let allDemoCols = []
+//   demos.forEach((demo) => {
+//     let tabCats = MAPPING[demo]
+//     tabCats.forEach((tab) => {
+//       tab.cols.forEach((col) => 
+//         allDemoCols.push(`${demo}.${col}`))
+//     })
+//   })
+
+//   let queryParams = {columns: [].concat.apply([], [edCols, allDemoCols]),
+//                      table: 'electiondistricts',
+//                      addtlQuery: [' district left join ed_agg_voter_file turnout on district.countyed = turnout.countyed',
+//                                   'left join census_ed_demographics census on district.countyed = census.countyed',
+//                                   'left join acs_ed_demographics acs on district.countyed = acs.countyed',
+//                                   'left join ed_metrics ed on district.countyed = ed.countyed',
+//                                   `where district.ed = '${edStr}'`].join(' ')}
+
+//     axios({method: 'post',
+//            url: 'http://localhost:8080/table/electiondistricts',
+//            data: queryParams}).then((res) => {
+//             let data = res.data[0]
+//             demos.forEach((demo) => (
+//               dispatch(makeEdPayload([].concat.apply([], MAPPING[demo].map((tab) => tab.cols)),
+//                                      demo, data))
+//               ))
+//             dispatch(makeEdPayload([`dbdo_${election.toLowerCase()}`, 'total', 'registered_pct',
+//                                     `wc_${election.toLowerCase()}`], 'ED_METRICS', data))
+//             dispatch({type: 'FINISHED_LOADING'})
+//     })
+
+
+// }
+
 export const loadEDData = (ed, election) => dispatch => {
   dispatch({type: 'IS_LOADING'})
   dispatch(setED(ed)) 
   let edStr = ['Ad', `${ed.toString().split('').slice(0,2).join('')}`, '-',
                'Ed', `${ed.toString().split('').slice(2,5).join('')}`].join(' ')
-  var demos = Object.keys(MAPPING)
-  let edCols = [`ed.dbdo_${election}`, 'acs.total',
-                'acs.registered_pct', `ed.wc_${election}`]
-  let allDemoCols = []
-  demos.forEach((demo) => {
-    let tabCats = MAPPING[demo]
-    tabCats.forEach((tab) => {
-      tab.cols.forEach((col) => 
-        allDemoCols.push(`${demo}.${col}`))
-    })
-  })
 
-  let queryParams = {columns: [].concat.apply([], [edCols, allDemoCols]),
-                     table: 'electiondistricts',
-                     addtlQuery: [' district left join ed_agg_voter_file turnout on district.countyed = turnout.countyed',
-                                  'left join census_ed_demographics census on district.countyed = census.countyed',
-                                  'left join acs_ed_demographics acs on district.countyed = acs.countyed',
-                                  'left join ed_metrics ed on district.countyed = ed.countyed',
-                                  `where district.ed = '${edStr}'`].join(' ')}
+  let tables = {turnout: 'ed_agg_voter_file', census: 'census_ed_demographics',
+                acs: 'acs_ed_demographics', ed: 'ed_metrics'} 
+
+  MAPPING.acs.push({cols: ['total', 'registered_pct']})
+  MAPPING['ed'] = [{cols: [`dbdo_${election.toLowerCase()}`, `wc_${election.toLowerCase()}`]}]
+
+  Object.keys(MAPPING).forEach((demo) => {
+    let colsForCat = [].concat.apply([], MAPPING[demo].map((cat) => cat.cols))
+    let mappedCols = colsForCat.map((col) => `${demo}.${col}`)
+    
+    let queryParams = {columns: mappedCols,
+                       addtlQuery: [` district join ${tables[demo]} ${demo}`,
+                                    `on district.countyed = ${demo}.countyed`,
+                                    `where district.ed = '${edStr}'`].join(' ')}
 
     axios({method: 'post',
            url: 'http://localhost:8080/table/electiondistricts',
-           data: queryParams}).then((res) => {
-            let data = res.data[0]
-            demos.forEach((demo) => (
-              dispatch(makeEdPayload([].concat.apply([], MAPPING[demo].map((tab) => tab.cols)),
-                                     demo, data))
-              ))
-            dispatch(makeEdPayload([`dbdo_${election.toLowerCase()}`, 'total', 'registered_pct',
-                                    `wc_${election.toLowerCase()}`], 'ED_METRICS', data))
-            dispatch({type: 'FINISHED_LOADING'})
-    })
-
-
+            data: queryParams}).then((res) => {
+              let data = res.data[0]
+              console.log(data)
+              dispatch(makeEdPayload(colsForCat, demo, data))
+            }) 
+  })
 }
 
 //PURE ACTIONS

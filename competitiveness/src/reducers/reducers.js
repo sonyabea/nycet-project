@@ -122,7 +122,9 @@ export function highlightedEdDataReducer(state={
           return {...state, ed: action.payload}
         case 'LOAD_ACS':
           let ACSdataReturn = (action.payload.length === 0) ? {} : action.payload
-          return {...state, acs: ACSdataReturn}
+          return {...state, acs: ACSdataReturn,
+                            edMetrics: {...state.ed, registered_pct: ACSdataReturn.registered_pct,
+                                 total: ACSdataReturn.total}}
         case 'LOAD_CENSUS':
           let censusDataReturn = (action.payload.length === 0) ? {} : action.payload
           return {...state, census: censusDataReturn}
@@ -131,7 +133,7 @@ export function highlightedEdDataReducer(state={
           return {...state, turnout: turnoutDataReturn}
         case 'LOAD_ED_METRICS':
           let edmDataReturn = (action.payload.length === 0) ? {} : action.payload
-          return {...state, edMetrics: edmDataReturn}
+          return {...state, edMetrics: {...state.edMetrics, edmDataReturn}}
         case 'CHANGE_DEMO_TYPE':
           return {...state, demoType: action.payload}
         default:
