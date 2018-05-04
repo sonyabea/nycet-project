@@ -14,6 +14,7 @@ const App = (props) => {
     'marginLeft': '2%',
     'marginTop': '2%'
   }
+
   return (
     <div className="App">
       <Header as="h1" style={headerStyle}>Get-Out-the-Vote Experiments</Header>
@@ -22,6 +23,12 @@ const App = (props) => {
         {routes}
         <Redirect from="/" to="/experiments" />
       </Switch>
+      <footer className="footer">
+        <p>
+          Made with <span style={{'color':'red'}}>&hearts;</span> by <b>Lee Araneta | Diane Cai | Lorena de la Prada | Adam Emrich | Jack Ferguson | Liz Kalina</b> on behalf of the CKM Pro Bono Committee
+        </p>
+
+      </footer>
     </div>
   )
 }
