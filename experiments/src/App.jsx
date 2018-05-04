@@ -17,7 +17,10 @@ const App = (props) => {
 
   return (
     <div className="App">
-      <Header as="h1" style={headerStyle}>Get-Out-the-Vote Experiments</Header>
+      <Header as="h1" style={headerStyle}>
+        <img src={ require('./nycet.jpeg') } />
+        Get-Out-the-Vote Experiments
+      </Header>
       <MainMenu linksInfo={linksInfo} />
       <Switch>
         {routes}
