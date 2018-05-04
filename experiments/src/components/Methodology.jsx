@@ -2,7 +2,7 @@ import React from 'react'
 import { Container, Header, Message } from 'semantic-ui-react'
 
 const Methodology = () =>(
-  <div>
+  <div style={{'padding': '2.5%'}}>
     <div>
       <Container textAlign='left'>
         <Header as='h3'>Complier Adjusted Causal Effect (CACE)</Header>
