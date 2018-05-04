@@ -12,10 +12,6 @@ body {
   mask: url(#mask-stripe)
 }
 
-.size-container {
-  padding: 15px 0;
-}
-
 .container-header{
   padding: .75rem;
 }
@@ -35,18 +31,28 @@ h1 {
 /* .glow { */
 /* } */
 
-.ui.card.table-card {
-  /* border: none; */
-}
-
 .ui.table {
   border: none;
   width: 100%;
 }
 
-table {
+.top-ten-table {
   border: none;
 }
+
+.separator {
+  width: 1px;
+  background: linear-gradient(180deg, white, lightgrey 50%, white 90%);
+}
+
+.table-card {
+  padding-top: 7%;
+  width: 99%;
+}
+
+/* .info-container { */
+/*   border-left: 1px solid lightgrey; */
+/* } */
 
 .district-select {
   color: darkblue;

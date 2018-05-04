@@ -8,27 +8,37 @@ const Map = ({mapWidth, mapHeight, mapComponents,
              parentDist, drillDown, location, colorScale,
              hideTooltip}) => {
 
+  let windowHeight = (typeof(mapHeight) === 'undefined') ? 600 : mapHeight;
+  let windowWidth = (typeof(mapWidth) === 'undefined') ? 800 : mapWidth;
+  let margin = {top: 50, right: 15, bottom: 20, left: 30}
+  let width = windowWidth - margin.left - margin.right
+  let height = windowHeight - margin.top - margin.bottom
+
+
   let projection = d3.geoIdentity()
                  .reflectY(true)
-                 .fitSize([mapWidth,mapHeight], mapComponents.geoJson)
+                 .fitSize([width,height], mapComponents.geoJson)
 
   let closenessExtent = [-100, 100]
 
-  let colorScaleVals = colorScale === 'gray' ? ['green', 'white', 'green'] : ['red', 'white', 'blue']
+  let colorScaleVals = colorScale === 'gray' ? ['#996666', 'white', '#996666'] : ['red', 'white', 'blue']
 
   let color = d3.scaleLinear()
               .domain([closenessExtent[0], 0,
                        closenessExtent[1]])
               .range(colorScaleVals)
 
-  let renderedShapes = mapComponents.geoJson.features.map((d,i) => (
-        <MapDistrict key={`district-${i}`}
+  let renderedShapes = mapComponents.geoJson.features.map((d,i) => {
+      let geoDataPoint = mapComponents.geoData.get(d.properties.districtNumber)
+      
+        return (<MapDistrict key={`district-${i}`}
           d={d}
           projection={ `${d3.geoPath().projection(projection)(d)}` }
-          fill={ `${ color(mapComponents.geoData.get(d.properties.districtNumber))}`}
+          fill={ (typeof geoDataPoint === 'undefined') ? 'grey' :  `${ color(geoDataPoint)}`}
           margin={mapComponents.geoData.get(d.properties.districtNumber)}
-        />
-        ))
+        />)
+  }
+)
 
   let glowFilter = () => ({__html: 
       `<defs>
@@ -55,8 +65,9 @@ const Map = ({mapWidth, mapHeight, mapComponents,
 
     return (
       <div className='map-frame'>
-        <svg width={mapWidth} height={mapHeight} onMouseLeave={hideTooltip}>
-          <g className='map-layer'>
+        <svg width={windowWidth} height={windowHeight} onMouseLeave={hideTooltip}>
+          <g className='map-layer' transform={`translate(${margin.left},${margin.top})`}
+             height={height} width={width}>
             { renderedShapes }
           </g>
         <svg dangerouslySetInnerHTML={glowFilter()} />
