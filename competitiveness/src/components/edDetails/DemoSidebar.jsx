@@ -7,10 +7,11 @@ import { connect } from 'react-redux';
 
 import TAB_MAPPING from '../../data/tabMapping';
 
-const tabsFromData = (dataset, type) => {
-  if (typeof(dataset) === 'undefined') {
+const tabsFromData = (data, type) => {
+  if (typeof(data) === 'undefined') {
     return []
   }
+  let dataset = data[type]
   let mapping = TAB_MAPPING[type]
   let tabs = []
   mapping.forEach((tab) => {
@@ -21,25 +22,32 @@ const tabsFromData = (dataset, type) => {
   return tabs
 }
 
-const DemoSidebarContainer = ({demoTabs, turnoutTabs}) => (
-  <div>
+const DemoSidebarContainer = ({acsTabs, censusTabs, turnoutTabs, demoType}) => {
+  // console.log(acsTabs)
+  // console.log(demoType) 
+  return (<div>
     <CensusToggle /> 
     <div>
       <ResizeContainer resizeFunction={setSidebarDimensions}>
-        <DemoDetails tabs={demoTabs} type='demo' />
+        <DemoDetails tabs={ acsTabs } type='demo' selected={(demoType === 'acs')}/> 
+        <DemoDetails tabs={ censusTabs } type='demo' selected={(demoType === 'census')} />
       </ResizeContainer>
     </div>
+    <div style={{height: 20}}></div>
     <div>
       <ResizeContainer resizeFunction={setSidebarDimensions}>
-        <DemoDetails tabs={turnoutTabs} type='turnout' />
+        <DemoDetails tabs={turnoutTabs} type='turnout' selected={true}/>
       </ResizeContainer>
     </div>
   </div>
-)
+  )
+}
 
 const mapStateToProps = (state) => (
-  {demoTabs: tabsFromData(state.highlightedEdData[state.highlightedEdData.demoType],state.highlightedEdData.demoType),
-   turnoutTabs: tabsFromData(state.highlightedEdData.turnout, 'turnout')}
+  {acsTabs: tabsFromData(state.highlightedEdData, 'acs'),
+   censusTabs: tabsFromData(state.highlightedEdData, 'census'),
+   turnoutTabs: tabsFromData(state.highlightedEdData, 'turnout'),
+   demoType: state.highlightedEdData.demoType}
 )
 
 const DemoSidebar = connect(mapStateToProps)(DemoSidebarContainer)

@@ -4,8 +4,11 @@ import TurnoutTab from './TurnoutTab';
 import { Tab } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
-const DemoDetailsContainer = ({tabs, height, width, type}) => {
-
+const DemoDetailsContainer = ({selected, tabs, height, width, type}) => {
+  if (!selected) {
+    return ('');
+  }
+  else {
     let formattedPanes; 
     if (type === 'demo') {
       formattedPanes = tabs.map((t, i) => (
@@ -30,9 +33,8 @@ const DemoDetailsContainer = ({tabs, height, width, type}) => {
             plotWidth={ width }
             overall={ overall }
           /> }
- ))
-}
-
+      ))
+    }
     return (
       <div>
         <Tab menu={{className: 'wrapped',
@@ -40,6 +42,7 @@ const DemoDetailsContainer = ({tabs, height, width, type}) => {
              panes={formattedPanes} />
       </div>
     )
+  }
 }
 
 const mapStateToProps = (state) => (
