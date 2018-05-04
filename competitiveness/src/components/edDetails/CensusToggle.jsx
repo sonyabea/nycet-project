@@ -4,7 +4,7 @@ import { changeDemoType } from '../../actions/index';
 import { connect } from 'react-redux'; 
 
 const CensusToggleContainer = ({demoType, changeDemoType}) => (
-  <div>
+  <div style={{paddingBottom: 10}}>
     <Button compact 
       attached='left'
       value='acs' 

@@ -15,6 +15,7 @@ export function mapDataReducer(state={
 export function mapDimensionsReducer(state=[0,471], action) {
   switch (action.type) {
     case 'SET_MAP_DIMENSIONS':
+      if (action.payload[1] > 1300) {action.payload[1] = 1300}
       return action.payload
     default:
       return state
@@ -24,6 +25,7 @@ export function mapDimensionsReducer(state=[0,471], action) {
 export function sidebarDimensionsReducer(state=[200,200], action) {
   switch (action.type) {
     case 'SET_SIDEBAR_DIMENSIONS':
+      if (action.payload[1] > 300) {action.payload[1] = 300}
       return action.payload
     default:
       return state
