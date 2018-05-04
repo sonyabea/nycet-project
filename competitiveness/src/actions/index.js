@@ -113,6 +113,7 @@ export const loadEDData = (ed, election) => dispatch => {
               dispatch(makeEdPayload(colsForCat, demo, data))
             }) 
   })
+            dispatch({type: 'FINISHED_LOADING'})
 }
 
 //PURE ACTIONS
