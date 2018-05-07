@@ -8,11 +8,11 @@ const bodyParser = require('body-parser');
 const PORT = 8080
 const HOST = '0.0.0.0'
 const cnxn = {
-    'user': 'nycetmember',
-    'password': 'J4}83,?{6X4$',
-    'host': '10.39.38.14',
+    'user': 'apps_user',
+    'password': 'sonyabear!',
+    'host': 'nycet-postgres.c1swnd7n2f4l.us-east-1.rds.amazonaws.com',
     'port': '5432',
-    'database': 'probono'
+    'database': 'apps'
 }
 
 const app = express()
