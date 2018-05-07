@@ -45,7 +45,6 @@ export const loadHLData = (parentDistrictType, parentDistrictId, selectedElectio
 
 // export const loadEDData = (ed, election) => dispatch => {
 export const loadEDData = (ed, election) => dispatch => {
-  let start = Date.now()
   dispatch({type: 'IS_LOADING'})
   dispatch(setED(ed)) 
   let edStr = ['Ad', `${ed.toString().split('').slice(0,2).join('')}`, '-',
@@ -70,7 +69,6 @@ export const loadEDData = (ed, election) => dispatch => {
            url: 'http://localhost:8080/table/electiondistricts',
             data: queryParams}).then((res) => {
               let data = (typeof res.data[0] === 'undefined') ?  {} : res.data[0]
-              console.log(Date.now() - start)
               dispatch(makeEdPayload(colsForCat, demo, data))
             }) 
   })
