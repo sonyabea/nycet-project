@@ -27,16 +27,10 @@ const Competitiveness = ({mapComponents, districtType}) => (
             { districtType === 'ED' ? <OfficeDropdownContainer /> : '' }
             <DataMap mapComponents={mapComponents}/>
           </MapContainer>
+        <div className='separator' style={{height: "100%", width: 1, padding: 0}}/>
         </Grid.Column>
         <Grid.Column width={5} className='info-container'>
-          <Grid>
-            <Grid.Column width={1}>
-              <div className='separator' style={{height: "100%", width: 1, padding: 0}}/>
-            </Grid.Column>
-            <Grid.Column width={14}>
               { districtType === 'ED' ? <DemoSidebar /> : <TopTen geoData={mapComponents.geoData} /> }
-            </Grid.Column>
-          </Grid>
         </Grid.Column>
       </Grid>
     </Container>

@@ -7,7 +7,7 @@ const d3 = require('d3');
 const Map = ({mapWidth, mapHeight, mapComponents,
              parentDist, drillDown, location, colorScale,
              hideTooltip}) => {
-
+  
   let windowHeight = (typeof(mapHeight) === 'undefined') ? 600 : mapHeight;
   let windowWidth = (typeof(mapWidth) === 'undefined') ? 800 : mapWidth;
   let margin = {top: 50, right: 15, bottom: 20, left: 30}
@@ -79,8 +79,7 @@ const Map = ({mapWidth, mapHeight, mapComponents,
 const mapStateToProps = (state) => ({
   mapWidth: state.mapDimensions[0],
   mapHeight: state.mapDimensions[1],
-  parentDist: state.districtType,
-  county: state.highlightedEdData.county})
+  parentDist: state.districtType})
 
 const DataMap = connect(mapStateToProps, {hideTooltip: hideTooltip})(Map)
 
