@@ -2,7 +2,7 @@ import React from 'react'
 import { Container, Header, Message } from 'semantic-ui-react'
 
 const Methodology = () =>(
-  <div>
+  <div style={{'padding': '2.5%'}}>
     <div>
       <Container textAlign='left'>
         <Header as='h3'>Complier Adjusted Causal Effect (CACE)</Header>
@@ -15,7 +15,7 @@ const Methodology = () =>(
       </Container>
     </div>
     <div>
-      <Message style={{fontSize: 12, float:'left', marginTop: '2%', marginLeft: '13%', textAlign: 'left'}}>
+      <Message style={{fontSize: 12, float:'left', marginTop: '2%', marginLeft: '30%', textAlign: 'left'}}>
         <Message.Header textAlign='left'>Sources</Message.Header>
         <Message.List>
           <Message.Item>Green, Donald P., and Alan S. Gerber. Get out the Vote: How to Increase Voter Turnout. Brookings Institution Press, 2015</Message.Item>
