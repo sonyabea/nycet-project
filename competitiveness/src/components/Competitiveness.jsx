@@ -22,14 +22,15 @@ const Competitiveness = ({mapComponents, districtType}) => (
       </div>
       <Grid>
         { districtType === 'ED' ? <TopDetails /> : '' }
-        <Grid.Column width={10} style={{ minHeight: 600, width: "100%" }}>
+        <Grid.Column width={10} style={{ minHeight: 600, width: "100%", padding: 0 }}>
           <MapContainer>
             { districtType === 'ED' ? <OfficeDropdownContainer /> : '' }
             <DataMap mapComponents={mapComponents}/>
           </MapContainer>
+        <div className='separator' style={{height: "100%", width: 1, padding: 0}}/>
         </Grid.Column>
-        <Grid.Column width={5}>
-          { districtType === 'ED' ? <DemoSidebar /> : <TopTen geoData={mapComponents.geoData} /> }
+        <Grid.Column width={5} className='info-container'>
+              { districtType === 'ED' ? <DemoSidebar /> : <TopTen geoData={mapComponents.geoData} /> }
         </Grid.Column>
       </Grid>
     </Container>

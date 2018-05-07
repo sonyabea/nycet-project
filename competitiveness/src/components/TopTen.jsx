@@ -1,4 +1,4 @@
-import { Table, Card } from 'semantic-ui-react';
+import { Table, Item } from 'semantic-ui-react';
 import { connect } from 'react-redux'; 
 import { activateGlow } from '../actions/index';
 
@@ -29,22 +29,27 @@ const TopTenContainer = ({geoData, drillDown, districtType, winningParty,
     ))
     
   return (
-   <Card className='table-card' style={{ marginLeft: 15,
-                                         width: "90%" }}>
-    <Table selectable>
-      <Table.Header>
-        <Table.Row>
-          <Table.HeaderCell>{districtType}</Table.HeaderCell>
-          <Table.HeaderCell>Margin</Table.HeaderCell>
-          <Table.HeaderCell>Winning Party</Table.HeaderCell>
-          <Table.HeaderCell>Winning Candidate</Table.HeaderCell>
-        </Table.Row>
-      </Table.Header>
-      <Table.Body>
-        {distRows}
-      </Table.Body>
-    </Table>
-  </Card>
+    <Item.Group>
+      <Item>
+        <Table selectable className='top-ten-table'>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>{districtType}</Table.HeaderCell>
+              <Table.HeaderCell>Margin</Table.HeaderCell>
+              <Table.HeaderCell>Winning Party</Table.HeaderCell>
+              <Table.HeaderCell>Winning Candidate</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {distRows}
+          </Table.Body>
+        </Table>
+      </Item>
+      <Item>
+        The NYCET competitiveness index is calculated by the closeness of the most recent election
+        for a district.
+      </Item>
+    </Item.Group>
   )
 }
 

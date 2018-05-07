@@ -1,9 +1,5 @@
 body {
-  /* margin: 0; */
-  /* padding: 0; */
   font-family: sans-serif;
-  /* background-color: black;
-  color: #cecaca; */
 }
 
 .container-header {
@@ -59,4 +55,23 @@ a.active.item {
 svg {
   margin-top: -5%;
   position: relative;
+}
+
+.Site {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.Site-content {
+  flex: 1;
+}
+
+.footer {
+  padding-top: 10px;
+  flex: none;
+  background-color: #efefef;
+  text-align: center;
+  font-size: 0.8rem;
+  height: 35px;
 }
