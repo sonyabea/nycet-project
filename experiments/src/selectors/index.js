@@ -69,7 +69,7 @@ const deriveDropdownOptions = (data, selected) => selected.reduce(
 			.map(d => ({key: d, text: format(d), value: d})) // format for semanticUI
 			.value()
 		let largestOptionLength = _.maxBy(newDropdownOptions, o => o.text.length).text.length
-		let width = (7*largestOptionLength + 45) + 'px'
+		let width = (7*largestOptionLength + 50) + 'px'
 		return {
 			data: _.filter(currentData, {[b.name]: b.selected}),
 			dropdownOptions: [
