@@ -45,17 +45,16 @@ export const loadHLData = (parentDistrictType, parentDistrictId, selectedElectio
 
 // export const loadEDData = (ed, election) => dispatch => {
 export const loadEDData = (ed, election) => dispatch => {
-  let start = Date.now()
-  dispatch({type: 'IS_LOADING'})
+  dispatch({type: 'IS_LOADING_ED'})
   dispatch(setED(ed)) 
   let edStr = ['Ad', `${ed.toString().split('').slice(0,2).join('')}`, '-',
                'Ed', `${ed.toString().split('').slice(2,5).join('')}`].join(' ')
 
   let tables = {turnout: 'ed_agg_voter_file', census: 'census_ed_demographics',
-                acs: 'acs_ed_demographics', ed: 'ed_metrics'} 
+                acs: 'acs_ed_demographics', ed_metrics: 'ed_metrics'} 
 
   MAPPING.acs.push({cols: ['total', 'registered_pct']})
-  MAPPING['ed'] = [{cols: [`dbdo_${election.toLowerCase()}`, `wc_${election.toLowerCase()}`]}]
+  MAPPING['ed_metrics'] = [{cols: [`dbdo_${election.toLowerCase()}`, `wc_${election.toLowerCase()}`]}]
 
   Object.keys(MAPPING).forEach((demo) => {
     let colsForCat = [].concat.apply([], MAPPING[demo].map((cat) => cat.cols))
@@ -70,7 +69,6 @@ export const loadEDData = (ed, election) => dispatch => {
            url: 'http://localhost:8080/table/electiondistricts',
             data: queryParams}).then((res) => {
               let data = (typeof res.data[0] === 'undefined') ?  {} : res.data[0]
-              console.log(Date.now() - start)
               dispatch(makeEdPayload(colsForCat, demo, data))
             }) 
   })

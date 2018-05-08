@@ -1,8 +1,9 @@
+import React from 'react';
+import * as d3 from 'd3';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { connect } from 'react-redux';
 import MapDistrict from './MapDistrict';
 import { hideTooltip } from '../../actions/index'
-const React = require('react');
-const d3 = require('d3');
 
 const Map = ({mapWidth, mapHeight, mapComponents,
              parentDist, drillDown, location, colorScale,
@@ -31,12 +32,19 @@ const Map = ({mapWidth, mapHeight, mapComponents,
   let renderedShapes = mapComponents.geoJson.features.map((d,i) => {
       let geoDataPoint = mapComponents.geoData.get(d.properties.districtNumber)
       
-        return (<MapDistrict key={`district-${i}`}
-          d={d}
-          projection={ `${d3.geoPath().projection(projection)(d)}` }
-          fill={ (typeof geoDataPoint === 'undefined') ? 'grey' :  `${ color(geoDataPoint)}`}
-          margin={mapComponents.geoData.get(d.properties.districtNumber)}
-        />)
+        return (
+        <CSSTransition key={`district-${d.properties.districtNumber}-fill-${color(geoDataPoint)}`}
+          classNames='district'
+          timeout={{ enter: 500, exit: 500 }}>
+          <MapDistrict
+            d={d}
+            projection={ `${d3.geoPath().projection(projection)(d)}` }
+            fill={ (typeof geoDataPoint === 'undefined') ? 'grey' :  `${ color(geoDataPoint)}`}
+            margin={mapComponents.geoData.get(d.properties.districtNumber)}
+            className='district'
+         />
+        </CSSTransition>     
+        )
   }
 )
 
@@ -67,8 +75,10 @@ const Map = ({mapWidth, mapHeight, mapComponents,
       <div className='map-frame'>
         <svg width={windowWidth} height={windowHeight} onMouseLeave={hideTooltip}>
           <g className='map-layer' transform={`translate(${margin.left},${margin.top})`}
-             height={height} width={width}>
-            { renderedShapes }
+            height={height} width={width}>
+            <TransitionGroup component='g'>
+              { renderedShapes }
+            </TransitionGroup>
           </g>
         <svg dangerouslySetInnerHTML={glowFilter()} />
         </svg>
