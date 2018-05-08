@@ -1,4 +1,4 @@
-import { Table, Item } from 'semantic-ui-react';
+import { Table, Header, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux'; 
 import { activateGlow } from '../actions/index';
 
@@ -29,9 +29,10 @@ const TopTenContainer = ({geoData, drillDown, districtType, winningParty,
     ))
     
   return (
-    <Item.Group>
-      <Item>
-        <Table selectable className='top-ten-table'>
+    <div>
+      <Header as='h4'>Top 10 Competitive {districtType}</Header>
+      <div>
+        <Table selectable basic='very' compact className='top-ten-table'>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>{districtType}</Table.HeaderCell>
@@ -44,12 +45,16 @@ const TopTenContainer = ({geoData, drillDown, districtType, winningParty,
             {distRows}
           </Table.Body>
         </Table>
-      </Item>
-      <Item>
+      </div>
+
+      <Divider section />
+
+      <Header as='h5'>"Methodology"</Header>
+      <div>
         The NYCET competitiveness index is calculated by the closeness of the most recent election
         for a district.
-      </Item>
-    </Item.Group>
+      </div>
+    </div>
   )
 }
 
