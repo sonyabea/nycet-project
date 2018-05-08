@@ -1,6 +1,6 @@
 import React from 'react'
 import { Message } from 'semantic-ui-react'
-import { VictoryChart, VictoryBoxPlot, VictoryAxis, VictoryLabel, VictoryTooltip, VictoryVoronoiContainer } from 'victory'
+import { VictoryChart, VictoryBoxPlot, VictoryAxis, VictoryLabel, VictoryTooltip } from 'victory'
 
 const withCommas = x => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 const confidenceText = x => {
