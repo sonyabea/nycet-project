@@ -15,21 +15,19 @@ import { Grid, Container, Header } from 'semantic-ui-react';
 const Competitiveness = ({mapComponents, districtType}) => (
     <Container fluid={true}>
       <MapTooltip />
-      <div className='page-header'>
-        <Header style={{paddingTop: 35, paddingBottom: 35}}>
-          { districtType === 'ED' ? <ChildHeader /> : <ParentHeader /> }
-        </Header>
-      </div>
-      <Grid>
-        { districtType === 'ED' ? <TopDetails /> : '' }
-        <Grid.Column width={10} style={{ minHeight: 600, width: "100%" }}>
+      <Header dividing style={{paddingBottom: 15}} >
+        { districtType === 'ED' ? <ChildHeader /> : <ParentHeader /> }
+      </Header>
+      { districtType === 'ED' ? <TopDetails /> : '' }
+      <Grid style={{paddingTop: 25}} divided >
+        <Grid.Column width={10} style={{ minHeight: 600, width: "100%", padding: 0 }}>
           <MapContainer>
             { districtType === 'ED' ? <OfficeDropdownContainer /> : '' }
             <DataMap mapComponents={mapComponents}/>
           </MapContainer>
         </Grid.Column>
-        <Grid.Column width={5}>
-          { districtType === 'ED' ? <DemoSidebar /> : <TopTen geoData={mapComponents.geoData} /> }
+        <Grid.Column width={5} className='info-container'>
+              { districtType === 'ED' ? <DemoSidebar /> : <TopTen geoData={mapComponents.geoData} /> }
         </Grid.Column>
       </Grid>
     </Container>

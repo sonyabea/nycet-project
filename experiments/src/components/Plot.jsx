@@ -69,7 +69,7 @@ const Plot = ({ data, groupSizes: {treatment_pop, control_pop} }) =>
       <VictoryAxis
         tickFormat={(t) => `${t}%`}
         dependentAxis
-        label="Likelihood to Vote (CACE)"
+        label="Change in Voter Likelihood (CACE)"
         style={{
           tickLabels: {fontSize: 5},
           axisLabel: {fontSize: 7}

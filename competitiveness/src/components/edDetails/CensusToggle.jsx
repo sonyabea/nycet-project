@@ -4,21 +4,21 @@ import { changeDemoType } from '../../actions/index';
 import { connect } from 'react-redux'; 
 
 const CensusToggleContainer = ({demoType, changeDemoType}) => (
-  <div>
-    <Button compact 
-      attached='left'
-      value='acs' 
-      onClick={(e, d) => changeDemoType(d.value)}
-      active={demoType === 'acs'}>
-        ACS
-    </Button>
-    <Button compact
-      attached='right'
-      value='census' 
-      onClick={(e, d) => changeDemoType(d.value)}
-      active={demoType === 'census'}>
-        Census
-    </Button>
+  <div style={{paddingBottom: 10}}>
+    <Button.Group compact fluid>
+      <Button compact 
+        value='acs' 
+        onClick={(e, d) => changeDemoType(d.value)}
+        active={demoType === 'acs'}>
+          ACS
+      </Button>
+      <Button compact
+        value='census' 
+        onClick={(e, d) => changeDemoType(d.value)}
+        active={demoType === 'census'}>
+          Census
+        </Button>
+    </Button.Group>
   </div>
 )
 

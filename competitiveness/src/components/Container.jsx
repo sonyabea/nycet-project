@@ -6,21 +6,22 @@ class ContainerComponent extends Component{
     super(props)
     this.getDimensions = this.getDimensions.bind(this)
   }
-  componentShouldMount(){
-    let shouldResize = this.node.clientWidth !== this.props.width ||
-                       this.node.clientHeight !== this.props.height
 
-    return shouldResize
-    
-  }
   //this is busted; when you get a chance, figure out a way to be responsive here
   getDimensions(){
-    let shouldResize = this.node.clientWidth !== this.props.width || 
-                       this.node.clientHeight !== this.props.height
-    if (shouldResize) {
-      this.props.resize(this.node.clientWidth, this.node.clientHeight)
+    if (this.node === null) {return;}
+    else {
+      let nodeWidth = this.node.getBoundingClientRect().width
+      let nodeHeight = this.node.getBoundingClientRect().height
+      let shouldResize = nodeWidth !== this.props.width ||
+                         nodeHeight !== this.props.height
+      if (shouldResize) {
+        this.props.resize(nodeWidth, nodeHeight)
+      }
     }
   }
+
+  componentS
 
   componentDidMount(){
     this.getDimensions()
@@ -30,7 +31,9 @@ class ContainerComponent extends Component{
   render() {
     return (
       <div ref={node => this.node = node} className='size-container'
-           style={{width: '100%', height: '100%'}}>
+        style={{width: '100%',
+                height: '100%',
+                padding: 0}}>
         {this.props.children}
       </div>
     )

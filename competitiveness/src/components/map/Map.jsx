@@ -1,34 +1,52 @@
+import React from 'react';
+import * as d3 from 'd3';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { connect } from 'react-redux';
 import MapDistrict from './MapDistrict';
 import { hideTooltip } from '../../actions/index'
-const React = require('react');
-const d3 = require('d3');
 
 const Map = ({mapWidth, mapHeight, mapComponents,
              parentDist, drillDown, location, colorScale,
              hideTooltip}) => {
+  
+  let windowHeight = (typeof(mapHeight) === 'undefined') ? 600 : mapHeight;
+  let windowWidth = (typeof(mapWidth) === 'undefined') ? 800 : mapWidth;
+  let margin = {top: 50, right: 15, bottom: 20, left: 30}
+  let width = windowWidth - margin.left - margin.right
+  let height = windowHeight - margin.top - margin.bottom
+
 
   let projection = d3.geoIdentity()
                  .reflectY(true)
-                 .fitSize([mapWidth,mapHeight], mapComponents.geoJson)
+                 .fitSize([width,height], mapComponents.geoJson)
 
   let closenessExtent = [-100, 100]
 
-  let colorScaleVals = colorScale === 'gray' ? ['green', 'white', 'green'] : ['red', 'white', 'blue']
+  let colorScaleVals = colorScale === 'gray' ? ['#996666', 'white', '#996666'] : ['red', 'white', 'blue']
 
   let color = d3.scaleLinear()
               .domain([closenessExtent[0], 0,
                        closenessExtent[1]])
               .range(colorScaleVals)
 
-  let renderedShapes = mapComponents.geoJson.features.map((d,i) => (
-        <MapDistrict key={`district-${i}`}
-          d={d}
-          projection={ `${d3.geoPath().projection(projection)(d)}` }
-          fill={ `${ color(mapComponents.geoData.get(d.properties.districtNumber))}`}
-          margin={mapComponents.geoData.get(d.properties.districtNumber)}
-        />
-        ))
+  let renderedShapes = mapComponents.geoJson.features.map((d,i) => {
+      let geoDataPoint = mapComponents.geoData.get(d.properties.districtNumber)
+      
+        return (
+        <CSSTransition key={`district-${d.properties.districtNumber}-fill-${color(geoDataPoint)}`}
+          classNames='district'
+          timeout={{ enter: 500, exit: 500 }}>
+          <MapDistrict
+            d={d}
+            projection={ `${d3.geoPath().projection(projection)(d)}` }
+            fill={ (typeof geoDataPoint === 'undefined') ? 'grey' :  `${ color(geoDataPoint)}`}
+            margin={mapComponents.geoData.get(d.properties.districtNumber)}
+            className='district'
+         />
+        </CSSTransition>     
+        )
+  }
+)
 
   let glowFilter = () => ({__html: 
       `<defs>
@@ -55,9 +73,12 @@ const Map = ({mapWidth, mapHeight, mapComponents,
 
     return (
       <div className='map-frame'>
-        <svg width={mapWidth} height={mapHeight} onMouseLeave={hideTooltip}>
-          <g className='map-layer'>
-            { renderedShapes }
+        <svg width={windowWidth} height={windowHeight} onMouseLeave={hideTooltip}>
+          <g className='map-layer' transform={`translate(${margin.left},${margin.top})`}
+            height={height} width={width}>
+            <TransitionGroup component='g'>
+              { renderedShapes }
+            </TransitionGroup>
           </g>
         <svg dangerouslySetInnerHTML={glowFilter()} />
         </svg>
@@ -68,8 +89,7 @@ const Map = ({mapWidth, mapHeight, mapComponents,
 const mapStateToProps = (state) => ({
   mapWidth: state.mapDimensions[0],
   mapHeight: state.mapDimensions[1],
-  parentDist: state.districtType,
-  county: state.highlightedEdData.county})
+  parentDist: state.districtType})
 
 const DataMap = connect(mapStateToProps, {hideTooltip: hideTooltip})(Map)
 
