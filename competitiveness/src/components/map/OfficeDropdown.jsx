@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dropdown, Header } from 'semantic-ui-react'
+import { Grid, Dropdown } from 'semantic-ui-react'
 
 const OfficeDropdown = ({name, selected, onChange}) => {
   const offices = ['AD', 'CD', 'CityCouncil_Member', 'Governor_LG', 
@@ -8,20 +8,23 @@ const OfficeDropdown = ({name, selected, onChange}) => {
   let textOffice = offices.filter((o) => o.toLowerCase() === selected.toLowerCase())[0]
 
   return (
-    <div>
-      <Header as='h4'>
-        <Header.Content>
-          <span>Select an office:</span>
-          <Dropdown
-            fluid search selection
-            type={name}
-            options={options}
-            defaultValue={textOffice}
-            onChange={onChange}
-          />
-        </Header.Content>
-      </Header>
-    </div>
+    <Grid columns={2}>
+      <Grid.Column verticalAlign='middle' textAlign='right'>
+        <label htmlFor='office-select'>
+          Office
+        </label>
+      </Grid.Column>
+      <Grid.Column style={{paddingRight: "10%"}}>
+        <Dropdown
+          fluid search selection basic
+          type={name}
+          options={options}
+          defaultValue={textOffice}
+          onChange={onChange}
+          id='office-select'
+        />
+      </Grid.Column>
+    </Grid>
 
   )
 }
