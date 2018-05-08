@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import GrayscaleToggle from './GrayscaleToggle'
 import { setMapDimensions } from '../../actions/index'
 import ResizeContainer from '../Container.jsx'
-import { Item } from 'semantic-ui-react'
+import { Item, Grid } from 'semantic-ui-react'
 
 class MapContainer extends Component{
   constructor(props){
@@ -22,12 +22,16 @@ class MapContainer extends Component{
       <ResizeContainer resizeFunction={setMapDimensions}>
         <Item>
           <Item.Header>
-            <div id='map-top'>
-              <GrayscaleToggle changeColorScale={ this.changeColorScale.bind(this) }/>
-            </div>
+            <Grid columns={ 2 } >
+              <Grid.Column style={{height: "100%"}}>
+                <GrayscaleToggle changeColorScale={ this.changeColorScale.bind(this) }/>
+              </Grid.Column>
+              <Grid.Column>
+                {this.props.children[0]}
+              </Grid.Column>
+            </Grid>
           </Item.Header>
           <Item.Content>
-            {this.props.children[0]}
             {React.cloneElement(this.props.children[1], { colorScale: this.state.colorScale })}
           </Item.Content>
         </Item>
