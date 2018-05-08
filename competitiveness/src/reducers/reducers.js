@@ -6,6 +6,8 @@ export function mapDataReducer(state={
   switch (action.type) {
     case 'LOAD_MAP_DATA':
       return action.payload
+    case 'IS_LOADING':
+      return {geoJson: {type: '', features: []}, geoData: d3.map()}
     default:
       return state
   }
@@ -123,7 +125,7 @@ export function highlightedEdDataReducer(state={
         case 'LOAD_ACS':
           let ACSdataReturn = (action.payload.length === 0) ? {} : action.payload
           return {...state, acs: ACSdataReturn,
-                            edMetrics: {...state.ed, registered_pct: ACSdataReturn.registered_pct,
+                            edMetrics: {...state.edMetrics, registered_pct: ACSdataReturn.registered_pct,
                                  total: ACSdataReturn.total}}
         case 'LOAD_CENSUS':
           let censusDataReturn = (action.payload.length === 0) ? {} : action.payload
@@ -133,7 +135,7 @@ export function highlightedEdDataReducer(state={
           return {...state, turnout: turnoutDataReturn}
         case 'LOAD_ED_METRICS':
           let edmDataReturn = (action.payload.length === 0) ? {} : action.payload
-          return {...state, edMetrics: {...state.edMetrics, ...edmDataReturn}}
+          return {...state, edMetrics: Object.assign(state.edMetrics, edmDataReturn)}
         case 'CHANGE_DEMO_TYPE':
           return {...state, demoType: action.payload}
         default:

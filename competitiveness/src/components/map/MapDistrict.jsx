@@ -14,14 +14,14 @@ const MapDistrictContainer = withRouter(({d, projection, fill, linkParams, isMou
  }
  // let search['ED'] = 
  return (
-  <g className={ (isHighlighted) ? 'highlighted district' : 'district' }>
+  <g className='district'>
     <Link to={linkParams}>
       ((isHighlighted) ? <path d={projection} fill='#f4b342' /> : '')
       <path
         data={d}
         d={projection}
         fill={fill}
-        
+        className={ (isHighlighted) ? 'highlighted district' : 'district' }
         filter={(isMoused) ? 'url(#glow)' : ''}
         onMouseEnter={(e) => showTooltip(e, d.properties.districtNumber)}
       />

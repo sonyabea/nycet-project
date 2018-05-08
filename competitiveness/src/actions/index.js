@@ -45,7 +45,7 @@ export const loadHLData = (parentDistrictType, parentDistrictId, selectedElectio
 
 // export const loadEDData = (ed, election) => dispatch => {
 export const loadEDData = (ed, election) => dispatch => {
-  dispatch({type: 'IS_LOADING'})
+  dispatch({type: 'IS_LOADING_ED'})
   dispatch(setED(ed)) 
   let edStr = ['Ad', `${ed.toString().split('').slice(0,2).join('')}`, '-',
                'Ed', `${ed.toString().split('').slice(2,5).join('')}`].join(' ')

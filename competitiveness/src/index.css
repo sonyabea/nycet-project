@@ -12,17 +12,16 @@ body {
 
 .district-enter.district-enter-active {
   opacity: 1;
-  transition: 500ms;
+  transition: 500ms ease;
 }
 
 .district-exit {
   opacity: 1;
-  transition: opacity 300ms ease, height 400ms ease 300ms;
+  transition: opacity 500ms ease;
 }
 
 .district-exit.district-exit-active {
   opacity: 0.01;
-  height: 0px;
 }
 
 .highlighted {

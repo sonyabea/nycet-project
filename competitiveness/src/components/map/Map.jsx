@@ -35,7 +35,7 @@ const Map = ({mapWidth, mapHeight, mapComponents,
         return (
         <CSSTransition key={`district-${d.properties.districtNumber}-fill-${color(geoDataPoint)}`}
           classNames='district'
-          timeout={{ enter: 500, exit: 700 }}>
+          timeout={{ enter: 500, exit: 500 }}>
           <MapDistrict
             d={d}
             projection={ `${d3.geoPath().projection(projection)(d)}` }
