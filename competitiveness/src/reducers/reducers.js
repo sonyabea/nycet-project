@@ -133,7 +133,7 @@ export function highlightedEdDataReducer(state={
           return {...state, turnout: turnoutDataReturn}
         case 'LOAD_ED_METRICS':
           let edmDataReturn = (action.payload.length === 0) ? {} : action.payload
-          return {...state, edMetrics: {...state.edMetrics, edmDataReturn}}
+          return {...state, edMetrics: {...state.edMetrics, ...edmDataReturn}}
         case 'CHANGE_DEMO_TYPE':
           return {...state, demoType: action.payload}
         default:

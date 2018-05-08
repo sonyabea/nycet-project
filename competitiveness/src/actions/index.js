@@ -51,10 +51,10 @@ export const loadEDData = (ed, election) => dispatch => {
                'Ed', `${ed.toString().split('').slice(2,5).join('')}`].join(' ')
 
   let tables = {turnout: 'ed_agg_voter_file', census: 'census_ed_demographics',
-                acs: 'acs_ed_demographics', ed: 'ed_metrics'} 
+                acs: 'acs_ed_demographics', ed_metrics: 'ed_metrics'} 
 
   MAPPING.acs.push({cols: ['total', 'registered_pct']})
-  MAPPING['ed'] = [{cols: [`dbdo_${election.toLowerCase()}`, `wc_${election.toLowerCase()}`]}]
+  MAPPING['ed_metrics'] = [{cols: [`dbdo_${election.toLowerCase()}`, `wc_${election.toLowerCase()}`]}]
 
   Object.keys(MAPPING).forEach((demo) => {
     let colsForCat = [].concat.apply([], MAPPING[demo].map((cat) => cat.cols))

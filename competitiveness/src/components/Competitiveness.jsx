@@ -27,7 +27,6 @@ const Competitiveness = ({mapComponents, districtType}) => (
             { districtType === 'ED' ? <OfficeDropdownContainer /> : '' }
             <DataMap mapComponents={mapComponents}/>
           </MapContainer>
-        <div className='separator' style={{height: "100%", width: 1, padding: 0}}/>
         </Grid.Column>
         <Grid.Column width={5} className='info-container'>
               { districtType === 'ED' ? <DemoSidebar /> : <TopTen geoData={mapComponents.geoData} /> }

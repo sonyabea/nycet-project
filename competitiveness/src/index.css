@@ -6,7 +6,26 @@ body {
   stroke: black;
 }
 
-.highlighted-district {
+.district-enter {
+  opacity: 0.01;
+}
+
+.district-enter.district-enter-active {
+  opacity: 1;
+  transition: 500ms;
+}
+
+.district-exit {
+  opacity: 1;
+  transition: opacity 300ms ease, height 400ms ease 300ms;
+}
+
+.district-exit.district-exit-active {
+  opacity: 0.01;
+  height: 0px;
+}
+
+.highlighted {
   stroke: #f4b342;
   stroke-width: 3px;
   mask: url(#mask-stripe)
