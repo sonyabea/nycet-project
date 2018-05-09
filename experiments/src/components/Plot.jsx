@@ -1,12 +1,12 @@
 import React from 'react'
 import { Message } from 'semantic-ui-react'
-import { VictoryChart, VictoryBoxPlot, VictoryAxis, VictoryLabel, VictoryTooltip, VictoryVoronoiContainer } from 'victory'
+import { VictoryChart, VictoryBoxPlot, VictoryAxis, VictoryLabel, VictoryTooltip } from 'victory'
 
 const withCommas = x => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 const confidenceText = x => {
   if ((x.ci_low < 0) && (x.ci_high > 0)){
     return `${Math.abs(x.ci_low)}% less and ${x.ci_high}% more`;
-  } else if ((x.ci_low > 0) && (x.ci_high > 0)){
+  } else if ((x.ci_low >= 0) && (x.ci_high > 0)){
     return `${x.ci_low}% and ${x.ci_high}% more`;
   } else if ((x.ci_low < 0) && (x.ci_high < 0)){
     return `${Math.abs(x.ci_high)}% and ${Math.abs(x.ci_low)}% less`;

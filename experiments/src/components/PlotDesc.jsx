@@ -35,11 +35,11 @@ const PlotDesc = () => {
     })
   }
 
-  const blurbs = {'max':'Upper - Lower Confidence Bounds\n95% of values lie within these bands',
-                  'q3':'Quartile 3 - Quartile 1\n50% of values lie within these quartiles',
-                  'median':'Median\nMid-point where 50% of values fall\nbelow and 50% fall above this line',
-                  'q1':'Quartile 1 - Quartile 3\n50% of values lie within these quartiles',
-                  'min':'Lower - Upper Confidence Bounds\n95% of values lie within these bands'}
+  const blurbs = {'max':'95% Confidence Interval \n95% of simulations contained within this range',
+                  'q3':'Interquartile Range (IQR) \nMiddle 50% of simulations',
+                  'median':'Median\nMid-point where 50% of simulations fall\nbelow and 50% fall above this line',
+                  'q1':'Interquartile Range (IQR) \nMiddle 50% of simulations',
+                  'min':'95% Confidence Interval \n95% of simulations contained within this range'}
 
   const targets = {
     'max': ['max', 'min'],
@@ -60,10 +60,11 @@ const PlotDesc = () => {
     <div style={{height: '35%', textAlign: 'center', 'verticalAlign': 'middle',
       border: '1px dashed grey', borderRadius: '5px', padding: '5%'}}>
       <div>
-        <VictoryGroup height={500} padding={{top:80, bottom: 50}}>
-          <VictoryLabel text="How to Read a Box Plot" dx={30} dy={30} style={{fontSize: 40}}/>
+        <VictoryGroup height={500} padding={{top:80, bottom: 110}}>
+          <VictoryLabel text="How to Read this Plot" dx={30} dy={30} style={{fontSize: 40}}/>
           <VictoryBoxPlot {...allAtts}/>
-          <VictoryLabel text="Hover over me!" dx={120} dy={490} style={{fontSize:30}}/>
+          <VictoryLabel text="Hover over me!" dx={120} dy={420} style={{fontSize:30}}/>
+          <VictoryLabel text="1000 simulations run per experiment" dx={0} dy={485} style={{fontSize:30, fontStyle: "italic"}}/>
         </VictoryGroup>
       </div>
     </div>

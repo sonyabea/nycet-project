@@ -34,7 +34,7 @@ const App = (props) => {
         </main>
         <footer className="footer">
           <p>
-            Made with <span style={{'color':'red'}}>&hearts;</span> by <b>Lee Araneta | Diane Cai | Lorena de la Prada | Adam Emrich | Jack Ferguson | Liz Kalina</b> on behalf of the CKM Pro Bono Committee
+            Made with <span style={{'color':'red'}}>&hearts;</span> by <b>Lee Araneta | Diane Cai | Lorena De La Parra | Adam Emrich | Jack Ferguson | Liz Kalina</b> on behalf of the CKM Pro Bono Committee
           </p>
         </footer>
       </body>
