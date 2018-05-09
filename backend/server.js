@@ -4,6 +4,17 @@ const express = require('express');
 const pgp = require('pg-promise')();
 const bodyParser = require('body-parser');
 
+// // Constants
+// const PORT = 8080
+// const HOST = '0.0.0.0'
+// const cnxn = {
+//     'user': process.env.USER,
+//     'password': process.env.PASSWORD,
+//     'host': process.env.HOST,
+//     'port': '5432',
+//     'database': 'apps'
+// }
+
 // Constants
 const PORT = 8080
 const HOST = '0.0.0.0'
@@ -14,6 +25,7 @@ const cnxn = {
     'port': '5432',
     'database': 'apps'
 }
+
 
 const app = express()
 app.use(bodyParser.json())
