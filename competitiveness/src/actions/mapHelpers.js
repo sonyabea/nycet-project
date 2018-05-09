@@ -1,28 +1,25 @@
+import { MAP_REGIONS, TOPO_OBJECTS } from '../data/geoMapping'
+import { feature } from 'topojson-client'
 const d3 = require('d3');
 
-const MAP_REGIONS = {
-   'AD': 'AssemDist',
-   'SD': 'StSenDist',
-   'CD': 'CongDist',
-   'ED': 'ElectDist'}
-
-
-const filterToParents = (geoFile, dataPull) => {
+const filterToParents = (geoFileFeatures, dataPull) => {
     let isNYC = dataPull[0].countyed.split(" ")[0] === 'New'
     let edNumIdx = (isNYC) ? 5 : 4
 
     dataPull.forEach((d) => d.district = parseInt(`${d.ad}${d.countyed.split(" ")[edNumIdx]}`, 10))
     let validEds = dataPull.map((d) => d.district)
-    return geoFile.features.filter((d) => (validEds.indexOf(d.properties.districtNumber) >= 0))
+    return geoFileFeatures.filter((d) => (validEds.indexOf(d.properties.districtNumber) >= 0))
 }
 
 
 export const filterAndProcess = (geoFile, dataPull, districtType, selected) => {
   //normalize geoJson to use abstract "districtNumber" prop
   let mapRegionType = MAP_REGIONS[districtType]
-  geoFile.features.forEach((d) => d.properties.districtNumber = d.properties[mapRegionType])
+  geoFile.objects[TOPO_OBJECTS[districtType]].geometries.forEach((d) => d.properties.districtNumber = d.properties[mapRegionType])
 
-  let filteredFeatures = (selected !== 0) ? filterToParents(geoFile, dataPull) : geoFile.features
+  let filteredFeatures = (selected !== 0) ? filterToParents(geoFile.objects[TOPO_OBJECTS[districtType]].geometries, dataPull) : geoFile.objects[TOPO_OBJECTS[districtType]].geometries
+  
+  geoFile.objects[TOPO_OBJECTS[districtType]].geometries = filteredFeatures
 
   //get all valid regions in the geodata and filter data
   let regionIds = filteredFeatures.map((d) => (d.properties.districtNumber))
@@ -35,7 +32,8 @@ export const filterAndProcess = (geoFile, dataPull, districtType, selected) => {
         (d.winning_pol_lean === 'right') ? -d.most_rec_pl_margin : +d.most_rec_pl_margin)
     })
 
-  return [{'type': geoFile['type'], 'features': filteredFeatures},
+
+  return [feature(geoFile, geoFile.objects[TOPO_OBJECTS[districtType]]),
           filteredData]
 }
 

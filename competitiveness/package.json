@@ -9,7 +9,6 @@
     "js-quantities": "^1.7.2",
     "node-gyp": "^3.6.2",
     "pg": "^7.4.1",
-    "pg-native": "^2.2.0",
     "pg-promise": "^8.2.2",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
@@ -20,7 +19,8 @@
     "react-transition-group": "^2.3.1",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "semantic-ui-react": "^0.78.3"
+    "semantic-ui-react": "^0.78.3",
+    "topojson-client": "^3.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

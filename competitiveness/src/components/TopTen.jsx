@@ -1,11 +1,12 @@
 import { Table, Header, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux'; 
+import { withRouter } from 'react-router-dom';
 import { activateGlow } from '../actions/index';
 
 const React = require('react');
 
 const TopTenContainer = ({geoData, drillDown, districtType, winningParty,
-                          winningCandidate, activateGlow}) => {
+                          winningCandidate, activateGlow, history}) => {
 
   let sortedDists = geoData.entries().sort((a, b) => (
     Math.abs(a.value) - Math.abs(b.value)))
@@ -19,7 +20,11 @@ const TopTenContainer = ({geoData, drillDown, districtType, winningParty,
 
   let distRows = topTen.map((dist, i) => (
 
-      <Table.Row key={`top-ten-${i}`} onMouseEnter={() => activateGlow(parseInt(dist.key, 10))}>
+      <Table.Row key={`top-ten-${i}`}
+        onMouseEnter={() => activateGlow(parseInt(dist.key, 10))}
+        onClick={() => history.push(`${districtType}/${dist.key}`)} 
+        className='top-ten-row'
+      >
         <Table.Cell>{dist.key}</Table.Cell>
         <Table.Cell>{`${Math.abs(dist.value)}%`}</Table.Cell>
         <Table.Cell>{dist.party}</Table.Cell>
@@ -49,7 +54,7 @@ const TopTenContainer = ({geoData, drillDown, districtType, winningParty,
 
       <Divider section />
 
-      <Header as='h5'>"Methodology"</Header>
+      <Header as='h5'>Methodology</Header>
       <div>
         The NYCET competitiveness index is calculated by the closeness of the most recent election
         for a district.
@@ -69,4 +74,4 @@ const mapDispatchToProps = (dispatch, ownProps) => (
   {activateGlow: (distNumber) => dispatch(activateGlow(distNumber))}
 )
 
-export default connect(mapStateToProps, mapDispatchToProps)(TopTenContainer)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TopTenContainer))

@@ -50,8 +50,8 @@ export const loadEDData = (ed, election) => dispatch => {
   let edStr = ['Ad', `${ed.toString().split('').slice(0,2).join('')}`, '-',
                'Ed', `${ed.toString().split('').slice(2,5).join('')}`].join(' ')
 
-  let tables = {turnout: 'ed_agg_voter_file', census: 'census_ed_demographics',
-                acs: 'acs_ed_demographics', ed_metrics: 'ed_metrics'} 
+  let tables = {turnout: 'ed_agg_voter_file1', census: 'census_ed_demographics1',
+                acs: 'acs_ed_demographics1', ed_metrics: 'ed_metrics'} 
 
   MAPPING.acs.push({cols: ['total', 'registered_pct']})
   MAPPING['ed_metrics'] = [{cols: [`dbdo_${election.toLowerCase()}`, `wc_${election.toLowerCase()}`]}]
