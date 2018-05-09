@@ -15,14 +15,13 @@ const Map = ({mapWidth, mapHeight, mapComponents,
   let width = windowWidth - margin.left - margin.right
   let height = windowHeight - margin.top - margin.bottom
 
-
   let projection = d3.geoIdentity()
                  .reflectY(true)
                  .fitSize([width,height], mapComponents.geoJson)
 
   let closenessExtent = [-100, 100]
 
-  let colorScaleVals = colorScale === 'gray' ? ['#996666', 'white', '#996666'] : ['red', 'white', 'blue']
+  let colorScaleVals = colorScale === 'gray' ? ['#996666', 'white', '#996666'] : ['#b72c2c', 'white', '#2f57ce']
 
   let color = d3.scaleLinear()
               .domain([closenessExtent[0], 0,
@@ -51,7 +50,7 @@ const Map = ({mapWidth, mapHeight, mapComponents,
   let glowFilter = () => ({__html: 
       `<defs>
           <filter id="glow" x="-5000%" y="-5000%" width="10000%" height="10000%">
-            <feFlood result="flood" flood-color="#ff7f00" flood-opacity="1"></feFlood>
+            <feFlood result="flood" flood-color="#F1BF98" flood-opacity="1"></feFlood>
             <feComposite in="flood" result="mask" in2="SourceGraphic" operator="in"></feComposite>
             <feMorphology in="mask" result="dilated" operator="dilate" radius="2"></feMorphology>
             <feGaussianBlur in="dilated" result="blurred" stdDeviation="5"></feGaussianBlur>

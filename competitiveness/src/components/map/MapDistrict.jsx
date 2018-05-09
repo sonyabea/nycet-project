@@ -16,7 +16,7 @@ const MapDistrictContainer = withRouter(({d, projection, fill, linkParams, isMou
  return (
   <g className='district'>
     <Link to={linkParams}>
-      ((isHighlighted) ? <path d={projection} fill='#f4b342' /> : '')
+      ((isHighlighted) ? <path d={projection} fill='#F1BF98' /> : '')
       <path
         data={d}
         d={projection}
