@@ -11,8 +11,8 @@ const initialState = {
   columns: [
     { name: 'year', display: 'Year' },
     { name: 'election', display: 'Election' },
-    { name: 'dem1', display: 'Primary Demographic' },
-    { name: 'dem2', display: 'Secondary Demographic' }
+    { name: 'dem1', display: 'Primary Category' },
+    { name: 'dem2', display: 'Secondary Category' }
   ]
 }
 
