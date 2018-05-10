@@ -34,15 +34,15 @@ export const getPlotData = type =>
 		(data, allOrgs) => [ ...data, ...allOrgs ]
 )
 
-const getSelected = (type, column) => createSelector(
+const getSelected = (type, ...columns) => createSelector(
 	[ getAllSelected(type) ],
-	allSelected => _.pick(allSelected, column)
+	allSelected => _.pick(allSelected, columns)
 )
 
 export const getElectionGroupSizes = type => createSelector(
-	[ getAllData, getSelected(type, 'election') ],
-	(data, election) => _.chain(data)
-		.find({ ...election, dem1_value: 'All Orgs' })
+	[ getAllData, getSelected(type, 'election', 'year') ],
+	(data, selected) => _.chain(data)
+		.find({ ...selected, dem1_value: 'All Orgs' })
 		.pick(['control_pop', 'treatment_pop'])
 		.value()
 )
