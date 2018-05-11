@@ -1,3 +1,15 @@
+.App {
+  text-align: center;
+}
+
+#map-top{
+  padding-right: 10%;
+  padding-left: 10%;
+  display: flex;
+  justify-content: space-between;
+}
+
+
 body {
   font-family: 'Lato', sans-serif;
   color: #5E5E5E !important;

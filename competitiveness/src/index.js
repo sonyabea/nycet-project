@@ -6,9 +6,10 @@ import thunkMiddleware from 'redux-thunk';
 //so we can actually use thunk
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Switch } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import App from './App.jsx';
+import About from './About.jsx';
 import NYCETAppReducers from './reducers/index';
 import registerServiceWorker from './registerServiceWorker'
 
@@ -26,9 +27,10 @@ let store = finalCreateStore(NYCETAppReducers)
 ReactDOM.render(
 <Provider store={store}>
   <BrowserRouter>
-    <div>
+    <Switch>
+      <Route exact path='/about' component={About} />
       <Route path='/:parentDistrictType?/:selectedDistrict?' component={App} />
-    </div>
+    </Switch>
   </BrowserRouter>
 </Provider>,
   document.getElementById('root')
