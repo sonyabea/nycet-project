@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import MapContainer from './map/MapContainer';
 import DataMap from './map/Map.jsx';
 import { OfficeDropdownContainer } from './map/DropdownContainer.jsx'
@@ -30,6 +31,9 @@ const Competitiveness = ({mapComponents, districtType}) => (
               { districtType === 'ED' ? <DemoSidebar /> : <TopTen geoData={mapComponents.geoData} /> }
         </Grid.Column>
       </Grid>
+        <footer className="footer">
+          Made by the <Link to="/about">CKM Pro Bono Committee</Link>
+        </footer>
     </Container>
   )
 
