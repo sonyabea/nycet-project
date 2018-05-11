@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import Competitiveness from './components/Competitiveness'
 import {loadHLData, loadEDData} from './actions/index'
 import { withRouter } from 'react-router-dom';
-import './App.css';
 const queryString = require('query-string')
 
 class AppContainer extends Component {

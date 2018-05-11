@@ -1,3 +1,15 @@
+.App {
+  text-align: center;
+}
+
+#map-top{
+  padding-right: 10%;
+  padding-left: 10%;
+  display: flex;
+  justify-content: space-between;
+}
+
+
 body {
   font-family: 'Lato', sans-serif;
   color: #5E5E5E !important;
@@ -132,6 +144,12 @@ a.item {
   border: 1px solid black;
   padding: 20px 0px 20px 20px;
   text-align: center;
+  background-color: #FCFAF9;
+}
+
+.footer {
+  border-top: 1px solid #d4d4d5;
+  margin-top: 2%;
   background-color: #FCFAF9;
 }
 

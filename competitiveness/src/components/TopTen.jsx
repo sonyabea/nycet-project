@@ -1,6 +1,6 @@
 import { Table, Header, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux'; 
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { activateGlow } from '../actions/index';
 
 const React = require('react');
@@ -57,7 +57,7 @@ const TopTenContainer = ({geoData, drillDown, districtType, winningParty,
       <Header as='h5'>Methodology</Header>
       <div>
         The NYCET competitiveness index is calculated by the closeness of the most recent election
-        for a district.
+        for a district. <Link to={{pathname: '/about'}}>(More...)</Link>
       </div>
     </div>
   )
