@@ -9,6 +9,7 @@ export const getGeoSource = (dist) => (
 export const queryDB = (dist, election, selected) => {
   let query = (selected === 0) ? getHlQuery(dist) : getEdQuery(dist, election, selected)
   let table = (selected === 0) ? 'hl_metrics' : 'ed_metrics'
+
   return axios({method: 'post',
         url: `http://localhost:8080/table/${table}/`,
         data: query })
