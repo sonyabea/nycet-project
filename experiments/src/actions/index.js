@@ -8,13 +8,16 @@ export const LOAD_INITIAL_EXPERIMENTS_SELECTION = 'LOAD_INITIAL_EXPERIMENTS_SELE
 export const LOAD_INITIAL_DEMOGRAPHICS_SELECTION = 'LOAD_INITIAL_DEMOGRAPHICS_SELECTION'
 export const CHANGE_DEMO_GROUP_SELECTIONS = 'CHANGE_DEMO_GROUP_SELECTIONS'
 
+const os = require('os');
+const hostname = os.hostname();
+
 const getInitialSelection = data => filter => _.chain(data)
   .filter(filter)
   .sortBy(d => (1 / d.total_pop))
   .value()[0]
 
 export const loadData = () => dispatch => {
-  axios({ method: 'post', url: 'http://localhost:8080/table/cace_metrics/', data: {} })
+  axios({ method: 'post', url: `http://${hostname}:8080/table/cace_metrics/`, data: {} })
     .then(res => {
       dispatch({ type: LOAD_DATA, data: res.data })
       let initiate = getInitialSelection(res.data)

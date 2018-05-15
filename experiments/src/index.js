@@ -18,6 +18,9 @@ const store = finalCreateStore(
   reducer
 )
 
+// const announce = () => console.log(process.env)
+// setInterval(announce, 7000)
+
 store.dispatch(loadData())
 
 ReactDOM.render((

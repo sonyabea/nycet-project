@@ -10,7 +10,7 @@ COPY . $HOME/competitive
 
 # USER app
 WORKDIR $HOME/competitive
-RUN npm install 
+RUN npm install
 
 # USER root
 # RUN chown -R app:app $HOME/*

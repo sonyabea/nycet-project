@@ -18,11 +18,11 @@ export const loadHLData = (parentDistrictType, parentDistrictId, selectedElectio
 
     queryDB(parentDistrictType, election, selected).then(dataPull => {
         d3.queue()
-          .defer(d3.json, getGeoSource(districtType)) 
+          .defer(d3.json, getGeoSource(districtType))
           .await((error, geoFile) => {
             let [filteredGeo,
                  filteredData] = filterAndProcess(geoFile, dataPull.data, districtType, selected);
-            
+
             let dataMap = formatToMap(filteredData, 'most_rec_pl_margin')
 
               //dispatch processed data
@@ -46,12 +46,12 @@ export const loadHLData = (parentDistrictType, parentDistrictId, selectedElectio
 // export const loadEDData = (ed, election) => dispatch => {
 export const loadEDData = (ed, election) => dispatch => {
   dispatch({type: 'IS_LOADING_ED'})
-  dispatch(setED(ed)) 
+  dispatch(setED(ed))
   let edStr = ['Ad', `${ed.toString().split('').slice(0,2).join('')}`, '-',
                'Ed', `${ed.toString().split('').slice(2,5).join('')}`].join(' ')
 
   let tables = {turnout: 'ed_agg_voter_file', census: 'census_ed_demographics',
-                acs: 'acs_ed_demographics', ed_metrics: 'ed_metrics'} 
+                acs: 'acs_ed_demographics', ed_metrics: 'ed_metrics'}
 
   MAPPING.acs.push({cols: ['total', 'registered_pct']})
   MAPPING['ed_metrics'] = [{cols: [`dbdo_${election.toLowerCase()}`, `wc_${election.toLowerCase()}`]}]
@@ -59,25 +59,25 @@ export const loadEDData = (ed, election) => dispatch => {
   Object.keys(MAPPING).forEach((demo) => {
     let colsForCat = [].concat.apply([], MAPPING[demo].map((cat) => cat.cols))
     let mappedCols = colsForCat.map((col) => `${demo}.${col}`)
-    
+
     let queryParams = {columns: mappedCols,
                        addtlQuery: [` district join ${tables[demo]} ${demo}`,
                                     `on district.countyed = ${demo}.countyed`,
                                     `where district.ed = '${edStr}'`].join(' ')}
 
     axios({method: 'post',
-           url: 'http://localhost:8080/table/electiondistricts',
+           url: `http://${process.env.REACT_APP_API_ENDPOINT}:8080/table/electiondistricts`,
             data: queryParams}).then((res) => {
               let data = (typeof res.data[0] === 'undefined') ?  {} : res.data[0]
               dispatch(makeEdPayload(colsForCat, demo, data))
-            }) 
+            })
   })
             dispatch({type: 'FINISHED_LOADING'})
 }
 
 //PURE ACTIONS
 
-export const storeMapData = (mapObj, actionType) => ( 
+export const storeMapData = (mapObj, actionType) => (
   {type: actionType,
    payload: mapObj}
 )

@@ -11,7 +11,7 @@ export const queryDB = (dist, election, selected) => {
   let table = (selected === 0) ? 'hl_metrics' : 'ed_metrics'
 
   return axios({method: 'post',
-        url: `http://localhost:8080/table/${table}/`,
+        url: `http://${process.env.REACT_APP_API_ENDPOINT}:8080/table/${table}/`,
         data: query })
 }
 

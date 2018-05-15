@@ -23,7 +23,7 @@
     "topojson-client": "^3.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=80 REACT_APP_API_ENDPOINT=${API_ENDPOINT} REACT_APP_SPECIAL_NUM=8 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

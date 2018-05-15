@@ -22,6 +22,7 @@ let store = finalCreateStore(NYCETAppReducers)
 
 // debugging helper
 // const announce = () => console.log(store.getState())
+// const announce = () => console.log(process.env)
 // setInterval(announce, 7000)
 
 ReactDOM.render(
