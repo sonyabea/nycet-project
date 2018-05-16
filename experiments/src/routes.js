@@ -11,7 +11,7 @@ import Methodology from './components/Methodology'
 
 const routes = [
   // {'exact path': '/', 'render': redirectFromHome},
-  {'path': '/experiments', 'component': ExperimentsByOrg, 'name': 'Experiments By Org'},
+  {'path': '/organizations', 'component': ExperimentsByOrg, 'name': 'Experiments By Org'},
   {'path': '/demographics', 'component': DemographicStats, 'name': 'Demographic Stats'},
   {'path': '/methodology', 'component': Methodology, 'name': 'Methodology'},
   {'path': '/about', 'component': About, 'name': 'About'},

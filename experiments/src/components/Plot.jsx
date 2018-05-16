@@ -16,7 +16,8 @@ const confidenceText = x => {
 }
 
 const formattedDescription = x =>
-  `Treatment Size: ${withCommas(x.treatment_pop)}\nControl Size: ${withCommas(x.control_pop)}\r\nSuccessfully contacted voters were\nbetween ${confidenceText(x)}\nlikely to vote with 95% confidence.`
+  `Treatment Size: ${withCommas(x.treatment_pop)}\nControl Size: ${withCommas(x.control_pop)}\nContact Rate: ${Math.round(x.contact_rate * 1000) / 10}%
+  \r\nSuccessfully contacted voters were\nbetween ${confidenceText(x)}\nlikely to vote with 95% confidence.`
 
 const GroupLabel = (props) =>
   <VictoryLabel

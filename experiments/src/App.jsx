@@ -29,7 +29,7 @@ const App = (props) => {
         <main className='Site-content'>
           <Switch>
             {routes}
-            <Redirect from="/" to="/experiments" />
+            <Redirect from="/" to="/organizations" />
           </Switch>
         </main>
         <footer className="footer">
