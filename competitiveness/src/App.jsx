@@ -14,7 +14,7 @@ class AppContainer extends Component {
   //do some checks so we're not calling backend 5 times a load
   static getDerivedStateFromProps(nextProps, prevState) {
 
-    let parentDistrictType = (typeof(nextProps.match.params.parentDistrictType) === 'undefined') ? 'AD' : nextProps.match.params.parentDistrictType 
+    let parentDistrictType = (typeof(nextProps.match.params.parentDistrictType) === 'undefined') ? 'CD' : nextProps.match.params.parentDistrictType 
     let selectedDistrict = (typeof(nextProps.match.params.selectedDistrict) === 'undefined') ? 0 : nextProps.match.params.selectedDistrict
     let params = queryString.parse(nextProps.location.search)
     let election = params.election

@@ -5,9 +5,9 @@ const React = require('react');
 
 const ParentHeaderContainer = withRouter(({districtType, changeDistrict, history}) => (
     <h1>New York City Competitiveness - <Dropdown options={
-        [{text: 'State Assembly District', value: 'AD'},
+        [{text: 'Congressional District', value: 'CD'},
          {text: 'State Senate District', value: 'SD'},
-         {text: 'Congressional District', value: 'CD'},
+         {text: 'State Assembly District', value: 'AD'},
          ]}
          defaultValue={districtType}
          onChange={(e, d) => changeDistrict(e, d, history)}
