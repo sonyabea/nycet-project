@@ -34,7 +34,7 @@ export function sidebarDimensionsReducer(state=[200,200], action) {
   }
 }
 
-export function districtTypeReducer(state='AD', action) {
+export function districtTypeReducer(state='CD', action) {
   switch (action.type) {
     case 'CHANGE_DISTRICT_TYPE':
       return action.payload.main

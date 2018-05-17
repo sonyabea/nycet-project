@@ -2,8 +2,8 @@ import React from 'react'
 import { Grid, Dropdown } from 'semantic-ui-react'
 
 const OfficeDropdown = ({name, selected, onChange}) => {
-  const offices = ['AD', 'CD', 'CityCouncil_Member', 'Governor_LG', 
-                   'President_VP', 'SD', 'US_Senator']
+  const offices = ['AD', 'CD', 'CityCouncil_Member', 'Governor', 
+                   'President', 'SD', 'US_Senator']
   let options = offices.map(office => ({text: office.replace('_', ' '), value: office}) )
   let textOffice = offices.filter((o) => o.toLowerCase() === selected.toLowerCase())[0]
 
