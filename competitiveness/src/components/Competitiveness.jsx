@@ -32,7 +32,7 @@ const Competitiveness = ({mapComponents, districtType}) => (
         </Grid.Column>
       </Grid>
         <footer className="footer">
-          Made by the Carolina Gonzalez, Christian Holmes, Inayat Khosla, Maanit Mehra, and Angela Orthmeyer on behalf of the <Link to="/about">CKM Pro Bono Committee</Link>
+          Made by Leandro Araneta, Diane Cai, Lorena De la Parra Landa, Carolina Gonzalez, Christian Holmes, Inayat Khosla, Maanit Mehra, and Angela Orthmeyer on behalf of the <Link to="/about">CKM Pro Bono Committee</Link>
         </footer>
     </Container>
   )
