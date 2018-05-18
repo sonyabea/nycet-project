@@ -163,3 +163,7 @@ a.item {
   stroke: steelblue;
   stroke-width: 1.5px;
 }
+
+.underline {
+  text-decoration: underline;
+}
