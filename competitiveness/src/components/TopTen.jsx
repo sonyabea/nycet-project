@@ -54,10 +54,11 @@ const TopTenContainer = ({geoData, drillDown, districtType, winningParty,
 
       <Divider section />
 
-      <Header as='h5'>Methodology</Header>
-      <div>
-        The NYCET competitiveness index is calculated by the closeness of the most recent election
-        for a district. <Link to={{pathname: '/about'}}>(More...)</Link>
+        <div>
+          <p>
+            <strong>Margin</strong> reflects the margin of victory between left and right leaning parties. Hover over a district for outcomes, and click through for electoral race breakdowns, demographic information, and turnout trends.
+          </p>
+          <p><Link to={{pathname: '/about'}}>More Info</Link></p>
       </div>
     </div>
   )
