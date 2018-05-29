@@ -27,6 +27,8 @@ const Map = ({mapWidth, mapHeight, mapComponents,
               .domain([closenessExtent[0], 0,
                        closenessExtent[1]])
               .range(colorScaleVals)
+  
+  console.log(mapComponents.geoJson.features.length)
 
   let renderedShapes = mapComponents.geoJson.features.map((d,i) => {
       let geoDataPoint = mapComponents.geoData.get(d.properties.districtNumber)
