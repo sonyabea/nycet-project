@@ -3,7 +3,7 @@ import axios from 'axios'
 
 //MAP METADATA
 export const getGeoSource = (dist) => (
-  `https://raw.githubusercontent.com/cngonzalez/nycet-flatfiles/master/locational/${dist}.json`)
+  `https://s3.amazonaws.com/nycet-docs/locational/${dist}.json`)
 
 
 export const queryDB = (dist, election, selected) => {
