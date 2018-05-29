@@ -47,6 +47,8 @@ export function isLoadingReducer(state=false, action){
   switch (action.type) {
     case 'IS_LOADING':
       return true
+    case 'IS_LOADING_ED':
+      return true
     case 'FINISHED_LOADING':
       return false
     default:

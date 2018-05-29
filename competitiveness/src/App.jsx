@@ -30,7 +30,12 @@ class AppContainer extends Component {
         nextProps.loadHLData(parentDistrictType, selectedDistrict, election, childDistrict)
       }
       else if ((childDistrict !== prevState.childDistrict) && (nextProps.election)) {
-        nextProps.loadEDData(childDistrict, nextProps.election)
+        if (typeof(childDistrict === 'undefined')){ 
+          nextProps.loadHLData(parentDistrictType, selectedDistrict, election, childDistrict)
+        }
+        else {
+          nextProps.loadEDData(childDistrict, nextProps.election)
+        }
       }
   }
       return {parentDistrictType: parentDistrictType,
