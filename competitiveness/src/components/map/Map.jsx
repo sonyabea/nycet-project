@@ -39,7 +39,7 @@ const Map = ({mapWidth, mapHeight, mapComponents,
             d={d}
             projection={ `${d3.geoPath().projection(projection)(d)}` }
             fill={ (typeof geoDataPoint === 'undefined') ? 'grey' :  `${ color(geoDataPoint)}`}
-            margin={mapComponents.geoData.get(d.properties.districtNumber)}
+            margin={geoDataPoint}
             className='district'
          />
         </CSSTransition>     
