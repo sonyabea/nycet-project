@@ -16,4 +16,6 @@ RUN npm install
 # RUN chown -R app:app $HOME/*
 # USER app
 
-CMD ["npm", "start"]
+RUN npm run build
+RUN npm install -g serve
+CMD ["serve", "-s", "build"]
