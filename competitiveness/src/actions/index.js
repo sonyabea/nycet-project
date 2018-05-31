@@ -56,7 +56,7 @@ export const loadEDData = (ed, election) => dispatch => {
   MAPPING.acs.push({cols: ['total', 'registered_pct']})
   MAPPING['ed_metrics'] = [{cols: [`dbdo_${election.toLowerCase()}`, `wc_${election.toLowerCase()}`]}]
 
-  Object.keys(MAPPING).forEach((demo) => {
+  Object.keys(MAPPING).forEach((demo, i) => {
     let colsForCat = [].concat.apply([], MAPPING[demo].map((cat) => cat.cols))
     let mappedCols = colsForCat.map((col) => `${demo}.${col}`)
 
@@ -70,9 +70,11 @@ export const loadEDData = (ed, election) => dispatch => {
             data: queryParams}).then((res) => {
               let data = (typeof res.data[0] === 'undefined') ?  {} : res.data[0]
               dispatch(makeEdPayload(colsForCat, demo, data))
-            })
+              if (i >= (Object.keys(MAPPING).length - 1)) {
+                dispatch({type: 'FINISHED_LOADING'})
+              }
+            }) 
   })
-            dispatch({type: 'FINISHED_LOADING'})
 }
 
 //PURE ACTIONS
