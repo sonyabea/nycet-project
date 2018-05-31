@@ -13,7 +13,7 @@ const MapTooltipContainer = ({showTooltip, tooltipX, tooltipY,
 
   return (<div style={divStyle} className='tooltip'>
     District: {`${district}`}<br/>
-    Margin: {`${margin}`}<br/>
+    Margin: {`${(margin) ? margin : ''}`}<br/>
     Winning party: {`${party}`}<br/>
     { (candidate) ? `Winning candidate: ${candidate}` : '' }
     </div>)
