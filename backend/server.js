@@ -15,16 +15,7 @@ const bodyParser = require('body-parser');
 //     'database': 'apps'
 // }
 
-// Constants
-const PORT = 8080
-const HOST = '0.0.0.0'
-const cnxn = {
-    'user': 'apps_user',
-    'password': 'sonyabear!',
-    'host': 'nycet-postgres.c1swnd7n2f4l.us-east-1.rds.amazonaws.com',
-    'port': '5432',
-    'database': 'apps'
-}
+
 
 
 const app = express()
